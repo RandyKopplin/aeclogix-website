@@ -5,20 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AECLogix — Automation Agents for AEC Firms</title>
   <meta name="description" content="AECLogix builds automation agents exclusively for architecture, engineering, and construction firms. Flagship product: COI Autopilot — live in 30 days, $2,500 one-time, no retainer.">
+  <link rel="canonical" href="https://aeclogix.com/">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72'><path d='M36 6 L62 21 L62 51 L36 66 L10 51 L10 21 Z' stroke='white' stroke-width='4' fill='%230a0a0a'/><polygon points='28,29 28,43 40,36' fill='%23f79546'/></svg>">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aeclogix.com/">
+  <meta property="og:title" content="AECLogix — Automation Agents for AEC Firms">
+  <meta property="og:description" content="Automation agents built exclusively for architecture, engineering, and construction firms. Flagship: COI Autopilot — live in 30 days, $2,500 one-time, no retainer.">
+  <meta property="og:image" content="https://aeclogix.com/images/coi-autopilot-dashboard.png">
+  <meta property="og:image:alt" content="COI Autopilot compliance dashboard — vendor statuses, KPIs, and recent activity">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AECLogix — Automation Agents for AEC Firms">
+  <meta name="twitter:description" content="Automation agents built exclusively for AEC firms. Flagship: COI Autopilot — live in 30 days, $2,500 one-time.">
+  <meta name="twitter:image" content="https://aeclogix.com/images/coi-autopilot-dashboard.png">
+
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow:wght@700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --orange: #f79546;
+      --orange-04: rgba(247, 149, 70, 0.035);
+      --orange-06: rgba(247, 149, 70, 0.06);
+      --orange-07: rgba(247, 149, 70, 0.07);
+      --orange-08: rgba(247, 149, 70, 0.08);
+      --orange-10: rgba(247, 149, 70, 0.1);
+      --orange-15: rgba(247, 149, 70, 0.15);
+      --orange-25: rgba(247, 149, 70, 0.25);
+      --orange-30: rgba(247, 149, 70, 0.3);
+      --orange-35: rgba(247, 149, 70, 0.35);
+      --orange-50: rgba(247, 149, 70, 0.5);
       --black: #0a0a0a;
       --dark: #111111;
       --card: #161616;
       --card-raised: #1c1c1c;
       --border: rgba(255,255,255,0.07);
-      --border-warm: rgba(247,149,70,0.3);
+      --border-warm: var(--orange-30);
       --white: #ffffff;
-      --muted: rgba(255,255,255,0.45);
+      --muted: rgba(255,255,255,0.55);
       --text: rgba(255,255,255,0.82);
     }
 
@@ -38,8 +63,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(247,149,70,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(247,149,70,0.035) 1px, transparent 1px);
+        linear-gradient(var(--orange-04) 1px, transparent 1px),
+        linear-gradient(90deg, var(--orange-04) 1px, transparent 1px);
       background-size: 52px 52px;
       pointer-events: none;
       z-index: 0;
@@ -67,7 +92,9 @@
     }
     .nav-brand span { color: var(--orange); }
     .nav-cta {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
       background: var(--orange);
       color: var(--black);
       font-size: 0.78rem;
@@ -96,7 +123,7 @@
       top: -10%; left: 50%;
       transform: translateX(-50%);
       width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(247,149,70,0.1) 0%, transparent 65%);
+      background: radial-gradient(circle, var(--orange-10) 0%, transparent 65%);
       pointer-events: none;
     }
     .hero-inner { position: relative; z-index: 2; max-width: 760px; }
@@ -104,11 +131,11 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: rgba(247,149,70,0.1);
-      border: 1px solid rgba(247,149,70,0.25);
+      background: var(--orange-10);
+      border: 1px solid var(--orange-25);
       border-radius: 2px;
       padding: 0.35rem 0.9rem;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -121,7 +148,7 @@
       width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--orange);
-      animation: pulse 2s ease infinite;
+      animation: pulse 2s ease 5;
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; }
@@ -164,7 +191,7 @@
       padding: 0.55rem 1rem;
       border: 1px solid var(--border-warm);
       border-radius: 3px;
-      background: rgba(247,149,70,0.06);
+      background: var(--orange-06);
       opacity: 0;
       animation: fadeUp 0.7s ease forwards 0.5s;
     }
@@ -198,8 +225,10 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       text-decoration: none;
-      display: flex;
+      display: inline-flex;
       align-items: center;
+      min-height: 44px;
+      padding: 0 0.25rem;
       gap: 0.5rem;
       transition: color 0.2s;
     }
@@ -234,7 +263,7 @@
 
     /* SECTION HEADERS */
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.22em;
       text-transform: uppercase;
@@ -281,7 +310,7 @@
       color: var(--text);
       transition: border-color 0.2s;
     }
-    .problem-list li:hover { border-color: rgba(247,149,70,0.3); }
+    .problem-list li:hover { border-color: var(--orange-30); }
     .problem-icon {
       width: 20px; height: 20px;
       flex-shrink: 0;
@@ -334,7 +363,7 @@
       transition: border-color 0.25s, transform 0.25s;
       position: relative;
     }
-    .service-card:hover { border-color: rgba(247,149,70,0.35); transform: translateY(-3px); }
+    .service-card:hover { border-color: var(--orange-35); transform: translateY(-3px); }
     .service-card.featured {
       border-color: var(--border-warm);
       background: linear-gradient(160deg, var(--card-raised) 0%, var(--card) 100%);
@@ -346,7 +375,7 @@
       left: 2rem;
       font-family: 'Barlow', sans-serif;
       font-weight: 800;
-      font-size: 0.68rem;
+      font-size: 0.75rem;
       letter-spacing: 0.18em;
       color: var(--black);
       background: var(--orange);
@@ -356,14 +385,14 @@
     .service-num {
       font-family: 'Barlow', sans-serif;
       font-weight: 800;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       letter-spacing: 0.16em;
       color: var(--orange);
       opacity: 0.6;
     }
     .service-icon {
       width: 44px; height: 44px;
-      background: rgba(247,149,70,0.1);
+      background: var(--orange-10);
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -391,11 +420,13 @@
       text-decoration: none;
       display: inline-flex;
       align-items: center;
+      min-height: 44px;
+      padding: 0.5rem 0;
       gap: 0.4rem;
       transition: gap 0.2s;
     }
     .service-link:hover { gap: 0.65rem; }
-    .service-tag { display: inline-block; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .service-tag { display: inline-block; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 
     /* COI AUTOPILOT */
     #coi-autopilot { padding: 7rem 0; position: relative; }
@@ -403,7 +434,7 @@
       position: absolute;
       top: 20%; right: -10%;
       width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(247,149,70,0.07) 0%, transparent 65%);
+      background: radial-gradient(circle, var(--orange-07) 0%, transparent 65%);
       pointer-events: none;
     }
     .autopilot-header { margin-bottom: 4rem; position: relative; z-index: 2; }
@@ -423,7 +454,7 @@
       padding: 2.2rem;
     }
     .card-label {
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -450,7 +481,7 @@
       flex-shrink: 0;
       margin-top: 1px;
       border-radius: 50%;
-      background: rgba(247,149,70,0.15);
+      background: var(--orange-15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -568,7 +599,7 @@
     }
     .showcase-caption { padding: 1rem 1.3rem 1.2rem; }
     .showcase-eyebrow {
-      font-size: 0.68rem;
+      font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -615,7 +646,7 @@
       flex-direction: column;
       gap: 0.6rem;
     }
-    .bonus-num { font-family: 'Barlow', sans-serif; font-weight: 800; font-size: 0.7rem; letter-spacing: 0.14em; color: var(--orange); }
+    .bonus-num { font-family: 'Barlow', sans-serif; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.14em; color: var(--orange); }
     .bonus-card h4 { font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white); line-height: 1.3; }
     .bonus-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
 
@@ -643,7 +674,7 @@
     }
     .guarantee-icon {
       width: 52px; height: 52px;
-      background: rgba(247,149,70,0.1);
+      background: var(--orange-10);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -698,7 +729,7 @@
     }
     .credential-icon {
       width: 40px; height: 40px;
-      background: rgba(247,149,70,0.1);
+      background: var(--orange-10);
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -744,8 +775,8 @@
       padding: 2rem;
     }
     .mailerlite-form-wrapper .form-note { margin-top: 1rem; font-size: 0.76rem; color: var(--muted); }
-    .placeholder-form { display: flex; flex-direction: column; gap: 1rem; }
-    .placeholder-form input {
+    .lead-form { display: flex; flex-direction: column; gap: 1rem; }
+    .lead-form input {
       width: 100%;
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
@@ -757,9 +788,9 @@
       outline: none;
       transition: border-color 0.2s;
     }
-    .placeholder-form input:focus { border-color: rgba(247,149,70,0.5); }
-    .placeholder-form input::placeholder { color: rgba(255,255,255,0.25); }
-    .placeholder-form button {
+    .lead-form input:focus { border-color: var(--orange-50); }
+    .lead-form input::placeholder { color: rgba(255,255,255,0.55); }
+    .lead-form button {
       width: 100%;
       background: var(--orange);
       border: none;
@@ -774,7 +805,31 @@
       cursor: pointer;
       transition: opacity 0.2s;
     }
-    .placeholder-form button:hover { opacity: 0.85; }
+    .lead-form button:hover { opacity: 0.85; }
+    .lead-form button[disabled] { opacity: 0.55; cursor: wait; }
+    .lead-form input[aria-invalid="true"] { border-color: #ff6b6b; }
+    .lead-form-error {
+      font-size: 0.85rem;
+      color: #ff6b6b;
+      margin-top: 0.25rem;
+    }
+    .lead-form-success {
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+    .lead-form-success h4 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+    }
+    .lead-form-success p {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    [hidden] { display: none !important; }
 
     /* CONTACT */
     #contact { padding: 7rem 0; position: relative; }
@@ -783,7 +838,7 @@
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(247,149,70,0.08) 0%, transparent 65%);
+      background: radial-gradient(circle, var(--orange-08) 0%, transparent 65%);
       pointer-events: none;
     }
     .contact-inner { max-width: 640px; position: relative; z-index: 2; }
@@ -823,13 +878,64 @@
     }
     .footer-left { font-size: 0.78rem; color: var(--muted); }
     .footer-right { display: flex; gap: 1.5rem; }
-    .footer-right a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-right a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; padding: 0.5rem 0; display: inline-flex; align-items: center; min-height: 44px; }
     .footer-right a:hover { color: var(--orange); }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var(--orange);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0 0 4px 0;
+      z-index: 1000;
+      transform: translateY(-100%);
+      transition: transform 0.15s ease;
+    }
+    .skip-link:focus-visible {
+      transform: translateY(0);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     .fade-in {
       opacity: 0;
       transform: translateY(24px);
@@ -861,9 +967,11 @@
 </head>
 <body>
 
-  <nav>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <nav aria-label="Primary">
     <a href="#hero" class="nav-logo">
-      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg aria-hidden="true" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M36 6 L62 21 L62 51 L36 66 L10 51 L10 21 Z" stroke="white" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
         <line x1="10" y1="36" x2="24" y2="36" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
         <circle cx="24" cy="36" r="3" fill="white"/>
@@ -875,6 +983,8 @@
     </a>
     <a href="#contact" class="nav-cta">Book Scoping Call</a>
   </nav>
+
+  <main id="main">
 
   <!-- HERO -->
   <section id="hero">
@@ -888,14 +998,14 @@
         <h1>Stop Paying Architects<br>to Do <em>Data Entry</em></h1>
         <p class="hero-sub">AECLogix builds automation agents exclusively for architecture, engineering, and construction firms. Fixed scope. Fixed price. Live in 30 days.</p>
         <div class="hero-promise">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9"/></svg>
           Live in 30 days — or you don't pay
         </div>
         <div class="hero-actions">
           <a href="#contact" class="btn-primary">Book Scoping Call</a>
           <a href="#coi-autopilot" class="hero-scroll">
             See Our Flagship
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
           </a>
         </div>
       </div>
@@ -930,19 +1040,19 @@
       <div class="problem-grid">
         <ul class="problem-list">
           <li class="fade-in">
-            <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg class="problem-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Chasing contractors for expired insurance certificates every project cycle
           </li>
           <li class="fade-in">
-            <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg class="problem-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Logging RFIs and submittals manually into spreadsheets on every project
           </li>
           <li class="fade-in">
-            <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg class="problem-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Writing, formatting, and emailing project status reports by hand each week
           </li>
           <li class="fade-in">
-            <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg class="problem-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Principals spending billable hours on administrative tasks instead of design
           </li>
         </ul>
@@ -972,7 +1082,7 @@
         <div class="service-card featured fade-in">
           <div class="service-num">01</div>
           <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.51 0 2.93.37 4.18 1.03"/><path d="M21 3l-9 9"/><path d="M15 3h6v6"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.51 0 2.93.37 4.18 1.03"/><path d="M21 3l-9 9"/><path d="M15 3h6v6"/></svg>
           </div>
           <h3>COI Autopilot</h3>
           <p>Replaces your Certificate of Insurance tracking spreadsheet with an automated system. Branded intake form, expiry extraction, 3-stage reminders, live compliance dashboard. You own it. No monthly SaaS fee.</p>
@@ -985,7 +1095,7 @@
         <div class="service-card fade-in">
           <div class="service-num">02</div>
           <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           </div>
           <h3>Automated Project Status Reports</h3>
           <p>Pulls data from your existing project management tools and generates formatted status reports automatically. Distributes to your client list on schedule. No typing, no chasing team members for updates.</p>
@@ -998,7 +1108,7 @@
         <div class="service-card fade-in">
           <div class="service-num">03</div>
           <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
           <h3>RFI &amp; Submittal Tracking Agent</h3>
           <p>Captures incoming RFIs and submittals, assigns tracking numbers, logs status, and sends automated follow-up reminders to contractors when responses are overdue. Eliminates the spreadsheet entirely.</p>
@@ -1027,14 +1137,14 @@
           <p class="card-label">What You Get in 30 Days</p>
           <h3>A complete COI system, built and handed off.</h3>
           <ul class="deliverables-list">
-            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Branded vendor intake form</li>
-            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Automated expiry extraction pipeline</li>
-            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>3-stage reminder email sequences</li>
-            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Live compliance dashboard</li>
-            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>PM alerts for non-compliant vendors</li>
-            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Team training and walkthrough</li>
-            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>30 days of post-launch support</li>
-            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Source files, SOP, full handoff</li>
+            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Branded vendor intake form</li>
+            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Automated expiry extraction pipeline</li>
+            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>3-stage reminder email sequences</li>
+            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Live compliance dashboard</li>
+            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>PM alerts for non-compliant vendors</li>
+            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Team training and walkthrough</li>
+            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>30 days of post-launch support</li>
+            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Source files, SOP, full handoff</li>
           </ul>
         </div>
 
@@ -1144,21 +1254,21 @@
       <div class="guarantees-grid">
         <div class="guarantee-card fade-in">
           <div class="guarantee-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
           <h4>Live in 30 Days</h4>
           <p>If the system isn't live, running, and your team trained by day 30, you owe us nothing. No prorating.</p>
         </div>
         <div class="guarantee-card fade-in">
           <div class="guarantee-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L3 6 v6 c0 5 3.5 9.5 9 11 5.5-1.5 9-6 9-11 V6 L12 2z"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L3 6 v6 c0 5 3.5 9.5 9 11 5.5-1.5 9-6 9-11 V6 L12 2z"/></svg>
           </div>
           <h4>90-Day Zero-Lapse Promise</h4>
           <p>If any vendor COI expires in the first 90 days without the system catching it 30 days in advance, full refund.</p>
         </div>
         <div class="guarantee-card fade-in">
           <div class="guarantee-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1 L15 8 L22 9 L17 14 L18.5 21 L12 17.5 L5.5 21 L7 14 L2 9 L9 8 Z"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1 L15 8 L22 9 L17 14 L18.5 21 L12 17.5 L5.5 21 L7 14 L2 9 L9 8 Z"/></svg>
           </div>
           <h4>Day-30 No-Brainer</h4>
           <p>If it doesn't feel like a no-brainer on day 30, we refund 100% plus $500 for your time in discovery.</p>
@@ -1193,7 +1303,7 @@
         <div class="about-credentials fade-in">
           <div class="credential">
             <div class="credential-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
             </div>
             <div class="credential-text">
               <strong>50 Years in AEC</strong>
@@ -1202,7 +1312,7 @@
           </div>
           <div class="credential">
             <div class="credential-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             </div>
             <div class="credential-text">
               <strong>Fixed Scope, Fixed Price</strong>
@@ -1211,7 +1321,7 @@
           </div>
           <div class="credential">
             <div class="credential-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
             <div class="credential-text">
               <strong>AEC Exclusive</strong>
@@ -1220,7 +1330,7 @@
           </div>
           <div class="credential">
             <div class="credential-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
             <div class="credential-text">
               <strong>30-Day Delivery Guarantee</strong>
@@ -1242,127 +1352,30 @@
 
         <div class="mailerlite-form-wrapper fade-in">
 
-          <!-- MailerLite embed — form ID 40059964 -->
-          <style type="text/css">
-            .ml-form-embedSubmitLoad { display: inline-block; width: 20px; height: 20px; }
-            .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
-            .ml-form-embedSubmitLoad:after {
-              content: " "; display: block; width: 11px; height: 11px; margin: 1px;
-              border-radius: 50%; border: 4px solid #fff;
-              border-color: #0a0a0a #0a0a0a #0a0a0a transparent;
-              animation: ml-form-embedSubmitLoad 1.2s linear infinite;
-            }
-            @keyframes ml-form-embedSubmitLoad {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-            #mlb2-40059964.ml-form-embedContainer { box-sizing: border-box; display: block; margin: 0 auto; position: static; width: 100% !important; }
-            #mlb2-40059964.ml-form-embedContainer h4,
-            #mlb2-40059964.ml-form-embedContainer p,
-            #mlb2-40059964.ml-form-embedContainer span,
-            #mlb2-40059964.ml-form-embedContainer button { text-transform: none; letter-spacing: normal; }
-            #mlb2-40059964 .ml-form-embedWrapper { background: transparent; border: none; margin: 0; padding: 0; display: block !important; width: 100%; max-width: 100%; position: relative; }
-            #mlb2-40059964 .ml-form-align-center { text-align: left; }
-            #mlb2-40059964 .ml-form-embedBody, #mlb2-40059964 .ml-form-successBody { padding: 0; }
-            #mlb2-40059964 form { margin: 0; width: 100%; }
-            #mlb2-40059964 .ml-form-formContent { margin: 0; width: 100%; display: flex; flex-direction: column; gap: 10px; }
-            #mlb2-40059964 .ml-form-fieldRow { margin: 0; width: 100%; }
-            #mlb2-40059964 .ml-form-fieldRow input {
-              background: rgba(255,255,255,0.05) !important;
-              color: #ffffff !important;
-              border: 1px solid rgba(255,255,255,0.07) !important;
-              border-radius: 4px !important;
-              font-family: 'DM Sans', sans-serif !important;
-              font-size: 0.95rem !important;
-              line-height: 1.4 !important;
-              margin: 0;
-              padding: 0.9rem 1.1rem !important;
-              width: 100% !important;
-              box-sizing: border-box !important;
-              outline: none;
-              transition: border-color 0.2s;
-            }
-            #mlb2-40059964 .ml-form-fieldRow input:focus { border-color: rgba(247,149,70,0.5) !important; }
-            #mlb2-40059964 .ml-form-fieldRow input::placeholder { color: rgba(255,255,255,0.35) !important; }
-            #mlb2-40059964 .ml-form-embedSubmit { margin: 10px 0 0 0; width: 100%; }
-            #mlb2-40059964 .ml-form-embedSubmit button[type="submit"] {
-              background: #f79546 !important;
-              border: none !important;
-              border-radius: 4px !important;
-              color: #0a0a0a !important;
-              cursor: pointer;
-              font-family: 'DM Sans', sans-serif !important;
-              font-size: 0.88rem !important;
-              font-weight: 600 !important;
-              letter-spacing: 0.08em !important;
-              text-transform: uppercase !important;
-              padding: 1rem !important;
-              width: 100% !important;
-              box-sizing: border-box !important;
-              transition: opacity 0.2s;
-            }
-            #mlb2-40059964 .ml-form-embedSubmit button.loading { display: none; background: #f79546 !important; }
-            #mlb2-40059964 .ml-form-embedSubmit button[type="submit"]:hover { opacity: 0.85; }
-            #mlb2-40059964 .ml-form-successContent { text-align: center; padding: 0.5rem 0; }
-            #mlb2-40059964 .ml-form-successContent h4 {
-              color: #ffffff;
-              font-family: 'Barlow', sans-serif;
-              font-size: 1.5rem;
-              font-weight: 800;
-              margin: 0 0 0.6rem 0;
-            }
-            #mlb2-40059964 .ml-form-successContent p { color: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; line-height: 1.6; margin: 0; }
-            .ml-error input { border-color: #ff6b6b !important; }
-          </style>
+          <form id="lead-form" class="lead-form" novalidate
+                action="https://assets.mailerlite.com/jsonp/2274882/forms/184999860958659867/subscribe"
+                method="post"
+                target="_blank">
+            <label for="lc-name" class="sr-only">Your first name</label>
+            <input id="lc-name" name="fields[name]" type="text"
+                   placeholder="Your First Name" autocomplete="given-name">
 
-          <div id="mlb2-40059964" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-40059964">
-            <div class="ml-form-align-center ">
-              <div class="ml-form-embedWrapper embedForm">
-                <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
-                  <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2274882/forms/184999860958659867/subscribe" data-code="" method="post" target="_blank">
-                    <div class="ml-form-formContent">
-                      <div class="ml-form-fieldRow">
-                        <div class="ml-field-group ml-field-name">
-                          <input aria-label="name" type="text" class="form-control" name="fields[name]" placeholder="Your First Name" autocomplete="given-name">
-                        </div>
-                      </div>
-                      <div class="ml-form-fieldRow ml-last-item">
-                        <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
-                          <input aria-label="email" aria-required="true" type="email" class="form-control" name="fields[email]" placeholder="Your Email Address" autocomplete="email">
-                        </div>
-                      </div>
-                    </div>
-                    <input type="hidden" name="ml-submit" value="1">
-                    <div class="ml-form-embedSubmit">
-                      <button type="submit" class="primary">Send Me the Free Guide</button>
-                      <button disabled="disabled" style="display: none;" type="button" class="loading">
-                        <div class="ml-form-embedSubmitLoad"></div>
-                        <span class="sr-only">Loading...</span>
-                      </button>
-                    </div>
-                    <input type="hidden" name="anticsrf" value="true">
-                  </form>
-                </div>
-                <div class="ml-form-successBody row-success" style="display: none">
-                  <div class="ml-form-successContent">
-                    <h4>Thank you!</h4>
-                    <p>Your guide is on its way — check your inbox.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <label for="lc-email" class="sr-only">Your email address</label>
+            <input id="lc-email" name="fields[email]" type="email"
+                   placeholder="Your Email Address" autocomplete="email"
+                   required aria-describedby="lead-form-error">
+
+            <input type="hidden" name="ml-submit" value="1">
+            <input type="hidden" name="anticsrf" value="true">
+
+            <button type="submit" id="lead-form-submit">Send Me the Free Guide</button>
+            <p id="lead-form-error" class="lead-form-error" role="alert" aria-live="polite" hidden></p>
+          </form>
+
+          <div id="lead-form-success" class="lead-form-success" role="status" aria-live="polite" hidden>
+            <h4>Thanks!</h4>
+            <p>Your guide is on its way — check your inbox.</p>
           </div>
-
-          <script>
-            function ml_webform_success_40059964() {
-              var $ = ml_jQuery || jQuery;
-              $('.ml-subscribe-form-40059964 .row-success').show();
-              $('.ml-subscribe-form-40059964 .row-form').hide();
-            }
-          </script>
-          <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v95037e5bac78f29ed026832ca21a7c7b" type="text/javascript"></script>
-          <script>fetch("https://assets.mailerlite.com/jsonp/2274882/forms/184999860958659867/takel")</script>
-          <!-- /MailerLite embed -->
 
           <p class="form-note">No spam. Your guide arrives instantly. Unsubscribe any time.</p>
         </div>
@@ -1379,7 +1392,7 @@
         <h2 class="fade-in">Ready to Stop Wasting<br><em>Billable Hours</em> on Manual Work?</h2>
         <p class="section-sub fade-in">30 minutes. No pitch. I'll map your biggest bottleneck, tell you straight if COI Autopilot — or one of the custom agents — can fix it, and what it will cost.</p>
         <a href="mailto:randy@aeclogix.com?subject=Scoping%20Call%20Request" class="contact-link fade-in">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           Email Randy to Book
         </a>
         <p class="contact-note fade-in">Or reach out directly: <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a></p>
@@ -1387,12 +1400,14 @@
     </div>
   </section>
 
+  </main>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-left">© 2026 AECLogix. All rights reserved.</div>
     <div class="footer-right">
       <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a>
-      <a href="https://www.linkedin.com/in/randykopplin/" target="_blank">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/randykopplin/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
   </footer>
 
@@ -1407,6 +1422,119 @@
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+  <script>
+    // Lead capture form — JSONP submission to MailerLite
+    (function () {
+      var form = document.getElementById('lead-form');
+      if (!form) return;
+
+      var successEl = document.getElementById('lead-form-success');
+      var errorEl = document.getElementById('lead-form-error');
+      var submitBtn = document.getElementById('lead-form-submit');
+      var nameInput = document.getElementById('lc-name');
+      var emailInput = document.getElementById('lc-email');
+
+      var SUBMIT_LABEL = submitBtn.textContent;
+      var SENDING_LABEL = 'Sending\u2026';
+      var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      function showError(msg) {
+        errorEl.textContent = msg;
+        errorEl.hidden = false;
+        emailInput.setAttribute('aria-invalid', 'true');
+      }
+
+      function clearError() {
+        errorEl.hidden = true;
+        errorEl.textContent = '';
+        emailInput.removeAttribute('aria-invalid');
+      }
+
+      function setBusy(busy) {
+        submitBtn.disabled = busy;
+        if (busy) {
+          submitBtn.setAttribute('aria-busy', 'true');
+          submitBtn.textContent = SENDING_LABEL;
+        } else {
+          submitBtn.removeAttribute('aria-busy');
+          submitBtn.textContent = SUBMIT_LABEL;
+        }
+      }
+
+      emailInput.addEventListener('input', clearError);
+
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        clearError();
+
+        var email = emailInput.value.trim();
+        if (!email || !EMAIL_RE.test(email)) {
+          showError('Please enter a valid email address.');
+          emailInput.focus();
+          return;
+        }
+
+        setBusy(true);
+
+        var callbackName = 'ml_cb_' + Date.now() + '_' + Math.floor(Math.random() * 1e6);
+        var script = document.createElement('script');
+        var timer;
+
+        function cleanup() {
+          clearTimeout(timer);
+          try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }
+
+        function fail(msg) {
+          setBusy(false);
+          showError(msg);
+        }
+
+        window[callbackName] = function (response) {
+          cleanup();
+          if (response && response.success) {
+            form.hidden = true;
+            successEl.hidden = false;
+            successEl.setAttribute('tabindex', '-1');
+            successEl.focus();
+            return;
+          }
+          var msg = 'Something went wrong. Please try again.';
+          if (response && response.errors) {
+            var firstKey = Object.keys(response.errors)[0];
+            var firstErr = firstKey ? response.errors[firstKey] : null;
+            if (Array.isArray(firstErr) && firstErr[0]) msg = firstErr[0];
+            else if (typeof firstErr === 'string') msg = firstErr;
+          } else if (response && response.message) {
+            msg = response.message;
+          }
+          fail(msg);
+        };
+
+        var params = new URLSearchParams();
+        params.set('fields[name]', nameInput.value.trim());
+        params.set('fields[email]', email);
+        params.set('ml-submit', '1');
+        params.set('anticsrf', 'true');
+        params.set('callback', callbackName);
+
+        script.src = form.action + '?' + params.toString();
+        script.onerror = function () {
+          cleanup();
+          fail('Network error. Please try again.');
+        };
+
+        timer = setTimeout(function () {
+          cleanup();
+          fail('Request timed out. Please try again.');
+        }, 10000);
+
+        document.head.appendChild(script);
+      });
+    })();
   </script>
 
 </body>
