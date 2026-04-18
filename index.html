@@ -1425,7 +1425,7 @@
   </script>
 
   <script>
-    // Lead capture form — JSONP submission to MailerLite
+    // Lead capture form — POST to MailerLite via fetch (CORS-allowed)
     (function () {
       var form = document.getElementById('lead-form');
       if (!form) return;
@@ -1433,7 +1433,6 @@
       var successEl = document.getElementById('lead-form-success');
       var errorEl = document.getElementById('lead-form-error');
       var submitBtn = document.getElementById('lead-form-submit');
-      var nameInput = document.getElementById('lc-name');
       var emailInput = document.getElementById('lc-email');
 
       var SUBMIT_LABEL = submitBtn.textContent;
@@ -1463,6 +1462,18 @@
         }
       }
 
+      function extractErrorMessage(data) {
+        if (!data) return null;
+        if (data.errors) {
+          var firstKey = Object.keys(data.errors)[0];
+          var firstErr = firstKey ? data.errors[firstKey] : null;
+          if (Array.isArray(firstErr) && firstErr[0]) return firstErr[0];
+          if (typeof firstErr === 'string') return firstErr;
+        }
+        if (data.message) return data.message;
+        return null;
+      }
+
       emailInput.addEventListener('input', clearError);
 
       form.addEventListener('submit', function (ev) {
@@ -1478,61 +1489,43 @@
 
         setBusy(true);
 
-        var callbackName = 'ml_cb_' + Date.now() + '_' + Math.floor(Math.random() * 1e6);
-        var script = document.createElement('script');
-        var timer;
-
-        function cleanup() {
-          clearTimeout(timer);
-          try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
-          if (script.parentNode) script.parentNode.removeChild(script);
-        }
+        var controller = new AbortController();
+        var timer = setTimeout(function () { controller.abort(); }, 10000);
 
         function fail(msg) {
+          clearTimeout(timer);
           setBusy(false);
           showError(msg);
         }
 
-        window[callbackName] = function (response) {
-          cleanup();
-          if (response && response.success) {
-            form.hidden = true;
-            successEl.hidden = false;
-            successEl.setAttribute('tabindex', '-1');
-            successEl.focus();
-            return;
-          }
-          var msg = 'Something went wrong. Please try again.';
-          if (response && response.errors) {
-            var firstKey = Object.keys(response.errors)[0];
-            var firstErr = firstKey ? response.errors[firstKey] : null;
-            if (Array.isArray(firstErr) && firstErr[0]) msg = firstErr[0];
-            else if (typeof firstErr === 'string') msg = firstErr;
-          } else if (response && response.message) {
-            msg = response.message;
-          }
-          fail(msg);
-        };
+        function succeed() {
+          clearTimeout(timer);
+          form.hidden = true;
+          successEl.hidden = false;
+          successEl.setAttribute('tabindex', '-1');
+          successEl.focus();
+        }
 
-        var params = new URLSearchParams();
-        params.set('fields[name]', nameInput.value.trim());
-        params.set('fields[email]', email);
-        params.set('ml-submit', '1');
-        params.set('anticsrf', 'true');
-        params.set('callback', callbackName);
-
-        script.src = form.action + '?' + params.toString();
-        script.onerror = function () {
-          cleanup();
-          fail('Network error. Please try again.');
-        };
-
-        timer = setTimeout(function () {
-          cleanup();
-          fail('Request timed out. Please try again.');
-        }, 10000);
-
-        document.head.appendChild(script);
+        fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+          body: new URLSearchParams(new FormData(form)).toString(),
+          signal: controller.signal,
+          credentials: 'omit'
+        })
+        .then(function (res) {
+          return res.json().catch(function () { return null; }).then(function (data) {
+            if (res.ok && data && data.success) {
+              succeed();
+            } else {
+              fail(extractErrorMessage(data) || 'Something went wrong. Please try again.');
+            }
+          });
+        })
+        .catch(function (err) {
+          if (err && err.name === 'AbortError') fail('Request timed out. Please try again.');
+          else fail('Network error. Please try again.');
+        });
       });
     })();
   </script>
