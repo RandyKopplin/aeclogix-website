@@ -1,0 +1,13 @@
+{
+  "name": "aeclogix-website",
+  "private": true,
+  "description": "Static site for aeclogix.com. The package.json exists only to host the Playwright smoke-test toolchain used by /deploy-guard. There is no build step.",
+  "scripts": {
+    "smoke": "playwright test",
+    "smoke:update": "playwright test --update-snapshots",
+    "smoke:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

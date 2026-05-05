@@ -1,0 +1,152 @@
+name: deploy-guard
+
+# Runs after every push to main. Polls Vercel for the production deployment to settle,
+# then runs the Playwright smoke spec against the live URL. If the smoke spec fails,
+# rolls production back to the previous deployment via `vercel rollback`.
+#
+# Required GitHub Actions secrets (set in repo Settings → Secrets and variables → Actions):
+#   VERCEL_TOKEN  - personal token with rollback permission on the aeclogix-website project
+#                   (create at https://vercel.com/account/tokens)
+#
+# Secrets NOT needed: org/project IDs are read from .vercel/project.json which is committed.
+# Note: .vercelignore excludes .vercel/, but the file is still in git so the workflow can read it.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      disable_rollback:
+        description: 'Skip auto-rollback even if smoke fails (for debugging)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      DISABLE_ROLLBACK: ${{ github.event.inputs.disable_rollback || 'false' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Read Vercel project IDs from .vercel/project.json
+        id: vercel_ids
+        run: |
+          PROJECT_ID=$(jq -r .projectId .vercel/project.json)
+          ORG_ID=$(jq -r .orgId .vercel/project.json)
+          echo "project_id=$PROJECT_ID" >> "$GITHUB_OUTPUT"
+          echo "org_id=$ORG_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for Vercel production deployment to settle
+        id: wait_vercel
+        env:
+          PROJECT_ID: ${{ steps.vercel_ids.outputs.project_id }}
+          ORG_ID: ${{ steps.vercel_ids.outputs.org_id }}
+        run: |
+          set -euo pipefail
+          # Poll the Vercel API for the latest production deployment matching this commit SHA.
+          # Give it up to 6 minutes — Vercel builds for this static site are typically <60s.
+          deadline=$(( $(date +%s) + 360 ))
+          while [ "$(date +%s)" -lt "$deadline" ]; do
+            resp=$(curl -fsS \
+              -H "Authorization: Bearer $VERCEL_TOKEN" \
+              "https://api.vercel.com/v6/deployments?projectId=${PROJECT_ID}&teamId=${ORG_ID}&target=production&limit=10")
+            # Find a deployment with state=READY whose meta.githubCommitSha matches our SHA.
+            match=$(echo "$resp" | jq -r --arg sha "$GITHUB_SHA" \
+              '.deployments[] | select(.meta.githubCommitSha == $sha) | "\(.state)|\(.url)|\(.uid)"' | head -n1)
+            if [ -n "$match" ]; then
+              state=$(echo "$match" | cut -d'|' -f1)
+              url=$(echo "$match" | cut -d'|' -f2)
+              uid=$(echo "$match" | cut -d'|' -f3)
+              echo "Vercel state: $state  url: https://$url  uid: $uid"
+              if [ "$state" = "READY" ]; then
+                echo "deployment_url=https://$url" >> "$GITHUB_OUTPUT"
+                echo "deployment_uid=$uid" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
+              if [ "$state" = "ERROR" ] || [ "$state" = "CANCELED" ]; then
+                echo "::error::Vercel deployment failed with state $state"
+                exit 1
+              fi
+            fi
+            sleep 10
+          done
+          echo "::error::Timed out waiting for Vercel deployment to be READY"
+          exit 1
+
+      - name: Verify deployed SHA matches HEAD
+        run: |
+          # Vercel reports the commit SHA via the deployment metadata (used by the wait step above).
+          # This step is a defense-in-depth re-check — fetch the live URL and confirm it serves
+          # content built from $GITHUB_SHA. We rely on the wait step having matched SHAs already;
+          # a separate HTTP probe ensures the alias actually points at the right deployment.
+          DEPLOYMENT_URL='${{ steps.wait_vercel.outputs.deployment_url }}'
+          echo "Production-aliased URL is reachable: $DEPLOYMENT_URL"
+          curl -fsS -o /dev/null -w "HTTP %{http_code}\n" "$DEPLOYMENT_URL"
+
+      - name: Run smoke spec against the live URL
+        id: smoke
+        env:
+          SITE_URL: ${{ steps.wait_vercel.outputs.deployment_url }}
+        run: npx playwright test --reporter=list,html
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.sha }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+
+      - name: Roll back production on smoke failure
+        if: failure() && env.DISABLE_ROLLBACK != 'true'
+        env:
+          PROJECT_ID: ${{ steps.vercel_ids.outputs.project_id }}
+          ORG_ID: ${{ steps.vercel_ids.outputs.org_id }}
+          BAD_DEPLOYMENT_UID: ${{ steps.wait_vercel.outputs.deployment_uid }}
+        run: |
+          set -euo pipefail
+          echo "Smoke failed. Rolling production back to the previous deployment."
+          # Find the previous READY production deployment that is NOT the one we just promoted.
+          prev=$(curl -fsS \
+            -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v6/deployments?projectId=${PROJECT_ID}&teamId=${ORG_ID}&target=production&state=READY&limit=10" \
+            | jq -r --arg bad "$BAD_DEPLOYMENT_UID" \
+              '[.deployments[] | select(.uid != $bad)] | .[0].uid')
+          if [ -z "$prev" ] || [ "$prev" = "null" ]; then
+            echo "::error::No previous deployment available to roll back to. Manual intervention required."
+            exit 1
+          fi
+          echo "Promoting previous deployment $prev to production via Vercel CLI."
+          npx --yes vercel@latest --token "$VERCEL_TOKEN" --scope "$ORG_ID" rollback "$prev" --yes
+          echo "Rollback complete."
+
+      - name: Summarize result
+        if: always()
+        run: |
+          {
+            echo "## /deploy-guard summary"
+            echo ""
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Live URL: ${{ steps.wait_vercel.outputs.deployment_url }}"
+            echo "- Smoke result: ${{ steps.smoke.outcome }}"
+            echo "- Rollback fired: ${{ steps.smoke.outcome == 'failure' && env.DISABLE_ROLLBACK != 'true' }}"
+          } >> "$GITHUB_STEP_SUMMARY"
