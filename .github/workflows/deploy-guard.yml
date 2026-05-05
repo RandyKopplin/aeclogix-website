@@ -2,14 +2,15 @@ name: deploy-guard
 
 # Runs after every push to main. Polls Vercel for the production deployment to settle,
 # then runs the Playwright smoke spec against the live URL. If the smoke spec fails,
-# rolls production back to the previous deployment via `vercel rollback`.
+# rolls production back to the previous deployment via the Vercel API.
 #
 # Required GitHub Actions secrets (set in repo Settings → Secrets and variables → Actions):
 #   VERCEL_TOKEN  - personal token with rollback permission on the aeclogix-website project
 #                   (create at https://vercel.com/account/tokens)
 #
-# Secrets NOT needed: org/project IDs are read from .vercel/project.json which is committed.
-# Note: .vercelignore excludes .vercel/, but the file is still in git so the workflow can read it.
+# Vercel project IDs are hardcoded below — they are public identifiers (not secrets) and
+# the canonical source (.vercel/project.json) is git-ignored, so hardcoding here is the
+# cleanest way to keep the workflow self-contained.
 
 on:
   push:
@@ -30,7 +31,14 @@ jobs:
     timeout-minutes: 15
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      DISABLE_ROLLBACK: ${{ github.event.inputs.disable_rollback || 'false' }}
+      PROJECT_ID: prj_vmNoRkMjwm8wyEBeW98STvitnZsc
+      ORG_ID: team_yVsBSekKmiV5MW40F7KU3RxZ
+      # NOTE — TEMPORARY: rollback defaults to disabled until the first green CI run
+      # confirms that Linux/CI Chromium snapshots match the locally-captured baselines.
+      # If snapshots diverge, the smoke spec will fail and we want to inspect the diff,
+      # not auto-revert a healthy deploy. Flip the fallback below from 'true' to 'false'
+      # after the first successful run, then re-commit.
+      DISABLE_ROLLBACK: ${{ github.event.inputs.disable_rollback || 'true' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -45,19 +53,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Read Vercel project IDs from .vercel/project.json
-        id: vercel_ids
-        run: |
-          PROJECT_ID=$(jq -r .projectId .vercel/project.json)
-          ORG_ID=$(jq -r .orgId .vercel/project.json)
-          echo "project_id=$PROJECT_ID" >> "$GITHUB_OUTPUT"
-          echo "org_id=$ORG_ID" >> "$GITHUB_OUTPUT"
-
       - name: Wait for Vercel production deployment to settle
         id: wait_vercel
-        env:
-          PROJECT_ID: ${{ steps.vercel_ids.outputs.project_id }}
-          ORG_ID: ${{ steps.vercel_ids.outputs.org_id }}
         run: |
           set -euo pipefail
           # Poll the Vercel API for the latest production deployment matching this commit SHA.
@@ -90,15 +87,12 @@ jobs:
           echo "::error::Timed out waiting for Vercel deployment to be READY"
           exit 1
 
-      - name: Verify deployed SHA matches HEAD
+      - name: Verify deployed URL is reachable
         run: |
-          # Vercel reports the commit SHA via the deployment metadata (used by the wait step above).
-          # This step is a defense-in-depth re-check — fetch the live URL and confirm it serves
-          # content built from $GITHUB_SHA. We rely on the wait step having matched SHAs already;
-          # a separate HTTP probe ensures the alias actually points at the right deployment.
+          # Belt-and-suspenders check that the production-aliased URL is actually serving.
           DEPLOYMENT_URL='${{ steps.wait_vercel.outputs.deployment_url }}'
-          echo "Production-aliased URL is reachable: $DEPLOYMENT_URL"
-          curl -fsS -o /dev/null -w "HTTP %{http_code}\n" "$DEPLOYMENT_URL"
+          echo "Production URL: $DEPLOYMENT_URL"
+          curl -fsSL -o /dev/null -w "HTTP %{http_code}\n" "$DEPLOYMENT_URL"
 
       - name: Run smoke spec against the live URL
         id: smoke
@@ -117,15 +111,15 @@ jobs:
           retention-days: 14
 
       - name: Roll back production on smoke failure
-        if: failure() && env.DISABLE_ROLLBACK != 'true'
+        # Only fire when the smoke step specifically failed — not on infra failures
+        # earlier in the job (which previously cascaded into bogus rollback attempts).
+        if: steps.smoke.outcome == 'failure' && env.DISABLE_ROLLBACK != 'true'
         env:
-          PROJECT_ID: ${{ steps.vercel_ids.outputs.project_id }}
-          ORG_ID: ${{ steps.vercel_ids.outputs.org_id }}
           BAD_DEPLOYMENT_UID: ${{ steps.wait_vercel.outputs.deployment_uid }}
         run: |
           set -euo pipefail
           echo "Smoke failed. Rolling production back to the previous deployment."
-          # Find the previous READY production deployment that is NOT the one we just promoted.
+          # Find the previous READY production deployment that is NOT the bad one.
           prev=$(curl -fsS \
             -H "Authorization: Bearer $VERCEL_TOKEN" \
             "https://api.vercel.com/v6/deployments?projectId=${PROJECT_ID}&teamId=${ORG_ID}&target=production&state=READY&limit=10" \
@@ -135,8 +129,16 @@ jobs:
             echo "::error::No previous deployment available to roll back to. Manual intervention required."
             exit 1
           fi
-          echo "Promoting previous deployment $prev to production via Vercel CLI."
-          npx --yes vercel@latest --token "$VERCEL_TOKEN" --scope "$ORG_ID" rollback "$prev" --yes
+          echo "Promoting previous deployment $prev to production via Vercel API."
+          # Use the API directly — the CLI's --scope flag wants a team slug, not the team ID,
+          # which caused a "Deployment belongs to a different team" failure in an earlier run.
+          # The /promote endpoint takes teamId as a query param and avoids the slug confusion.
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $VERCEL_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.vercel.com/v10/projects/${PROJECT_ID}/promote/${prev}?teamId=${ORG_ID}" \
+            -o /tmp/promote-response.json -w "HTTP %{http_code}\n"
+          cat /tmp/promote-response.json
           echo "Rollback complete."
 
       - name: Summarize result
@@ -149,4 +151,5 @@ jobs:
             echo "- Live URL: ${{ steps.wait_vercel.outputs.deployment_url }}"
             echo "- Smoke result: ${{ steps.smoke.outcome }}"
             echo "- Rollback fired: ${{ steps.smoke.outcome == 'failure' && env.DISABLE_ROLLBACK != 'true' }}"
+            echo "- DISABLE_ROLLBACK currently: ${DISABLE_ROLLBACK}"
           } >> "$GITHUB_STEP_SUMMARY"
