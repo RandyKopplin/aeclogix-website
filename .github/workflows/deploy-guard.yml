@@ -33,12 +33,10 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       PROJECT_ID: prj_vmNoRkMjwm8wyEBeW98STvitnZsc
       ORG_ID: team_yVsBSekKmiV5MW40F7KU3RxZ
-      # NOTE — TEMPORARY: rollback defaults to disabled until the first green CI run
-      # confirms that Linux/CI Chromium snapshots match the locally-captured baselines.
-      # If snapshots diverge, the smoke spec will fail and we want to inspect the diff,
-      # not auto-revert a healthy deploy. Flip the fallback below from 'true' to 'false'
-      # after the first successful run, then re-commit.
-      DISABLE_ROLLBACK: ${{ github.event.inputs.disable_rollback || 'true' }}
+      # Auto-rollback is ON for push-triggered runs. To skip rollback for a manual run
+      # (e.g. when debugging a failure and you want to inspect the live deploy), trigger
+      # via Actions tab → deploy-guard → Run workflow → check "disable_rollback".
+      DISABLE_ROLLBACK: ${{ github.event.inputs.disable_rollback || 'false' }}
     steps:
       - uses: actions/checkout@v4
 
