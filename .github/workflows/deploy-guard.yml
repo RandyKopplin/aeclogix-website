@@ -87,17 +87,22 @@ jobs:
           echo "::error::Timed out waiting for Vercel deployment to be READY"
           exit 1
 
-      - name: Verify deployed URL is reachable
+      - name: Verify production alias is reachable
+        env:
+          # Smoke against the public production alias, not the auto-generated *.vercel.app
+          # deployment URL. The latter is gated by Vercel Deployment Protection (returns 401
+          # to anonymous traffic). Once wait_vercel confirms state=READY for a
+          # target=production deployment, Vercel has already swung the production alias to
+          # that deployment, so hitting the public URL tests the new build.
+          PROD_URL: https://aeclogix.com
         run: |
-          # Belt-and-suspenders check that the production-aliased URL is actually serving.
-          DEPLOYMENT_URL='${{ steps.wait_vercel.outputs.deployment_url }}'
-          echo "Production URL: $DEPLOYMENT_URL"
-          curl -fsSL -o /dev/null -w "HTTP %{http_code}\n" "$DEPLOYMENT_URL"
+          echo "Smoke target: $PROD_URL  (built from deployment ${{ steps.wait_vercel.outputs.deployment_uid }})"
+          curl -fsSL -o /dev/null -w "HTTP %{http_code}\n" "$PROD_URL"
 
       - name: Run smoke spec against the live URL
         id: smoke
         env:
-          SITE_URL: ${{ steps.wait_vercel.outputs.deployment_url }}
+          SITE_URL: https://aeclogix.com
         run: npx playwright test --reporter=list,html
 
       - name: Upload Playwright report on failure
