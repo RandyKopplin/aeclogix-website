@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About AECLogix — Automation Agency for AEC Firms</title>
+  <meta name="description" content="AECLogix is an automation agency for AEC firms. Built by Randy Kopplin — over 50 years inside architecture, engineering, and construction. Software-with-services, run for you, live in 30 days.">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #f79546;
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #161616;
+      --card-raised: #1c1c1c;
+      --border: rgba(255,255,255,0.07);
+      --border-warm: rgba(247,149,70,0.3);
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.45);
+      --text: rgba(255,255,255,0.82);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(247,149,70,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(247,149,70,0.035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5vw;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .nav-logo svg { width: 36px; height: 36px; }
+    .nav-brand {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+    .nav-brand span { color: var(--orange); }
+    .nav-cta {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--black);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 3px;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 5vw; }
+    .container-narrow { max-width: 760px; margin: 0 auto; padding: 0 5vw; }
+
+    /* HERO */
+    #hero {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      padding: 9rem 0 5rem;
+      position: relative;
+    }
+    .hero-glow {
+      position: absolute;
+      top: -10%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(247,149,70,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 2; max-width: 820px; }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(247,149,70,0.1);
+      border: 1px solid rgba(247,149,70,0.25);
+      border-radius: 2px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 2rem;
+    }
+    .hero-tag-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    h1 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.6rem, 5.4vw, 4.4rem);
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 1.3rem;
+    }
+    h1 em, h2 em, h3 em { font-style: normal; color: var(--orange); }
+
+    .hero-tagline {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+      line-height: 1.4;
+      color: var(--white);
+      margin-bottom: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+    .hero-sub {
+      font-size: 1.08rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 640px;
+      line-height: 1.75;
+    }
+
+    /* SECTION HEADERS */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .section-register {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+      font-style: italic;
+    }
+    h2 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 1.6rem;
+    }
+    h3 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      color: var(--white);
+      font-size: 1.2rem;
+      letter-spacing: -0.01em;
+    }
+
+    /* PROSE SECTIONS */
+    .prose-section { padding: 5.5rem 0; }
+    .prose-section.alt {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .prose p {
+      font-size: 1.02rem;
+      line-height: 1.78;
+      color: var(--text);
+      margin-bottom: 1.3rem;
+    }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--white); font-weight: 600; }
+
+    /* HOW WE WORK */
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+      margin-top: 3rem;
+    }
+    .how-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      transition: border-color 0.25s;
+    }
+    .how-card:hover { border-color: rgba(247,149,70,0.3); }
+    .how-card-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.8rem;
+    }
+    .how-card h3 { margin-bottom: 0.7rem; font-size: 1.15rem; }
+    .how-card p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
+
+    /* PRODUCT CALLOUTS */
+    .ship-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+      margin-top: 3rem;
+    }
+    .ship-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+    }
+    .ship-card.featured {
+      border-color: var(--border-warm);
+      background: linear-gradient(160deg, var(--card-raised) 0%, var(--card) 100%);
+    }
+    .ship-card.featured::before {
+      content: 'LIVE';
+      position: absolute;
+      top: -10px;
+      left: 1.8rem;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      color: var(--black);
+      background: var(--orange);
+      padding: 0.3rem 0.65rem;
+      border-radius: 2px;
+    }
+    .ship-card h3 { font-size: 1.2rem; }
+    .ship-card p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
+    .ship-link {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+      transition: gap 0.2s;
+    }
+    .ship-link:hover { gap: 0.65rem; }
+    .ship-tools-note {
+      margin-top: 2rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--card);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 4px 4px 0;
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .ship-tools-note a { color: var(--orange); text-decoration: none; }
+    .ship-tools-note a:hover { text-decoration: underline; }
+
+    /* DISQUALIFICATION LIST */
+    .disqual-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.8rem;
+    }
+    .disqual-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.98rem;
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .disqual-icon {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      margin-top: 4px;
+      color: var(--orange);
+    }
+
+    /* BELIEFS */
+    .beliefs-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+    .beliefs-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1.4rem 1.6rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 4px 4px 0;
+    }
+    .belief-num {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      color: var(--orange);
+      flex-shrink: 0;
+      padding-top: 2px;
+      min-width: 24px;
+    }
+    .belief-text {
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--text);
+    }
+    .belief-text strong { color: var(--white); font-weight: 600; }
+
+    /* CTA */
+    #next-step {
+      padding: 6.5rem 0 7rem;
+      position: relative;
+    }
+    .next-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(247,149,70,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .next-inner { max-width: 760px; position: relative; z-index: 2; }
+    .next-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+      margin-top: 2.5rem;
+    }
+    .next-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .next-card.warm {
+      border-color: var(--border-warm);
+      background: linear-gradient(160deg, var(--card-raised) 0%, var(--card) 100%);
+    }
+    .next-card-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+    .next-card h3 { font-size: 1.1rem; line-height: 1.25; }
+    .next-card p { font-size: 0.92rem; color: var(--muted); line-height: 1.65; flex: 1; }
+    .next-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      background: var(--orange);
+      color: var(--black);
+      font-size: 0.84rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.95rem 1.4rem;
+      border-radius: 3px;
+      transition: opacity 0.2s;
+    }
+    .next-btn:hover { opacity: 0.85; }
+    .next-btn.outline {
+      background: transparent;
+      color: var(--orange);
+      border: 1px solid var(--border-warm);
+    }
+    .next-btn.outline:hover { background: rgba(247,149,70,0.06); opacity: 1; }
+    .next-btn svg { width: 16px; height: 16px; }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-left { font-size: 0.78rem; color: var(--muted); }
+    .footer-right { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-right a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--orange); }
+
+    /* FADE IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* RANDY PORTRAIT */
+    .randy-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2.4rem;
+      align-items: start;
+      margin-top: 0.5rem;
+    }
+    .randy-portrait {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--orange);
+      box-shadow: 0 18px 60px rgba(247,149,70,0.18);
+      display: block;
+    }
+
+    @media (max-width: 800px) {
+      .how-grid, .ship-grid, .next-grid { grid-template-columns: 1fr; }
+      .randy-layout { grid-template-columns: 1fr; gap: 1.8rem; justify-items: start; }
+      .randy-portrait { width: 200px; height: 200px; }
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2.3rem; }
+      h2 { font-size: 1.7rem; }
+      .hero-tagline { font-size: 1.05rem; }
+      #hero { padding: 7.5rem 0 4rem; min-height: auto; }
+      .prose-section { padding: 4rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="/images/aeclogix-logo.png" alt="AECLogix" width="36" height="36">
+      <span class="nav-brand">AEC<span>Logix</span></span>
+    </a>
+    <a href="/#contact" class="nav-cta">Book Scoping Call</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-tag">
+          <div class="hero-tag-dot"></div>
+          About AECLogix
+        </div>
+        <h1>An automation agency for <em>AEC firms.</em></h1>
+        <p class="hero-tagline">Built by Randy Kopplin — over 50 years inside architecture, engineering, and construction.</p>
+        <p class="hero-sub">Software-with-services. The automation does the work, AECLogix runs the exception layer, your team handles only the calls that need a human. Live in 30 days. Texas-based, US-only.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM WE EXIST FOR (Randy first-person) -->
+  <section class="prose-section">
+    <div class="container-narrow">
+      <p class="section-label fade-in">The problem we exist for</p>
+      <p class="section-register fade-in">— Randy, in his own words.</p>
+      <h2 class="fade-in">Most AEC firms are running compliance work on <em>spreadsheets and goodwill.</em></h2>
+
+      <div class="prose">
+        <p class="fade-in">I spent over 50 years inside this industry. Architecture, project work, sitting across the table from GCs, owners, and subs. The same pattern shows up at every firm I have worked with. Talented people doing work a system should handle. The COI binder nobody has opened in three months. The spreadsheet someone color-codes on Monday morning. The renewal nobody chased because Becky was out sick and the certificate slipped.</p>
+
+        <p class="fade-in">A checked box on the face of a certificate is not proof the endorsement exists. Most tracking tools look at the certificate. I look at what is behind it. That is not a marketing line. That is the difference between getting a tender accepted and paying your own defense costs.</p>
+
+        <p class="fade-in">I have watched a thirty-two-employee GC in Dallas eat a fifty thousand dollar deductible because a sub's GL had lapsed in September and the certificate on file said August. I have watched a fourteen-person GC in Arlington spend eleven days assembling a COI file the owner's attorney asked for after an OSHA incident. I have watched a sixty-eight-employee GC in Oklahoma City go from forty percent COI compliance to ninety-six percent within six weeks of going live on a system. The first time was the Dallas one. That is when I started building.</p>
+
+        <p class="fade-in">AECLogix exists because the work is real, the gaps are real, and the spreadsheet is not going to save you when the claim hits.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE WORK (third-person) -->
+  <section class="prose-section alt">
+    <div class="container">
+      <p class="section-label fade-in">How we work</p>
+      <p class="section-register fade-in">— AECLogix, third-person.</p>
+      <h2 class="fade-in">Software-with-services. <em>Tiered subscription.</em> Live in 30 days.</h2>
+
+      <div class="prose" style="max-width: 760px;">
+        <p class="fade-in">AECLogix is not a portal you log into and run yourself. The automation does the work — intake, endorsement verification, expiration tracking, automated outreach to subs across four to six attempts before anything escalates. AECLogix runs the exception layer: the judgment calls, the endorsement checks behind the certificate, the cases the system flags but cannot close. The firm's COI clerk or PM handles only escalation phone calls when a sub ignores the full automation sequence.</p>
+
+        <p class="fade-in">Pricing is tiered by active subcontractor count. Setup fee plus monthly. The monthly is not a software license — it is the service that keeps the system current with the firm's subs and contract language. When subs are added or dropped, the system adjusts. When insurance requirements change, the system reconfigures.</p>
+
+        <p class="fade-in">Time-to-go-live is 30 days from kickoff. After year one, subscription is month to month. Data exports on request.</p>
+      </div>
+
+      <div class="how-grid">
+        <div class="how-card fade-in">
+          <p class="how-card-eyebrow">Run for you</p>
+          <h3>The automation does the work.</h3>
+          <p>Intake, verification, tracking, outreach. AECLogix runs the function — the firm reviews exceptions and handles only escalation calls.</p>
+        </div>
+        <div class="how-card fade-in">
+          <p class="how-card-eyebrow">Built for AEC</p>
+          <h3>Configured to the firm's contracts.</h3>
+          <p>Required limits, endorsement language, waiver wording. Not a one-size template — the system mirrors what the subcontract actually requires.</p>
+        </div>
+        <div class="how-card fade-in">
+          <p class="how-card-eyebrow">Tiered subscription</p>
+          <h3>Setup plus monthly. Tier set by sub count.</h3>
+          <p>Four tiers based on active subcontractors. The real number gets confirmed on the discovery call before anything is quoted.</p>
+        </div>
+        <div class="how-card fade-in">
+          <p class="how-card-eyebrow">Texas-based, US-only</p>
+          <h3>One country, one regulatory frame.</h3>
+          <p>AECLogix works with US firms only. ACORD forms, ISO endorsements, US subcontract language. No exceptions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE SHIP TODAY (third-person) -->
+  <section class="prose-section">
+    <div class="container">
+      <p class="section-label fade-in">What we ship today</p>
+      <p class="section-register fade-in">— AECLogix, third-person.</p>
+      <h2 class="fade-in">One productized offer live. <em>Custom work</em> scoped firm-by-firm.</h2>
+
+      <div class="ship-grid">
+        <div class="ship-card featured fade-in">
+          <h3>COI Autopilot</h3>
+          <p>The flagship. Subcontractor certificate-of-insurance verification, run end-to-end. Subs email their COIs to a dedicated address. The system reads the certificate, verifies the endorsements behind it — CG 20 10, CG 20 37, primary and non-contributory, waiver of subrogation — and tracks every expiration. Automated outreach chases subs through four to six contact attempts before anything reaches a human. The firm's COI clerk or PM handles only escalation calls. Tiered subscription. Live in 30 days.</p>
+          <a href="/pricing" class="ship-link">See pricing &rarr;</a>
+        </div>
+        <div class="ship-card fade-in">
+          <h3>Custom agent work</h3>
+          <p>Custom automation scoped firm-by-firm against a specific internal workflow. Submittal logs. RFI tracking. Pay app routing. Contract intake. The same software-with-services frame applies — AECLogix builds the system and runs it as a service, the firm's team escalates only the cases that need a human. One-time builds for larger operations are also in scope.</p>
+          <a href="/#contact" class="ship-link">Scope a custom build &rarr;</a>
+        </div>
+      </div>
+
+      <p class="ship-tools-note fade-in">Plus a small set of free tools for AEC operators figuring this out on their own — the <a href="/coi-checklist">27-Point COI Verification Checklist</a> and <a href="/rfp-radar">RFP Radar</a>. No gate beyond an email address.</p>
+    </div>
+  </section>
+
+  <!-- WHO WE WORK WITH / WHO WE DON'T (Randy first-person) -->
+  <section class="prose-section alt">
+    <div class="container-narrow">
+      <p class="section-label fade-in">Who we work with — and who we don't</p>
+      <p class="section-register fade-in">— Randy, in his own words.</p>
+      <h2 class="fade-in">I have turned down three firms in the last <em>two months.</em></h2>
+
+      <div class="prose">
+        <p class="fade-in">I would rather tell you I have three paying clients than tell you I have thirty when I have three. The same logic applies to who I take on. The math has to work for both sides, or it doesn't work. Three recent examples of firms I said no to:</p>
+      </div>
+
+      <ul class="disqual-list">
+        <li class="fade-in">
+          <svg class="disqual-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <div><strong style="color: var(--white);">Under ten active subs.</strong> The math did not work for them. The setup is the same lift for ten subs as it is for fifty, and the value is not there at that count. Better off with a spreadsheet and a calendar reminder.</div>
+        </li>
+        <li class="fade-in">
+          <svg class="disqual-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <div><strong style="color: var(--white);">Existing partnership with a bond agency that already handles this.</strong> Nothing for me to add. I told them that and walked away.</div>
+        </li>
+        <li class="fade-in">
+          <svg class="disqual-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <div><strong style="color: var(--white);">Owner who wanted to buy software and run it himself.</strong> That is not what I sell. I sell the service. If you want a tool to administer, there are good ones. If you want the function run for you, that is what AECLogix does.</div>
+        </li>
+      </ul>
+
+      <div class="prose" style="margin-top: 2rem;">
+        <p class="fade-in">First thing I do on the discovery call is confirm the real sub count. Then I look at the current process, the contract language, and the gaps. If it is a fit, I say so. If it is not, I say that too.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT RANDY (first-person) -->
+  <section class="prose-section">
+    <div class="container-narrow">
+      <p class="section-label fade-in">About Randy</p>
+      <p class="section-register fade-in">— Randy, in his own words.</p>
+      <h2 class="fade-in">Over 50 years inside <em>this industry.</em></h2>
+
+      <div class="randy-layout">
+        <img class="randy-portrait fade-in" src="/images/randy-headshot.png" alt="Randy Kopplin, founder of AECLogix" width="240" height="240">
+
+        <div class="prose">
+          <p class="fade-in">I started in architecture. Project work. Running drawings, running jobs, working alongside GCs and engineers and owners across more buildings than I can recall by name. I have sat on every side of this table — designing the building, watching it get built, watching the paperwork that holds it together get done well or get done badly.</p>
+
+          <p class="fade-in">A few years ago I started building automation systems. Not because automation is fashionable. Because I had spent five decades watching the same compliance work get done by hand, by people who should have been doing the work they were hired to do, and I knew the system that would replace it would have to be built by someone who had run those workflows. Not by a software company looking in.</p>
+
+          <p class="fade-in">AECLogix is what that turned into. The first productized system is COI Autopilot. The custom work is the long tail. I am building this with my own money, and I am being selective on purpose.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE BELIEVE (Randy first-person) -->
+  <section class="prose-section alt">
+    <div class="container-narrow">
+      <p class="section-label fade-in">What we believe</p>
+      <p class="section-register fade-in">— Randy, in his own words.</p>
+      <h2 class="fade-in">Three things we will <em>say out loud.</em></h2>
+
+      <ul class="beliefs-list">
+        <li class="fade-in">
+          <span class="belief-num">01</span>
+          <p class="belief-text"><strong>The certificate is not the policy.</strong> A checked box on the face of a certificate is not proof the endorsement exists. The endorsement form attached to the sub's policy is the insurance. Anything that confuses the two is going to cost somebody.</p>
+        </li>
+        <li class="fade-in">
+          <span class="belief-num">02</span>
+          <p class="belief-text"><strong>Honest math.</strong> I would rather tell you I have three paying clients than tell you I have thirty when I have three. The honesty is the credibility move.</p>
+        </li>
+        <li class="fade-in">
+          <span class="belief-num">03</span>
+          <p class="belief-text"><strong>Selective on purpose.</strong> I have turned down three firms in the last two months. That is not what I sell. I sell the service. The wrong client is worse than no client.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- NEXT STEP -->
+  <section id="next-step">
+    <div class="next-glow"></div>
+    <div class="container">
+      <div class="next-inner">
+        <p class="section-label fade-in">Next step</p>
+        <h2 class="fade-in">Two ways to start. <em>Both honest.</em></h2>
+        <p class="fade-in" style="font-size: 1rem; color: var(--muted); line-height: 1.75;">No-pressure entry on the left. A real conversation on the right. Pick whichever fits where you are.</p>
+
+        <div class="next-grid">
+          <div class="next-card fade-in">
+            <p class="next-card-eyebrow">Cold</p>
+            <h3>The 27-Point COI Verification Checklist.</h3>
+            <p>27 checks. 8 phases. The exact checklist behind COI Autopilot, written so a COI clerk or PM can run it by hand on every incoming certificate. Free. Email gate, no other cost.</p>
+            <a href="/coi-checklist" class="next-btn outline">Get the checklist</a>
+          </div>
+          <div class="next-card warm fade-in">
+            <p class="next-card-eyebrow">Warm</p>
+            <h3>Book a 20-minute scoping call.</h3>
+            <p>Confirm the real active sub count. Look at the current process. Look at the contract language. If it is a fit, I say so. If it is not, I say that too.</p>
+            <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2vFdG2RMPYGykEpwtzvVupil8ir2G8OPGzlD8G2PTY03CzCwdbQMShgkgpmpQCp59U18257qqQ" class="next-btn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Book scoping call
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">© 2026 AECLogix, LLC. All rights reserved.</div>
+    <div class="footer-right">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/about">About</a>
+      <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a>
+      <a href="https://www.linkedin.com/in/randykopplin/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/">Home</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+          observer.unobserve(el.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

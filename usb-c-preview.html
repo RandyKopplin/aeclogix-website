@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AECLogix — USB-C Pattern Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#081424;
+    --bg2:#0a1628;
+    --surface:#0d1b2a;
+    --ink:#b8e3ff;
+    --ink2:#7fd4ff;
+    --ink-dim:#4a7a9c;
+    --ink-faint:#2a4a64;
+    --accent:#ff6b1a;
+    --accent-soft:rgba(255,107,26,.15);
+    --cyan:#7fd4ff;
+    --grid:rgba(127,212,255,.06);
+    --grid-strong:rgba(127,212,255,.11);
+    --border:rgba(127,212,255,.18);
+    --border2:rgba(127,212,255,.45);
+    --text:#e5f3ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;min-height:100dvh;position:relative;padding:48px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px}
+  body::before{content:'';position:fixed;inset:0;background:
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/16px 16px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/16px 16px,
+    linear-gradient(var(--grid-strong) 1px,transparent 1px) 0 0/96px 96px,
+    linear-gradient(90deg,var(--grid-strong) 1px,transparent 1px) 0 0/96px 96px;
+    pointer-events:none;z-index:0;opacity:.9}
+  body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(127,212,255,.12),transparent 60%);pointer-events:none;z-index:0}
+
+  /* ─── Page intro ─── */
+  .intro{position:relative;z-index:2;text-align:center;max-width:560px}
+  .intro-label{display:inline-block;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-dim);padding:6px 12px;border:1px solid var(--border);border-radius:3px;background:rgba(13,27,42,.6);margin-bottom:20px}
+  .intro-label::before{content:'▢ ';color:var(--cyan)}
+  .intro h1{font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.1;letter-spacing:-.025em;color:var(--text);margin-bottom:14px}
+  .intro h1 em{font-style:normal;color:var(--accent)}
+  .intro p{color:var(--ink-dim);font-size:15px;line-height:1.55}
+
+  /* ─── Schematic panel ─── */
+  .schem-panel{position:relative;z-index:2;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:24px;width:100%;max-width:720px;box-shadow:0 0 0 1px rgba(127,212,255,.18),0 30px 80px -30px rgba(127,212,255,.4)}
+  .schem-panel::after{content:'';position:absolute;inset:-1px;border-radius:8px;padding:1px;background:linear-gradient(135deg,rgba(127,212,255,.75),transparent 40%,transparent 60%,rgba(127,212,255,.45));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:borderPulse 3.5s ease infinite}
+  @keyframes borderPulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+  .corner{position:absolute;width:12px;height:12px;border:1px solid var(--ink-faint);pointer-events:none}
+  .corner.tl{top:8px;left:8px;border-right:none;border-bottom:none}
+  .corner.tr{top:8px;right:8px;border-left:none;border-bottom:none}
+  .corner.bl{bottom:8px;left:8px;border-right:none;border-top:none}
+  .corner.br{bottom:8px;right:8px;border-left:none;border-top:none}
+
+  .schem-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .schem-id{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.2em;font-weight:700;text-transform:uppercase;color:var(--ink-dim)}
+  .schem-id .n{color:var(--cyan);margin-right:6px}
+  .schem-pill{display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:3px;color:var(--accent);border:1px solid rgba(255,107,26,.4);background:var(--accent-soft)}
+  .schem-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px rgba(255,107,26,.9);animation:pulseDot 1.4s ease-in-out infinite}
+  @keyframes pulseDot{0%,100%{opacity:.5;transform:scale(.85)}50%{opacity:1;transform:scale(1.1)}}
+
+  .schem-stage{position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:5px;overflow:hidden;aspect-ratio:440/320}
+  .schem-stage::before{content:'';position:absolute;inset:0;background:
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/12px 12px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/12px 12px;
+    opacity:.7;pointer-events:none}
+  .schem-stage svg{width:100%;height:100%;position:relative;z-index:1}
+
+  /* ─── SVG base styling ─── */
+  .b-stroke{stroke:var(--ink2);stroke-width:1.25;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .b-stroke-dim{stroke:var(--ink-faint);stroke-width:1;fill:none}
+  .b-stroke-hot{stroke:var(--accent);stroke-width:1.5;fill:none}
+  .b-fill-soft{fill:rgba(127,212,255,.08)}
+  .b-fill-hot{fill:rgba(255,107,26,.14)}
+
+  /* ─── Device (central hub) ─── */
+  .device-body{fill:rgba(127,212,255,.10);stroke:var(--ink2);stroke-width:1.25}
+  .device-label{font-family:'Space Mono',monospace;font-weight:700;fill:var(--cyan);letter-spacing:3px}
+  .device-sub{font-family:'Space Mono',monospace;font-weight:400;fill:var(--ink-dim);letter-spacing:1.5px}
+  .device-port{fill:var(--bg);stroke:var(--accent);stroke-width:1.5}
+  .port-glow{fill:var(--accent);opacity:.6;animation:portGlow 2.2s ease-in-out infinite}
+  @keyframes portGlow{0%,100%{opacity:.35}50%{opacity:.9}}
+
+  /* ─── Cables ─── */
+  .cable{stroke:var(--ink-dim);stroke-width:1.25;fill:none;stroke-dasharray:3 4;stroke-linecap:round;animation:cableFlow 1.6s linear infinite}
+  .cable.c1{animation-delay:0s}
+  .cable.c2{animation-delay:.4s}
+  .cable.c3{animation-delay:.8s}
+  .cable.c4{animation-delay:1.2s}
+  @keyframes cableFlow{to{stroke-dashoffset:-28}}
+
+  /* ─── Plugs ─── */
+  .plug-group{animation:plugPulse 5.2s ease-in-out infinite}
+  .plug-group.p1{animation-delay:0s}
+  .plug-group.p2{animation-delay:1.3s}
+  .plug-group.p3{animation-delay:2.6s}
+  .plug-group.p4{animation-delay:3.9s}
+  @keyframes plugPulse{
+    0%,100%{opacity:.6}
+    15%,28%{opacity:1;filter:drop-shadow(0 0 6px rgba(255,107,26,.85))}
+    45%{opacity:.85}
+  }
+  .plug-body{fill:rgba(127,212,255,.12);stroke:var(--ink2);stroke-width:1.25}
+  .plug-body.lit{fill:rgba(255,107,26,.18);stroke:var(--accent)}
+  .plug-label{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1.2px;fill:var(--ink)}
+  .plug-label.lit{fill:var(--accent)}
+  .plug-bolt{fill:var(--accent);opacity:0;animation:boltFlash 5.2s ease-in-out infinite}
+  .plug-bolt.b1{animation-delay:.1s}
+  .plug-bolt.b2{animation-delay:1.4s}
+  .plug-bolt.b3{animation-delay:2.7s}
+  .plug-bolt.b4{animation-delay:4s}
+  @keyframes boltFlash{
+    0%,10%{opacity:0}
+    15%,28%{opacity:1}
+    35%,100%{opacity:0}
+  }
+
+  /* ─── Annotations ─── */
+  .anno-text{font-family:'Space Mono',monospace;letter-spacing:1px}
+  .anno-hot{fill:var(--accent)}
+  .anno-dim{fill:var(--ink-dim)}
+  .anno-cyan{fill:var(--cyan)}
+
+  /* ─── Caption below stage ─── */
+  .schem-caption{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+  .schem-caption strong{color:var(--cyan);font-weight:700}
+  .schem-caption code{font-family:'Space Mono',monospace;color:var(--accent);font-size:10px}
+
+  /* ─── Legend below panel ─── */
+  .legend{position:relative;z-index:2;display:flex;gap:28px;flex-wrap:wrap;justify-content:center;font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim)}
+  .legend-item{display:inline-flex;align-items:center;gap:8px}
+  .legend-item .dot{width:8px;height:8px;border-radius:50%}
+  .legend-item .dot.cyan{background:var(--cyan);box-shadow:0 0 6px rgba(127,212,255,.6)}
+  .legend-item .dot.orange{background:var(--accent);box-shadow:0 0 6px rgba(255,107,26,.8)}
+  .legend-item .dot.dim{background:var(--ink-faint)}
+
+  @media(max-width:720px){
+    body{padding:32px 16px;gap:24px}
+    .schem-panel{padding:16px}
+    .schem-caption{flex-direction:column;align-items:flex-start;gap:6px}
+    .legend{gap:14px;font-size:9.5px}
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <div class="intro-label">Pattern 11 · USB-C Device</div>
+  <h1>One <em>port</em>. Every tool your firm already runs.</h1>
+  <p>Preview of the USB-C integration pattern applied to the AECLogix hub. Plugs pulse in sequence as each integration fires.</p>
+</div>
+
+<div class="schem-panel">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+
+  <div class="schem-head">
+    <div class="schem-id"><span class="n">11</span>USB-C / INTEGRATION BUS</div>
+    <div class="schem-pill"><span class="dot"></span>4 Active</div>
+  </div>
+
+  <div class="schem-stage">
+    <svg viewBox="0 0 440 320" preserveAspectRatio="xMidYMid meet">
+
+      <!-- Top dimension bracket -->
+      <line x1="60" y1="32" x2="380" y2="32" class="b-stroke-hot"/>
+      <line x1="60" y1="26" x2="60" y2="38" class="b-stroke-hot"/>
+      <line x1="380" y1="26" x2="380" y2="38" class="b-stroke-hot"/>
+      <text x="220" y="24" text-anchor="middle" class="anno-text anno-hot" font-size="10">INTEGRATION SPAN · 4 PLUGS</text>
+
+      <!-- Central device -->
+      <rect x="170" y="110" width="100" height="100" rx="10" class="device-body"/>
+      <text x="220" y="148" text-anchor="middle" class="device-label" font-size="18">AEC</text>
+      <text x="220" y="165" text-anchor="middle" class="device-sub" font-size="8">HUB · v1</text>
+      <!-- Port slot -->
+      <rect x="186" y="178" width="68" height="22" rx="4" class="device-port"/>
+      <rect x="192" y="184" width="56" height="10" rx="2" class="port-glow"/>
+
+      <!-- Device corner crosshairs -->
+      <g stroke="#2a4a64" stroke-width="1" fill="none">
+        <path d="M170 118 L170 110 L178 110"/>
+        <path d="M262 110 L270 110 L270 118"/>
+        <path d="M170 202 L170 210 L178 210"/>
+        <path d="M262 210 L270 210 L270 202"/>
+      </g>
+
+      <!-- Dimension label under device -->
+      <text x="220" y="232" text-anchor="middle" class="anno-text anno-dim" font-size="8">DEV-01 · 100×100</text>
+
+      <!-- Cables (4 curved paths from plugs to device) -->
+      <path class="cable c1" d="M 118 92 Q 150 92, 170 110"/>
+      <path class="cable c2" d="M 322 92 Q 290 92, 270 110"/>
+      <path class="cable c3" d="M 118 228 Q 150 228, 170 210"/>
+      <path class="cable c4" d="M 322 228 Q 290 228, 270 210"/>
+
+      <!-- ─── Plugs (4 corners) ─── -->
+
+      <!-- P1 top-left : PROCORE -->
+      <g class="plug-group p1">
+        <rect x="66" y="78" width="52" height="26" rx="3" class="plug-body lit"/>
+        <rect x="114" y="86" width="5" height="10" class="plug-bolt b1"/>
+        <text x="92" y="95" text-anchor="middle" class="plug-label lit">PROCORE</text>
+      </g>
+
+      <!-- P2 top-right : AUTODESK -->
+      <g class="plug-group p2">
+        <rect x="322" y="78" width="52" height="26" rx="3" class="plug-body"/>
+        <rect x="321" y="86" width="5" height="10" class="plug-bolt b2"/>
+        <text x="348" y="95" text-anchor="middle" class="plug-label">AUTODESK</text>
+      </g>
+
+      <!-- P3 bottom-left : GMAIL -->
+      <g class="plug-group p3">
+        <rect x="66" y="214" width="52" height="26" rx="3" class="plug-body"/>
+        <rect x="114" y="222" width="5" height="10" class="plug-bolt b3"/>
+        <text x="92" y="231" text-anchor="middle" class="plug-label">GMAIL</text>
+      </g>
+
+      <!-- P4 bottom-right : DOCUSIGN -->
+      <g class="plug-group p4">
+        <rect x="322" y="214" width="52" height="26" rx="3" class="plug-body lit"/>
+        <rect x="321" y="222" width="5" height="10" class="plug-bolt b4"/>
+        <text x="348" y="231" text-anchor="middle" class="plug-label lit">DOCUSIGN</text>
+      </g>
+
+      <!-- ─── Plug part numbers (engineering drawing style) ─── -->
+      <text x="92" y="68" text-anchor="middle" class="anno-text anno-dim" font-size="7.5">P-01 · CONSTRUCTION OPS</text>
+      <text x="348" y="68" text-anchor="middle" class="anno-text anno-dim" font-size="7.5">P-02 · DESIGN AUTH</text>
+      <text x="92" y="256" text-anchor="middle" class="anno-text anno-dim" font-size="7.5">P-03 · COMMS</text>
+      <text x="348" y="256" text-anchor="middle" class="anno-text anno-dim" font-size="7.5">P-04 · CONTRACTS</text>
+
+      <!-- Scale notation bottom-left -->
+      <text x="20" y="304" class="anno-text anno-dim" font-size="8">FIG 11 · USB-C PATTERN · SCALE 1:1</text>
+      <!-- Revision tag bottom-right -->
+      <text x="420" y="304" text-anchor="end" class="anno-text anno-dim" font-size="8">REV · A</text>
+
+    </svg>
+  </div>
+
+  <div class="schem-caption">
+    <span>Every tool your firm runs plugs into <strong>one hub</strong>. Agents pull and push through the same port.</span>
+    <code>4-PORT BUS</code>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="legend-item"><span class="dot orange"></span>Active integration</span>
+  <span class="legend-item"><span class="dot cyan"></span>Available plug</span>
+  <span class="legend-item"><span class="dot dim"></span>Dimension reference</span>
+</div>
+
+</body>
+</html>

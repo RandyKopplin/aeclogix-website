@@ -3,47 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AECLogix — Automation Agents for AEC Firms</title>
-  <meta name="description" content="AECLogix builds automation agents exclusively for architecture, engineering, and construction firms. Flagship product: COI Autopilot — live in 30 days, $2,500 one-time, no retainer.">
-  <link rel="canonical" href="https://aeclogix.com/">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72'><path d='M36 6 L62 21 L62 51 L36 66 L10 51 L10 21 Z' stroke='white' stroke-width='4' fill='%230a0a0a'/><polygon points='28,29 28,43 40,36' fill='%23f79546'/></svg>">
-
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://aeclogix.com/">
-  <meta property="og:title" content="AECLogix — Automation Agents for AEC Firms">
-  <meta property="og:description" content="Automation agents built exclusively for architecture, engineering, and construction firms. Flagship: COI Autopilot — live in 30 days, $2,500 one-time, no retainer.">
-  <meta property="og:image" content="https://aeclogix.com/images/coi-autopilot-dashboard.png">
-  <meta property="og:image:alt" content="COI Autopilot compliance dashboard — vendor statuses, KPIs, and recent activity">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AECLogix — Automation Agents for AEC Firms">
-  <meta name="twitter:description" content="Automation agents built exclusively for AEC firms. Flagship: COI Autopilot — live in 30 days, $2,500 one-time.">
-  <meta name="twitter:image" content="https://aeclogix.com/images/coi-autopilot-dashboard.png">
-
+  <title>AECLogix — Automation Agency for AEC Firms</title>
+  <meta name="description" content="AECLogix is an automation agency for architecture, engineering, and construction firms. Flagship: COI Autopilot — the 27-check COI verification system, run for you, live in 30 days.">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow:wght@700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --orange: #f79546;
-      --orange-04: rgba(247, 149, 70, 0.035);
-      --orange-06: rgba(247, 149, 70, 0.06);
-      --orange-07: rgba(247, 149, 70, 0.07);
-      --orange-08: rgba(247, 149, 70, 0.08);
-      --orange-10: rgba(247, 149, 70, 0.1);
-      --orange-15: rgba(247, 149, 70, 0.15);
-      --orange-25: rgba(247, 149, 70, 0.25);
-      --orange-30: rgba(247, 149, 70, 0.3);
-      --orange-35: rgba(247, 149, 70, 0.35);
-      --orange-50: rgba(247, 149, 70, 0.5);
       --black: #0a0a0a;
       --dark: #111111;
       --card: #161616;
       --card-raised: #1c1c1c;
       --border: rgba(255,255,255,0.07);
-      --border-warm: var(--orange-30);
+      --border-warm: rgba(247,149,70,0.3);
       --white: #ffffff;
-      --muted: rgba(255,255,255,0.55);
+      --muted: rgba(255,255,255,0.45);
       --text: rgba(255,255,255,0.82);
     }
 
@@ -63,8 +38,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(var(--orange-04) 1px, transparent 1px),
-        linear-gradient(90deg, var(--orange-04) 1px, transparent 1px);
+        linear-gradient(rgba(247,149,70,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(247,149,70,0.035) 1px, transparent 1px);
       background-size: 52px 52px;
       pointer-events: none;
       z-index: 0;
@@ -92,9 +67,7 @@
     }
     .nav-brand span { color: var(--orange); }
     .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      min-height: 44px;
+      display: inline-block;
       background: var(--orange);
       color: var(--black);
       font-size: 0.78rem;
@@ -123,7 +96,7 @@
       top: -10%; left: 50%;
       transform: translateX(-50%);
       width: 700px; height: 700px;
-      background: radial-gradient(circle, var(--orange-10) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(247,149,70,0.1) 0%, transparent 65%);
       pointer-events: none;
     }
     .hero-inner { position: relative; z-index: 2; max-width: 760px; }
@@ -131,11 +104,11 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: var(--orange-10);
-      border: 1px solid var(--orange-25);
+      background: rgba(247,149,70,0.1);
+      border: 1px solid rgba(247,149,70,0.25);
       border-radius: 2px;
       padding: 0.35rem 0.9rem;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 500;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -148,7 +121,7 @@
       width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--orange);
-      animation: pulse 2s ease 5;
+      animation: pulse 2s ease infinite;
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; }
@@ -191,7 +164,7 @@
       padding: 0.55rem 1rem;
       border: 1px solid var(--border-warm);
       border-radius: 3px;
-      background: var(--orange-06);
+      background: rgba(247,149,70,0.06);
       opacity: 0;
       animation: fadeUp 0.7s ease forwards 0.5s;
     }
@@ -225,10 +198,8 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       text-decoration: none;
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      min-height: 44px;
-      padding: 0 0.25rem;
       gap: 0.5rem;
       transition: color 0.2s;
     }
@@ -263,7 +234,7 @@
 
     /* SECTION HEADERS */
     .section-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 500;
       letter-spacing: 0.22em;
       text-transform: uppercase;
@@ -310,7 +281,7 @@
       color: var(--text);
       transition: border-color 0.2s;
     }
-    .problem-list li:hover { border-color: var(--orange-30); }
+    .problem-list li:hover { border-color: rgba(247,149,70,0.3); }
     .problem-icon {
       width: 20px; height: 20px;
       flex-shrink: 0;
@@ -363,7 +334,7 @@
       transition: border-color 0.25s, transform 0.25s;
       position: relative;
     }
-    .service-card:hover { border-color: var(--orange-35); transform: translateY(-3px); }
+    .service-card:hover { border-color: rgba(247,149,70,0.35); transform: translateY(-3px); }
     .service-card.featured {
       border-color: var(--border-warm);
       background: linear-gradient(160deg, var(--card-raised) 0%, var(--card) 100%);
@@ -375,7 +346,7 @@
       left: 2rem;
       font-family: 'Barlow', sans-serif;
       font-weight: 800;
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       letter-spacing: 0.18em;
       color: var(--black);
       background: var(--orange);
@@ -385,14 +356,14 @@
     .service-num {
       font-family: 'Barlow', sans-serif;
       font-weight: 800;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       letter-spacing: 0.16em;
       color: var(--orange);
       opacity: 0.6;
     }
     .service-icon {
       width: 44px; height: 44px;
-      background: var(--orange-10);
+      background: rgba(247,149,70,0.1);
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -420,13 +391,11 @@
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      min-height: 44px;
-      padding: 0.5rem 0;
       gap: 0.4rem;
       transition: gap 0.2s;
     }
     .service-link:hover { gap: 0.65rem; }
-    .service-tag { display: inline-block; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .service-tag { display: inline-block; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 
     /* COI AUTOPILOT */
     #coi-autopilot { padding: 7rem 0; position: relative; }
@@ -434,7 +403,7 @@
       position: absolute;
       top: 20%; right: -10%;
       width: 600px; height: 600px;
-      background: radial-gradient(circle, var(--orange-07) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(247,149,70,0.07) 0%, transparent 65%);
       pointer-events: none;
     }
     .autopilot-header { margin-bottom: 4rem; position: relative; z-index: 2; }
@@ -454,7 +423,7 @@
       padding: 2.2rem;
     }
     .card-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -481,7 +450,7 @@
       flex-shrink: 0;
       margin-top: 1px;
       border-radius: 50%;
-      background: var(--orange-15);
+      background: rgba(247,149,70,0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -599,7 +568,7 @@
     }
     .showcase-caption { padding: 1rem 1.3rem 1.2rem; }
     .showcase-eyebrow {
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       font-weight: 500;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -621,21 +590,17 @@
     .bonuses-header p { font-size: 0.95rem; color: var(--muted); max-width: 540px; margin: 0 auto; }
     .bonuses-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1rem;
       margin-bottom: 5rem;
       position: relative;
       z-index: 2;
     }
-    @media (max-width: 1000px) {
-      .bonuses-grid { grid-template-columns: repeat(3, 1fr); }
-      .bonus-card:nth-child(4) { grid-column: 1 / 2; }
-      .bonus-card:nth-child(5) { grid-column: 2 / 4; }
+    @media (max-width: 980px) {
+      .bonuses-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 700px) {
+    @media (max-width: 560px) {
       .bonuses-grid { grid-template-columns: 1fr; }
-      .bonus-card:nth-child(4),
-      .bonus-card:nth-child(5) { grid-column: auto; }
     }
     .bonus-card {
       background: var(--card);
@@ -646,7 +611,7 @@
       flex-direction: column;
       gap: 0.6rem;
     }
-    .bonus-num { font-family: 'Barlow', sans-serif; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.14em; color: var(--orange); }
+    .bonus-num { font-family: 'Barlow', sans-serif; font-weight: 800; font-size: 0.7rem; letter-spacing: 0.14em; color: var(--orange); }
     .bonus-card h4 { font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white); line-height: 1.3; }
     .bonus-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
 
@@ -674,7 +639,7 @@
     }
     .guarantee-icon {
       width: 52px; height: 52px;
-      background: var(--orange-10);
+      background: rgba(247,149,70,0.1);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -729,7 +694,7 @@
     }
     .credential-icon {
       width: 40px; height: 40px;
-      background: var(--orange-10);
+      background: rgba(247,149,70,0.1);
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -775,8 +740,8 @@
       padding: 2rem;
     }
     .mailerlite-form-wrapper .form-note { margin-top: 1rem; font-size: 0.76rem; color: var(--muted); }
-    .lead-form { display: flex; flex-direction: column; gap: 1rem; }
-    .lead-form input {
+    .placeholder-form { display: flex; flex-direction: column; gap: 1rem; }
+    .placeholder-form input {
       width: 100%;
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
@@ -788,9 +753,9 @@
       outline: none;
       transition: border-color 0.2s;
     }
-    .lead-form input:focus { border-color: var(--orange-50); }
-    .lead-form input::placeholder { color: rgba(255,255,255,0.55); }
-    .lead-form button {
+    .placeholder-form input:focus { border-color: rgba(247,149,70,0.5); }
+    .placeholder-form input::placeholder { color: rgba(255,255,255,0.25); }
+    .placeholder-form button {
       width: 100%;
       background: var(--orange);
       border: none;
@@ -805,31 +770,7 @@
       cursor: pointer;
       transition: opacity 0.2s;
     }
-    .lead-form button:hover { opacity: 0.85; }
-    .lead-form button[disabled] { opacity: 0.55; cursor: wait; }
-    .lead-form input[aria-invalid="true"] { border-color: #ff6b6b; }
-    .lead-form-error {
-      font-size: 0.85rem;
-      color: #ff6b6b;
-      margin-top: 0.25rem;
-    }
-    .lead-form-success {
-      text-align: center;
-      padding: 0.5rem 0;
-    }
-    .lead-form-success h4 {
-      font-family: 'Barlow', sans-serif;
-      font-weight: 800;
-      font-size: 1.5rem;
-      color: var(--white);
-      margin-bottom: 0.6rem;
-    }
-    .lead-form-success p {
-      font-size: 0.95rem;
-      color: var(--text);
-      line-height: 1.6;
-    }
-    [hidden] { display: none !important; }
+    .placeholder-form button:hover { opacity: 0.85; }
 
     /* CONTACT */
     #contact { padding: 7rem 0; position: relative; }
@@ -838,7 +779,7 @@
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 500px; height: 500px;
-      background: radial-gradient(circle, var(--orange-08) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(247,149,70,0.08) 0%, transparent 65%);
       pointer-events: none;
     }
     .contact-inner { max-width: 640px; position: relative; z-index: 2; }
@@ -878,64 +819,13 @@
     }
     .footer-left { font-size: 0.78rem; color: var(--muted); }
     .footer-right { display: flex; gap: 1.5rem; }
-    .footer-right a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; padding: 0.5rem 0; display: inline-flex; align-items: center; min-height: 44px; }
+    .footer-right a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .footer-right a:hover { color: var(--orange); }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-
-    a:focus-visible,
-    button:focus-visible {
-      outline: 2px solid var(--orange);
-      outline-offset: 3px;
-      border-radius: 3px;
-    }
-
-    .skip-link {
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: var(--orange);
-      color: var(--black);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 0.75rem 1.25rem;
-      border-radius: 0 0 4px 0;
-      z-index: 1000;
-      transform: translateY(-100%);
-      transition: transform 0.15s ease;
-    }
-    .skip-link:focus-visible {
-      transform: translateY(0);
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-
     .fade-in {
       opacity: 0;
       transform: translateY(24px);
@@ -967,24 +857,13 @@
 </head>
 <body>
 
-  <a href="#main" class="skip-link">Skip to main content</a>
-
-  <nav aria-label="Primary">
+  <nav>
     <a href="#hero" class="nav-logo">
-      <svg aria-hidden="true" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M36 6 L62 21 L62 51 L36 66 L10 51 L10 21 Z" stroke="white" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-        <line x1="10" y1="36" x2="24" y2="36" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="24" cy="36" r="3" fill="white"/>
-        <line x1="48" y1="36" x2="62" y2="36" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="48" cy="36" r="3" fill="white"/>
-        <polygon points="28,29 28,43 40,36" fill="#f79546"/>
-      </svg>
+      <img src="/images/aeclogix-logo.png" alt="AECLogix" width="36" height="36">
       <span class="nav-brand">AEC<span>Logix</span></span>
     </a>
     <a href="#contact" class="nav-cta">Book Scoping Call</a>
   </nav>
-
-  <main id="main">
 
   <!-- HERO -->
   <section id="hero">
@@ -993,19 +872,19 @@
       <div class="hero-inner">
         <div class="hero-tag">
           <div class="hero-tag-dot"></div>
-          Automation as a Service for AEC
+          Automation Agency for AEC
         </div>
-        <h1>Stop Paying Architects<br>to Do <em>Data Entry</em></h1>
-        <p class="hero-sub">AECLogix builds automation agents exclusively for architecture, engineering, and construction firms. Fixed scope. Fixed price. Live in 30 days.</p>
+        <h1>The Automation Agency<br>for <em>AEC Firms</em></h1>
+        <p class="hero-sub">AECLogix is an automation agency working exclusively with architecture, engineering, and construction firms. Flagship: COI Autopilot — the 27-check COI verification system, run for you. Tiered subscription. Live in 30 days.</p>
         <div class="hero-promise">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9"/></svg>
-          Live in 30 days — or you don't pay
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9"/></svg>
+          27 checks · 8 phases · live in 30 days
         </div>
         <div class="hero-actions">
           <a href="#contact" class="btn-primary">Book Scoping Call</a>
           <a href="#coi-autopilot" class="hero-scroll">
             See Our Flagship
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
           </a>
         </div>
       </div>
@@ -1035,24 +914,24 @@
     <div class="container">
       <p class="section-label fade-in">The Problem</p>
       <h2 class="fade-in">Your Best People Are Buried<br>in <em>Work a System Should Handle</em></h2>
-      <p class="section-sub fade-in">After 50 years inside AEC firms, the same inefficiencies show up everywhere. Talented professionals doing work that adds no billable value.</p>
+      <p class="section-sub fade-in">After over 50 years inside AEC firms, the same inefficiencies show up everywhere. Talented professionals doing work that adds no billable value.</p>
 
       <div class="problem-grid">
         <ul class="problem-list">
           <li class="fade-in">
-            <svg class="problem-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Chasing contractors for expired insurance certificates every project cycle
           </li>
           <li class="fade-in">
-            <svg class="problem-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Logging RFIs and submittals manually into spreadsheets on every project
           </li>
           <li class="fade-in">
-            <svg class="problem-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Writing, formatting, and emailing project status reports by hand each week
           </li>
           <li class="fade-in">
-            <svg class="problem-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Principals spending billable hours on administrative tasks instead of design
           </li>
         </ul>
@@ -1074,20 +953,20 @@
     <div class="container">
       <div class="services-header">
         <p class="section-label fade-in">What We Automate</p>
-        <h2 class="fade-in">Three Agents, One Promise:<br><em>Live in 30 Days</em></h2>
-        <p class="section-sub fade-in">Each agent is built specifically for AEC workflows. One is productized at a fixed price. The other two are custom-scoped to your firm.</p>
+        <h2 class="fade-in">Three Automations, Built for<br><em>AEC Workflows</em></h2>
+        <p class="section-sub fade-in">Each automation is built specifically for AEC workflows. COI Autopilot is our flagship — productized as a tiered subscription. The other two are custom-scoped to your firm.</p>
       </div>
 
       <div class="services-grid">
         <div class="service-card featured fade-in">
           <div class="service-num">01</div>
           <div class="service-icon">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.51 0 2.93.37 4.18 1.03"/><path d="M21 3l-9 9"/><path d="M15 3h6v6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.51 0 2.93.37 4.18 1.03"/><path d="M21 3l-9 9"/><path d="M15 3h6v6"/></svg>
           </div>
           <h3>COI Autopilot</h3>
-          <p>Replaces your Certificate of Insurance tracking spreadsheet with an automated system. Branded intake form, expiry extraction, 3-stage reminders, live compliance dashboard. You own it. No monthly SaaS fee.</p>
+          <p>The 27-check COI verification system, run for you. AECLogix runs the function — automation handles the work, we handle exceptions, your COI clerk handles only escalation calls. Live in 30 days.</p>
           <div class="service-meta">
-            <div class="service-price">$2,500 <span>/ one-time</span></div>
+            <div class="service-price">From $650<span>/mo + setup</span></div>
             <a href="#coi-autopilot" class="service-link">See the Offer →</a>
           </div>
         </div>
@@ -1095,7 +974,7 @@
         <div class="service-card fade-in">
           <div class="service-num">02</div>
           <div class="service-icon">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           </div>
           <h3>Automated Project Status Reports</h3>
           <p>Pulls data from your existing project management tools and generates formatted status reports automatically. Distributes to your client list on schedule. No typing, no chasing team members for updates.</p>
@@ -1108,10 +987,10 @@
         <div class="service-card fade-in">
           <div class="service-num">03</div>
           <div class="service-icon">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
-          <h3>RFI &amp; Submittal Tracking Agent</h3>
-          <p>Captures incoming RFIs and submittals, assigns tracking numbers, logs status, and sends automated follow-up reminders to contractors when responses are overdue. Eliminates the spreadsheet entirely.</p>
+          <h3>RFI &amp; Submittal Tracking Automation</h3>
+          <p>Captures incoming RFIs and submittals, assigns tracking numbers, logs status, and sends automated follow-up reminders to contractors when responses are overdue. Replaces the manual spreadsheet workflow.</p>
           <div class="service-meta">
             <span class="service-tag">Custom Scope</span>
             <a href="#contact" class="service-link">Request Scope →</a>
@@ -1128,41 +1007,45 @@
 
       <div class="autopilot-header">
         <p class="section-label fade-in">Flagship Product</p>
-        <h2 class="fade-in">COI Autopilot — <em>The Zero-Lapse System</em></h2>
-        <p class="section-sub fade-in">In 30 days we pull your COI tracking out of spreadsheets and onto an automated system you own — branded to your firm, no monthly SaaS bill, no vendor lock-in.</p>
+        <h2 class="fade-in">COI Autopilot — <em>27 Checks. 8 Phases. Run for You.</em></h2>
+        <p class="section-sub fade-in">AECLogix runs your subcontractor COI verification function end-to-end. The automation does the work. We handle the exceptions. Your COI clerk handles escalation calls only.</p>
       </div>
 
       <div class="product-grid">
         <div class="deliverables-card fade-in">
-          <p class="card-label">What You Get in 30 Days</p>
-          <h3>A complete COI system, built and handed off.</h3>
+          <p class="card-label">What You Get</p>
+          <h3>The COI verification function, run for you.</h3>
           <ul class="deliverables-list">
-            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Branded vendor intake form</li>
-            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Automated expiry extraction pipeline</li>
-            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>3-stage reminder email sequences</li>
-            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Live compliance dashboard</li>
-            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>PM alerts for non-compliant vendors</li>
-            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Team training and walkthrough</li>
-            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>30 days of post-launch support</li>
-            <li><span class="check-icon"><svg aria-hidden="true" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Source files, SOP, full handoff</li>
+            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>27-check verification on every active sub</li>
+            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>8-phase processing on every COI</li>
+            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Endorsement verification (CG 20 10, CG 20 37, waiver of subrogation)</li>
+            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Automated chase sequence (4 to 6 attempts)</li>
+            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>AECLogix-run exception layer</li>
+            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Compliance dashboard for owners and bonding agents</li>
+            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Escalation tooling for your COI clerk</li>
+            <li><span class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Monthly executive compliance report</li>
           </ul>
         </div>
 
         <div class="price-card fade-in">
           <div>
-            <p class="price-note-top">One-Time Setup Fee</p>
-            <div class="price-big">$2,500</div>
-            <ul class="price-includes">
-              <li>Live in 30 days</li>
-              <li>Up to 200 vendors</li>
-              <li>No retainer, no monthly fee</li>
-              <li>You own the system forever</li>
-            </ul>
+            <p class="price-note-top">Tiered Subscription</p>
+            <div class="price-big">Starting at $650<span style="font-size:1.6rem; font-weight:700; color: var(--muted);">/mo + setup</span></div>
+            <p style="font-size: 0.95rem; color: var(--text); line-height: 1.6; margin-top: 1rem;">Tiered subscription based on active subcontractor count. <a href="/pricing" style="color: var(--orange); text-decoration: none; border-bottom: 1px solid rgba(247,149,70,0.35);">See full pricing →</a></p>
+            <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.8rem;">Annual prepay: 2 months free.</p>
           </div>
           <div>
             <a href="#contact" class="btn-primary-lg">Book Scoping Call</a>
-            <p class="price-post-note">30-minute call. No commitment.</p>
+            <p class="price-post-note">20-minute call. We'll map your tier from active sub count.</p>
           </div>
+        </div>
+      </div>
+
+      <div class="product-grid" style="grid-template-columns: 1fr; margin-bottom: 4rem;">
+        <div class="deliverables-card fade-in" style="border-left: 3px solid var(--orange);">
+          <p class="card-label">The Pricing Pitch</p>
+          <p style="font-size: 1.05rem; color: var(--white); line-height: 1.65; font-style: italic;">"Software flags expired certificates. We run the function. Your COI clerk goes from 10 to 15 hours a week of chasing to 1 to 2 hours of exception handling."</p>
+          <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-top: 1rem;">Internal COI clerk time replaced: <strong style="color: var(--white); font-weight: 500;">$1,200 to $2,800 per month</strong>. Catastrophic claim range when an expired COI is on file: <strong style="color: var(--white); font-weight: 500;">$50,000 to $500,000</strong>.</p>
         </div>
       </div>
 
@@ -1214,71 +1097,37 @@
       </div>
 
       <div class="bonuses-header fade-in">
-        <h3>Plus 5 Bonuses When You <em>Act This Month</em></h3>
-        <p>Each bonus kills a specific objection — and costs nothing extra.</p>
+        <h3>Who This <em>Is For</em></h3>
+        <p>The fit profile we're built around.</p>
       </div>
 
       <div class="bonuses-grid">
         <div class="bonus-card fade-in">
-          <div class="bonus-num">BONUS 01</div>
-          <h4>Compliance Gap Audit</h4>
-          <p>Delivered in 72 hours. We pull your current vendor list and flag every expired or missing COI before Week 1 ends.</p>
+          <div class="bonus-num">FIRM SIZE</div>
+          <h4>Mid-size GCs</h4>
+          <p>$2M to $25M annual billings. 8 to 50 active subs at a time on average. Tier scales up from there.</p>
         </div>
         <div class="bonus-card fade-in">
-          <div class="bonus-num">BONUS 02</div>
-          <h4>Vendor Outreach Swipe File</h4>
-          <p>Battle-tested email templates for requesting COIs, following up, and handling pushback from difficult vendors.</p>
+          <div class="bonus-num">CURRENT STATE</div>
+          <h4>Spreadsheet or burned-out SaaS</h4>
+          <p>Still running COI tracking in a spreadsheet, or rolled out myCOI / TrustLayer and walked away from it.</p>
         </div>
         <div class="bonus-card fade-in">
-          <div class="bonus-num">BONUS 03</div>
-          <h4>AEC Compliance Playbook</h4>
-          <p>One-page reference on what every AEC firm should be collecting beyond COIs: W-9s, endorsements, additional-insured certs, waivers.</p>
+          <div class="bonus-num">THE FRIDAY CHASE</div>
+          <h4>One person owning it</h4>
+          <p>An office manager, risk lead, or controller spending 10 to 15 hours a week chasing certs, logging replies, and fielding "is this sub compliant?" calls.</p>
         </div>
         <div class="bonus-card fade-in">
-          <div class="bonus-num">BONUS 04</div>
-          <h4>Lifetime Broken-Automation Clause</h4>
-          <p>If an upstream tool (Gmail, Forms, etc.) ever changes and breaks the build, we fix it free. Forever. Nobody else offers this.</p>
-        </div>
-        <div class="bonus-card fade-in">
-          <div class="bonus-num">BONUS 05</div>
-          <h4>Executive Compliance Report</h4>
-          <p>Monthly one-click PDF showing compliance rate, upcoming expiries, and trend. Forwardable to owners, insurers, bonding agents.</p>
-        </div>
-      </div>
-
-      <div class="guarantees-header fade-in">
-        <h3>Three Guarantees <em>Protect You</em></h3>
-        <p>No fine print. No clawbacks. No conditional language.</p>
-      </div>
-
-      <div class="guarantees-grid">
-        <div class="guarantee-card fade-in">
-          <div class="guarantee-icon">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <h4>Live in 30 Days</h4>
-          <p>If the system isn't live, running, and your team trained by day 30, you owe us nothing. No prorating.</p>
-        </div>
-        <div class="guarantee-card fade-in">
-          <div class="guarantee-icon">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L3 6 v6 c0 5 3.5 9.5 9 11 5.5-1.5 9-6 9-11 V6 L12 2z"/></svg>
-          </div>
-          <h4>90-Day Zero-Lapse Promise</h4>
-          <p>If any vendor COI expires in the first 90 days without the system catching it 30 days in advance, full refund.</p>
-        </div>
-        <div class="guarantee-card fade-in">
-          <div class="guarantee-icon">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1 L15 8 L22 9 L17 14 L18.5 21 L12 17.5 L5.5 21 L7 14 L2 9 L9 8 Z"/></svg>
-          </div>
-          <h4>Day-30 No-Brainer</h4>
-          <p>If it doesn't feel like a no-brainer on day 30, we refund 100% plus $500 for your time in discovery.</p>
+          <div class="bonus-num">NOT FOR</div>
+          <h4>Under 10 active subs</h4>
+          <p>If you have under 10 subs, the manual approach is still cheaper for you. We'll tell you straight on the call.</p>
         </div>
       </div>
 
       <div class="autopilot-close fade-in">
         <div class="autopilot-close-text">
-          <h3>Most firms pay <em>$5K–$30K/year</em> for SaaS that still needs babysitting.</h3>
-          <p>You'll pay a fraction of that, once, and own the system forever. Book a 30-minute scoping call — if COI Autopilot isn't the right fit, I'll tell you straight.</p>
+          <h3>The clerk goes from <em>10 to 15 hours/week</em> of chasing to 1 to 2 hours of exception handling.</h3>
+          <p>Software flags expired certificates. We run the function. Book a 20-minute scoping call — we'll map your tier from active sub count and tell you straight if COI Autopilot is the right fit.</p>
         </div>
         <a href="#contact" class="btn-primary-lg">Book Scoping Call</a>
       </div>
@@ -1294,16 +1143,16 @@
 
       <div class="about-grid">
         <div class="about-text fade-in">
-          <p>AECLogix was founded by <strong>Randy Kopplin</strong>, a 50-year veteran of the architecture, engineering, and construction industry.</p>
+          <p>AECLogix was founded by <strong>Randy Kopplin</strong>, a 50+ year veteran of the architecture, engineering, and construction industry.</p>
           <p>Unlike general automation agencies that learn your industry on your dime, AECLogix comes with deep knowledge of how AEC firms actually operate. The workflows, the bottlenecks, the tools, and the people.</p>
           <p>That experience is the foundation of every automation we build. We know where the time is being wasted because we watched it happen for five decades.</p>
-          <p>AECLogix is an <strong>Automation as a Service agency</strong> built exclusively for AEC firms. Fixed scope. Fixed price. Live in 30 days — or you don't pay.</p>
+          <p>AECLogix is an <strong>automation agency for AEC firms</strong>, built on a software-with-services model. We don't sell another platform for your team to administer. We run the function — automation does the work, AECLogix handles the exceptions, your team handles only escalation.</p>
         </div>
 
         <div class="about-credentials fade-in">
           <div class="credential">
             <div class="credential-icon">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
             </div>
             <div class="credential-text">
               <strong>50 Years in AEC</strong>
@@ -1312,16 +1161,16 @@
           </div>
           <div class="credential">
             <div class="credential-icon">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             </div>
             <div class="credential-text">
-              <strong>Fixed Scope, Fixed Price</strong>
-              <span>No scope creep, no hourly billing, no open-ended engagements</span>
+              <strong>Software-with-Services</strong>
+              <span>Tiered subscription. Automation runs the work. We staff the exception layer.</span>
             </div>
           </div>
           <div class="credential">
             <div class="credential-icon">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
             <div class="credential-text">
               <strong>AEC Exclusive</strong>
@@ -1330,15 +1179,17 @@
           </div>
           <div class="credential">
             <div class="credential-icon">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
             <div class="credential-text">
-              <strong>30-Day Delivery Guarantee</strong>
-              <span>Live system in 30 days of kickoff — or you don't pay</span>
+              <strong>Live in 30 Days</strong>
+              <span>Time-to-go-live, not delivered-and-walks-away. Subscription begins at go-live.</span>
             </div>
           </div>
         </div>
       </div>
+
+      <p class="fade-in" style="margin-top: 2.5rem; font-size: 0.85rem; letter-spacing: 0.06em;"><a href="/about" style="color: var(--orange); text-decoration: none; text-transform: uppercase; font-weight: 600;">Read more about us &rarr;</a></p>
     </div>
   </section>
 
@@ -1347,37 +1198,82 @@
     <div class="container">
       <div class="lead-capture-inner">
         <p class="lead-capture-eyebrow fade-in">Not Ready to Book?</p>
-        <h3 class="fade-in">Grab the Free Guide:<br><em>5 Automations Every AEC Firm Should Have</em></h3>
-        <p class="lead-capture-sub fade-in">Includes the AEC Time Audit Worksheet so you can calculate exactly what manual work is costing your firm every year. Takes 10 minutes.</p>
+        <h3 class="fade-in">Grab the Free Guide:<br><em>The 27-Point COI Verification Checklist</em></h3>
+        <p class="lead-capture-sub fade-in">27 checks. 8 phases. 6 minutes per cert when done right. Use it on every incoming COI to keep uninsured subs off your jobsite — and off your balance sheet.</p>
 
         <div class="mailerlite-form-wrapper fade-in">
 
-          <form id="lead-form" class="lead-form" novalidate
-                action="https://assets.mailerlite.com/jsonp/2274882/forms/184999860958659867/subscribe"
-                method="post"
-                target="_blank">
-            <label for="lc-name" class="sr-only">Your first name</label>
-            <input id="lc-name" name="fields[name]" type="text"
-                   placeholder="Your First Name" autocomplete="given-name">
+          <!-- MailerLite Embedded Form -->
+          <style type="text/css">@import url("https://assets.mlcdn.com/fonts.css?version=1776073");</style>
+          <style type="text/css">
+            .ml-form-embedSubmitLoad { display: inline-block; width: 20px; height: 20px; }
+            .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+            .ml-form-embedSubmitLoad:after { content: " "; display: block; width: 11px; height: 11px; margin: 1px; border-radius: 50%; border: 4px solid #fff; border-color: #ffffff #ffffff #ffffff transparent; animation: ml-form-embedSubmitLoad 1.2s linear infinite; }
+            @keyframes ml-form-embedSubmitLoad { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+            #mlb2-40121645.ml-form-embedContainer { box-sizing: border-box; display: table; margin: 0 auto; position: static; width: 100% !important; }
+            #mlb2-40121645.ml-form-embedContainer h4, #mlb2-40121645.ml-form-embedContainer p, #mlb2-40121645.ml-form-embedContainer span, #mlb2-40121645.ml-form-embedContainer button { text-transform: none !important; letter-spacing: normal !important; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper { background-color: transparent; border-width: 0px; border-color: transparent; border-radius: 4px; border-style: solid; box-sizing: border-box; display: inline-block !important; margin: 0; padding: 0; position: relative; width: 100%; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper.embedForm { max-width: 100%; width: 100%; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-align-center { text-align: center; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody, #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody { padding: 0; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody form { margin: 0; width: 100%; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-formContent { margin: 0 0 12px 0; width: 100%; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow { margin: 0 0 10px 0; width: 100%; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow.ml-last-item { margin: 0 0 12px 0; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input { background-color: rgba(255,255,255,0.05) !important; color: #ffffff !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px !important; border-style: solid !important; border-width: 1px !important; font-family: 'DM Sans', Arial, Helvetica, sans-serif !important; font-size: 0.95rem !important; line-height: 21px !important; padding: 0.9rem 1.1rem !important; width: 100% !important; box-sizing: border-box !important; outline: none !important; transition: border-color 0.2s; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input:focus { border-color: rgba(247,149,70,0.5) !important; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input::-webkit-input-placeholder { color: rgba(255,255,255,0.25) !important; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input::-moz-placeholder { color: rgba(255,255,255,0.25) !important; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input:-ms-input-placeholder { color: rgba(255,255,255,0.25) !important; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit { margin: 0; float: left; width: 100%; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button { background-color: #f79546 !important; border: none !important; border-radius: 4px !important; box-shadow: none !important; color: #0a0a0a !important; cursor: pointer; font-family: 'DM Sans', Arial, Helvetica, sans-serif !important; font-size: 0.88rem !important; font-weight: 600 !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; line-height: 21px !important; padding: 1rem !important; width: 100% !important; box-sizing: border-box !important; transition: opacity 0.2s; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button:hover { opacity: 0.85; background-color: #f79546 !important; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.loading { display: none; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody .ml-form-successContent h4 { color: #ffffff !important; font-family: 'Barlow', sans-serif !important; font-size: 1.4rem !important; font-weight: 800 !important; margin: 0 0 10px 0 !important; text-align: center !important; }
+            #mlb2-40121645.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody .ml-form-successContent p { color: rgba(255,255,255,0.82) !important; font-family: 'DM Sans', sans-serif !important; font-size: 0.95rem !important; line-height: 1.6 !important; text-align: center !important; }
+            .ml-error input { border-color: #ff5252 !important; }
+          </style>
 
-            <label for="lc-email" class="sr-only">Your email address</label>
-            <input id="lc-email" name="fields[email]" type="email"
-                   placeholder="Your Email Address" autocomplete="email"
-                   required aria-describedby="lead-form-error">
-
-            <input type="hidden" name="ml-submit" value="1">
-            <input type="hidden" name="anticsrf" value="true">
-
-            <button type="submit" id="lead-form-submit">Send Me the Free Guide</button>
-            <p id="lead-form-error" class="lead-form-error" role="alert" aria-live="polite" hidden></p>
-          </form>
-
-          <div id="lead-form-success" class="lead-form-success" role="status" aria-live="polite" hidden>
-            <h4>Thanks!</h4>
-            <p>Your guide is on its way — check your inbox.</p>
+          <div id="mlb2-40121645" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-40121645">
+            <div class="ml-form-align-center">
+              <div class="ml-form-embedWrapper embedForm">
+                <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
+                  <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2274882/forms/185189230500120459/subscribe" data-code="" method="post" target="_blank">
+                    <div class="ml-form-formContent">
+                      <div class="ml-form-fieldRow">
+                        <div class="ml-field-group ml-field-name">
+                          <input aria-label="name" type="text" class="form-control" name="fields[name]" placeholder="Your First Name" autocomplete="given-name">
+                        </div>
+                      </div>
+                      <div class="ml-form-fieldRow ml-last-item">
+                        <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                          <input aria-label="email" aria-required="true" type="email" class="form-control" name="fields[email]" placeholder="Your Email Address" autocomplete="email">
+                        </div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="ml-submit" value="1">
+                    <div class="ml-form-embedSubmit">
+                      <button type="submit" class="primary">Send Me the Checklist</button>
+                      <button disabled="disabled" style="display: none;" type="button" class="loading">
+                        <div class="ml-form-embedSubmitLoad"></div>
+                        <span class="sr-only">Loading...</span>
+                      </button>
+                    </div>
+                    <input type="hidden" name="anticsrf" value="true">
+                  </form>
+                </div>
+                <div class="ml-form-successBody row-success" style="display: none">
+                  <div class="ml-form-successContent">
+                    <h4>Check your email</h4>
+                    <p>Your 27-Point COI Checklist is on its way.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          <!-- /MailerLite Embedded Form -->
 
-          <p class="form-note">No spam. Your guide arrives instantly. Unsubscribe any time.</p>
+          <p class="form-note">Free download. No spam. Unsubscribe any time.</p>
         </div>
       </div>
     </div>
@@ -1390,24 +1286,25 @@
       <div class="contact-inner">
         <p class="section-label fade-in">Book a Call</p>
         <h2 class="fade-in">Ready to Stop Wasting<br><em>Billable Hours</em> on Manual Work?</h2>
-        <p class="section-sub fade-in">30 minutes. No pitch. I'll map your biggest bottleneck, tell you straight if COI Autopilot — or one of the custom agents — can fix it, and what it will cost.</p>
-        <a href="https://calendar.app.google/C9KaGp6mw8AYf7yLA" class="contact-link fade-in" target="_blank" rel="noopener noreferrer">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Book a Meeting with Randy
+        <p class="section-sub fade-in">30 minutes. No pitch. I'll map your biggest bottleneck, tell you straight if COI Autopilot — or a custom automation — can fix it, and what it will cost.</p>
+        <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2vFdG2RMPYGykEpwtzvVupil8ir2G8OPGzlD8G2PTY03CzCwdbQMShgkgpmpQCp59U18257qqQ" class="contact-link fade-in" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book a Scoping Call
         </a>
-        <p class="contact-note fade-in">Prefer email? Reach out directly: <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a></p>
+        <p class="contact-note fade-in">Or reach out directly: <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a></p>
       </div>
     </div>
   </section>
 
-  </main>
-
   <!-- FOOTER -->
   <footer>
-    <div class="footer-left">© 2026 AECLogix. All rights reserved.</div>
+    <div class="footer-left">© 2026 AECLogix, LLC. All rights reserved.</div>
     <div class="footer-right">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/about">About</a>
       <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a>
-      <a href="https://www.linkedin.com/in/randykopplin/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/randykopplin/" target="_blank">LinkedIn</a>
     </div>
   </footer>
 
@@ -1424,111 +1321,16 @@
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 
+  <!-- MailerLite scripts -->
   <script>
-    // Lead capture form — POST to MailerLite via fetch (CORS-allowed)
-    (function () {
-      var form = document.getElementById('lead-form');
-      if (!form) return;
-
-      var successEl = document.getElementById('lead-form-success');
-      var errorEl = document.getElementById('lead-form-error');
-      var submitBtn = document.getElementById('lead-form-submit');
-      var emailInput = document.getElementById('lc-email');
-
-      var SUBMIT_LABEL = submitBtn.textContent;
-      var SENDING_LABEL = 'Sending\u2026';
-      var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      function showError(msg) {
-        errorEl.textContent = msg;
-        errorEl.hidden = false;
-        emailInput.setAttribute('aria-invalid', 'true');
-      }
-
-      function clearError() {
-        errorEl.hidden = true;
-        errorEl.textContent = '';
-        emailInput.removeAttribute('aria-invalid');
-      }
-
-      function setBusy(busy) {
-        submitBtn.disabled = busy;
-        if (busy) {
-          submitBtn.setAttribute('aria-busy', 'true');
-          submitBtn.textContent = SENDING_LABEL;
-        } else {
-          submitBtn.removeAttribute('aria-busy');
-          submitBtn.textContent = SUBMIT_LABEL;
-        }
-      }
-
-      function extractErrorMessage(data) {
-        if (!data) return null;
-        if (data.errors) {
-          var firstKey = Object.keys(data.errors)[0];
-          var firstErr = firstKey ? data.errors[firstKey] : null;
-          if (Array.isArray(firstErr) && firstErr[0]) return firstErr[0];
-          if (typeof firstErr === 'string') return firstErr;
-        }
-        if (data.message) return data.message;
-        return null;
-      }
-
-      emailInput.addEventListener('input', clearError);
-
-      form.addEventListener('submit', function (ev) {
-        ev.preventDefault();
-        clearError();
-
-        var email = emailInput.value.trim();
-        if (!email || !EMAIL_RE.test(email)) {
-          showError('Please enter a valid email address.');
-          emailInput.focus();
-          return;
-        }
-
-        setBusy(true);
-
-        var controller = new AbortController();
-        var timer = setTimeout(function () { controller.abort(); }, 10000);
-
-        function fail(msg) {
-          clearTimeout(timer);
-          setBusy(false);
-          showError(msg);
-        }
-
-        function succeed() {
-          clearTimeout(timer);
-          form.hidden = true;
-          successEl.hidden = false;
-          successEl.setAttribute('tabindex', '-1');
-          successEl.focus();
-        }
-
-        fetch(form.action, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-          body: new URLSearchParams(new FormData(form)).toString(),
-          signal: controller.signal,
-          credentials: 'omit'
-        })
-        .then(function (res) {
-          return res.json().catch(function () { return null; }).then(function (data) {
-            if (res.ok && data && data.success) {
-              succeed();
-            } else {
-              fail(extractErrorMessage(data) || 'Something went wrong. Please try again.');
-            }
-          });
-        })
-        .catch(function (err) {
-          if (err && err.name === 'AbortError') fail('Request timed out. Please try again.');
-          else fail('Network error. Please try again.');
-        });
-      });
-    })();
+    function ml_webform_success_40121645() {
+      var $ = ml_jQuery || jQuery;
+      $('.ml-subscribe-form-40121645 .row-success').show();
+      $('.ml-subscribe-form-40121645 .row-form').hide();
+    }
   </script>
+  <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v95037e5bac78f29ed026832ca21a7c7b" type="text/javascript"></script>
+  <script>fetch("https://assets.mailerlite.com/jsonp/2274882/forms/185189230500120459/takel")</script>
 
 </body>
 </html>

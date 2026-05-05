@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COI Autopilot Pricing | AECLogix</title>
+  <meta name="description" content="COI Autopilot pricing. Tiered subscription based on active subcontractor count. Setup fee plus monthly. Live in 30 days.">
+  <meta property="og:title" content="COI Autopilot Pricing | AECLogix">
+  <meta property="og:description" content="Tiered subscription based on active subcontractor count. Setup fee plus monthly. Live in 30 days.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aeclogix.com/pricing/">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #f79546;
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #161616;
+      --card-raised: #1c1c1c;
+      --border: rgba(255,255,255,0.07);
+      --border-warm: rgba(247,149,70,0.3);
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.45);
+      --text: rgba(255,255,255,0.82);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(247,149,70,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(247,149,70,0.035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5vw;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .nav-logo svg { width: 36px; height: 36px; }
+    .nav-brand {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+    .nav-brand span { color: var(--orange); }
+    .nav-cta {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--black);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 3px;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 5vw; }
+
+    /* HERO */
+    #hero {
+      padding: 9rem 0 4rem;
+      position: relative;
+    }
+    .hero-glow {
+      position: absolute;
+      top: -10%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(247,149,70,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 2; max-width: 720px; }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(247,149,70,0.1);
+      border: 1px solid rgba(247,149,70,0.25);
+      border-radius: 2px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.1s;
+    }
+    .hero-tag-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    h1 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.25s;
+    }
+    h1 em, h2 em, h3 em { font-style: normal; color: var(--orange); }
+    .hero-sub {
+      font-size: 1.12rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 640px;
+      line-height: 1.75;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.4s;
+    }
+
+    /* SECTION HEADERS */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+    }
+    h3 { font-family: 'Barlow', sans-serif; font-weight: 700; color: var(--white); }
+    .section-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 640px;
+      line-height: 1.75;
+    }
+
+    /* TIER GRID */
+    #tiers { padding: 5rem 0 4rem; }
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      margin-top: 3rem;
+    }
+    .tier-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.8rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .tier-card:hover { border-color: rgba(247,149,70,0.3); transform: translateY(-2px); }
+    .tier-card.featured {
+      background: linear-gradient(160deg, var(--card-raised) 0%, var(--card) 100%);
+      border-color: var(--border-warm);
+    }
+    .tier-name {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+    }
+    .tier-band {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+    .tier-price {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .tier-price-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+    .tier-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.6rem 0;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+    .tier-row span:first-child { color: var(--muted); }
+    .tier-row span:last-child { color: var(--white); font-weight: 500; }
+    .tier-fya {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .tier-fya strong { display: block; color: var(--orange); font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1.1rem; margin-top: 0.2rem; }
+
+    /* PREPAY BLOCK */
+    .prepay-block {
+      margin-top: 2.5rem;
+      padding: 1.8rem 2rem;
+      background: var(--card);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 4px 4px 0;
+    }
+    .prepay-block h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+    .prepay-block p { font-size: 0.92rem; color: var(--text); line-height: 1.65; }
+
+    /* INCLUDED / NOT INCLUDED */
+    #scope {
+      padding: 6rem 0;
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .scope-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .scope-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .scope-card h3 { font-size: 1.15rem; margin-bottom: 1.2rem; }
+    .scope-card.included { border-color: var(--border-warm); }
+    .scope-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+    .scope-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .scope-icon {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      border-radius: 50%;
+      background: rgba(247,149,70,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .scope-icon svg {
+      width: 11px; height: 11px;
+      stroke: var(--orange);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .scope-icon.x { background: rgba(232,90,90,0.15); }
+    .scope-icon.x svg { stroke: #e85a5a; }
+
+    /* VALUE COMPARISON */
+    #value { padding: 6rem 0; }
+    .value-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      border-left: 3px solid var(--orange);
+      padding: 2.4rem;
+      margin-top: 3rem;
+    }
+    .value-quote {
+      font-size: 1.1rem;
+      color: var(--white);
+      line-height: 1.65;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    .value-anchors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .value-anchor-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+    }
+    .value-anchor-num {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 0.3rem;
+    }
+    .value-anchor-sub { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
+
+    /* DUAL CTA */
+    #cta {
+      padding: 6rem 0;
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .cta-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(247,149,70,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+      position: relative;
+      z-index: 2;
+    }
+    .cta-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2.4rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .cta-card.warm { border-color: var(--border-warm); background: linear-gradient(160deg, var(--card-raised) 0%, var(--card) 100%); }
+    .cta-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.8rem;
+    }
+    .cta-card h3 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+    }
+    .cta-card p { font-size: 0.92rem; color: var(--muted); line-height: 1.65; flex: 1; margin-bottom: 1.5rem; }
+    .cta-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--black);
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 1.6rem;
+      border-radius: 3px;
+      text-align: center;
+      transition: opacity 0.2s;
+    }
+    .cta-btn:hover { opacity: 0.85; }
+    .cta-btn.secondary {
+      background: transparent;
+      color: var(--orange);
+      border: 1px solid var(--border-warm);
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-left { font-size: 0.78rem; color: var(--muted); }
+    .footer-right { display: flex; gap: 1.5rem; }
+    .footer-right a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--orange); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1000px) {
+      .tier-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 800px) {
+      .scope-grid, .cta-grid, .value-anchors { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .tier-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="/images/aeclogix-logo.png" alt="AECLogix" width="36" height="36">
+      <span class="nav-brand">AEC<span>Logix</span></span>
+    </a>
+    <a href="/#contact" class="nav-cta">Book Scoping Call</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-tag">
+          <div class="hero-tag-dot"></div>
+          COI Autopilot · Pricing
+        </div>
+        <h1>COI Autopilot <em>Pricing.</em></h1>
+        <p class="hero-sub">Tiered subscription based on active subcontractor count. Setup fee plus monthly. Live in 30 days.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIERS -->
+  <section id="tiers">
+    <div class="container">
+      <p class="section-label fade-in">The Four Tiers</p>
+      <h2 class="fade-in">Tier is set by your <em>active subcontractor count.</em></h2>
+      <p class="section-sub fade-in">First-year value reflects setup plus 12 months. We'll confirm the right tier on the scoping call.</p>
+
+      <div class="tier-grid">
+        <div class="tier-card fade-in">
+          <div class="tier-name">Tier 1</div>
+          <div class="tier-band">Up to 30 subs</div>
+          <div class="tier-price">$650<span style="font-size:0.95rem; color: var(--muted); font-weight:400;">/mo</span></div>
+          <div class="tier-price-sub">+ $6,500 setup</div>
+          <div class="tier-row"><span>Setup</span><span>$6,500</span></div>
+          <div class="tier-row"><span>Monthly</span><span>$650</span></div>
+          <div class="tier-fya">First-year value<strong>$14,300</strong></div>
+        </div>
+
+        <div class="tier-card featured fade-in">
+          <div class="tier-name">Tier 2</div>
+          <div class="tier-band">31–75 subs</div>
+          <div class="tier-price">$1,100<span style="font-size:0.95rem; color: var(--muted); font-weight:400;">/mo</span></div>
+          <div class="tier-price-sub">+ $9,500 setup</div>
+          <div class="tier-row"><span>Setup</span><span>$9,500</span></div>
+          <div class="tier-row"><span>Monthly</span><span>$1,100</span></div>
+          <div class="tier-fya">First-year value<strong>$22,700</strong></div>
+        </div>
+
+        <div class="tier-card fade-in">
+          <div class="tier-name">Tier 3</div>
+          <div class="tier-band">76–150 subs</div>
+          <div class="tier-price">$1,750<span style="font-size:0.95rem; color: var(--muted); font-weight:400;">/mo</span></div>
+          <div class="tier-price-sub">+ $13,500 setup</div>
+          <div class="tier-row"><span>Setup</span><span>$13,500</span></div>
+          <div class="tier-row"><span>Monthly</span><span>$1,750</span></div>
+          <div class="tier-fya">First-year value<strong>$34,500</strong></div>
+        </div>
+
+        <div class="tier-card fade-in">
+          <div class="tier-name">Tier 4 — Custom</div>
+          <div class="tier-band">150+ subs</div>
+          <div class="tier-price">From $2,500<span style="font-size:0.95rem; color: var(--muted); font-weight:400;">/mo</span></div>
+          <div class="tier-price-sub">+ from $18,000 setup</div>
+          <div class="tier-row"><span>Setup</span><span>From $18,000</span></div>
+          <div class="tier-row"><span>Monthly</span><span>From $2,500</span></div>
+          <div class="tier-fya">First-year value<strong>Varies</strong></div>
+        </div>
+      </div>
+
+      <div class="prepay-block fade-in">
+        <h3>Annual prepay: 2 months free.</h3>
+        <p>Pay 10 months up front, get 12. 16.7% discount. Pulls cash forward, locks in a 12-month commitment. Standard term is 12 months with auto-renew and 60-day termination for convenience after month 3.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INCLUDED / NOT INCLUDED -->
+  <section id="scope">
+    <div class="container">
+      <p class="section-label fade-in">Scope</p>
+      <h2 class="fade-in">What every tier <em>includes</em> — and what it doesn't.</h2>
+      <p class="section-sub fade-in">Same product across every tier. Tier sets capacity, not feature set.</p>
+
+      <div class="scope-grid">
+        <div class="scope-card included fade-in">
+          <h3>What's included at every tier</h3>
+          <ul class="scope-list">
+            <li><span class="scope-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>27-check verification across all active subs</li>
+            <li><span class="scope-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>8-phase processing on every incoming COI</li>
+            <li><span class="scope-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Automated chase sequence (4 to 6 attempts per non-compliant sub)</li>
+            <li><span class="scope-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>AECLogix-run exception layer</li>
+            <li><span class="scope-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Compliance dashboard</li>
+            <li><span class="scope-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Escalation tooling for your COI clerk (script, log button, follow-up automation)</li>
+            <li><span class="scope-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Monthly executive compliance report</li>
+            <li><span class="scope-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Setup inside your existing tools — no new SaaS for your team to adopt</li>
+          </ul>
+        </div>
+
+        <div class="scope-card fade-in">
+          <h3>What's not included</h3>
+          <ul class="scope-list">
+            <li><span class="scope-icon x"><svg viewBox="0 0 12 12"><line x1="3" y1="3" x2="9" y2="9"/><line x1="9" y1="3" x2="3" y2="9"/></svg></span>Phone calls to subcontractors who refuse to respond after the full automation sequence — those go to your COI clerk or PM</li>
+            <li><span class="scope-icon x"><svg viewBox="0 0 12 12"><line x1="3" y1="3" x2="9" y2="9"/><line x1="9" y1="3" x2="3" y2="9"/></svg></span>Legal interpretation of contract language between GC and sub</li>
+            <li><span class="scope-icon x"><svg viewBox="0 0 12 12"><line x1="3" y1="3" x2="9" y2="9"/><line x1="9" y1="3" x2="3" y2="9"/></svg></span>Insurance brokerage or policy procurement for the GC or subs</li>
+            <li><span class="scope-icon x"><svg viewBox="0 0 12 12"><line x1="3" y1="3" x2="9" y2="9"/><line x1="9" y1="3" x2="3" y2="9"/></svg></span>Generic business automation outside the COI verification function</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE COMPARISON -->
+  <section id="value">
+    <div class="container">
+      <p class="section-label fade-in">The Pricing Pitch</p>
+      <h2 class="fade-in">What you're <em>actually paying for.</em></h2>
+      <p class="section-sub fade-in">Two value anchors. The clerk hours we replace, and the claim range we help you avoid.</p>
+
+      <div class="value-card fade-in">
+        <p class="value-quote">"Software flags expired certificates. We run the function. Your COI clerk goes from 10 to 15 hours a week of chasing to 1 to 2 hours of exception handling."</p>
+        <div class="value-anchors">
+          <div>
+            <p class="value-anchor-label">Internal COI Clerk Time Replaced</p>
+            <p class="value-anchor-num">$1,200 to $2,800</p>
+            <p class="value-anchor-sub">per month, depending on firm size and clerk rate</p>
+          </div>
+          <div>
+            <p class="value-anchor-label">Catastrophic Claim Range</p>
+            <p class="value-anchor-num">$50,000 to $500,000</p>
+            <p class="value-anchor-sub">when an expired COI is on file and the GC's policy responds</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DUAL CTA -->
+  <section id="cta">
+    <div class="cta-glow"></div>
+    <div class="container">
+      <p class="section-label fade-in">Next Step</p>
+      <h2 class="fade-in">Two ways in.</h2>
+      <p class="section-sub fade-in">Not ready for a call? Start with the free checklist. Already convinced? Book the 20-minute scoping call.</p>
+
+      <div class="cta-grid">
+        <div class="cta-card fade-in">
+          <p class="cta-eyebrow">Cold</p>
+          <h3>Grab the 27-Point COI Checklist</h3>
+          <p>The free checklist firms use to stop bad certificates before subs mobilize. 27 checks, 8 phases, 6 minutes per cert.</p>
+          <a href="/coi-checklist/" class="cta-btn secondary">Download the Checklist</a>
+        </div>
+        <div class="cta-card warm fade-in">
+          <p class="cta-eyebrow">Warm</p>
+          <h3>Book a 20-minute scoping call</h3>
+          <p>We'll map your tier from active sub count and tell you straight if COI Autopilot is the right fit. No pitch.</p>
+          <a href="/#contact" class="cta-btn">Book Scoping Call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">© 2026 AECLogix, LLC. All rights reserved.</div>
+    <div class="footer-right">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/about">About</a>
+      <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a>
+      <a href="https://www.linkedin.com/in/randykopplin/" target="_blank">LinkedIn</a>
+      <a href="/">Home</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+          observer.unobserve(el.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service | AECLogix</title>
+  <meta name="description" content="AECLogix terms of service for the aeclogix.com website. Service relationships are governed separately by signed Master Service Agreements.">
+  <meta name="robots" content="noindex, follow">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #f79546;
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #161616;
+      --card-raised: #1c1c1c;
+      --border: rgba(255,255,255,0.07);
+      --border-warm: rgba(247,149,70,0.3);
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.45);
+      --text: rgba(255,255,255,0.82);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(247,149,70,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(247,149,70,0.035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5vw;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .nav-logo svg { width: 36px; height: 36px; }
+    .nav-brand {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+    .nav-brand span { color: var(--orange); }
+    .nav-cta {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--black);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 3px;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    section { position: relative; z-index: 1; }
+    .container { max-width: 760px; margin: 0 auto; padding: 0 5vw; }
+
+    /* HEADER */
+    #page-header { padding: 8rem 0 2rem; }
+    .page-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    h1 em, h2 em, h3 em { font-style: normal; color: var(--orange); }
+    .page-meta {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    /* REVIEW BANNER */
+    .review-banner {
+      margin: 2rem 0 3rem;
+      padding: 1.2rem 1.4rem;
+      background: rgba(247,149,70,0.08);
+      border: 1px solid var(--border-warm);
+      border-left: 3px solid var(--orange);
+      border-radius: 4px;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+    }
+    .review-banner svg { width: 20px; height: 20px; color: var(--orange); flex-shrink: 0; margin-top: 2px; }
+    .review-banner-text {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .review-banner-text strong { color: var(--white); font-weight: 600; }
+
+    /* SCOPE CALLOUT */
+    .scope-callout {
+      margin: 0 0 3rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 4px 4px 0;
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .scope-callout strong { color: var(--white); font-weight: 600; }
+
+    /* BODY */
+    #content { padding: 0 0 6rem; }
+    #content h2 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin: 3rem 0 1rem;
+    }
+    #content h2:first-of-type { margin-top: 0; }
+    #content h3 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--white);
+      margin: 1.6rem 0 0.6rem;
+    }
+    #content p { margin-bottom: 1.1rem; line-height: 1.75; }
+    #content ul { margin: 0.4rem 0 1.2rem 1.4rem; }
+    #content li { margin-bottom: 0.55rem; line-height: 1.7; }
+    #content a { color: var(--orange); text-decoration: none; border-bottom: 1px solid rgba(247,149,70,0.35); }
+    #content a:hover { border-bottom-color: var(--orange); }
+    #content strong { color: var(--white); font-weight: 600; }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-left { font-size: 0.78rem; color: var(--muted); }
+    .footer-right { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-right a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--orange); }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 560px) {
+      h1 { font-size: 2rem; }
+      #content h2 { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="/images/aeclogix-logo.png" alt="AECLogix" width="36" height="36">
+      <span class="nav-brand">AEC<span>Logix</span></span>
+    </a>
+    <a href="/#contact" class="nav-cta">Book Scoping Call</a>
+  </nav>
+
+  <!-- HEADER -->
+  <section id="page-header">
+    <div class="container">
+      <p class="page-eyebrow">Legal</p>
+      <h1>Terms of <em>Service</em></h1>
+      <p class="page-meta">Effective date: 2026-04-25 &middot; Last updated: 2026-04-25</p>
+
+      <div class="review-banner" role="note" aria-label="Legal review notice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p class="review-banner-text"><strong>These terms are currently under legal review.</strong> A v1 draft is published here for transparency while a Texas-licensed attorney finalizes the language. Last updated: 2026-04-25.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section id="content">
+    <div class="container">
+
+      <div class="scope-callout">
+        <strong>What these Terms cover.</strong> These Terms govern your use of the AECLogix website at <a href="https://www.aeclogix.com" style="color: var(--orange); text-decoration: none; border-bottom: 1px solid rgba(247,149,70,0.35);">aeclogix.com</a>. They do not govern paid services. If you become a paying client, our service relationship is governed by a separate signed Master Service Agreement (MSA). Nothing on this Site, and nothing in these Terms, creates a service relationship or modifies the terms of your MSA.
+      </div>
+
+      <h2>1. Acceptance</h2>
+      <p>By accessing or using the AECLogix website (the "Site"), you agree to these Terms of Service ("Terms"). If you do not agree, please do not use the Site. The Site is operated by AECLogix, LLC ("AECLogix," "we," "us," or "our"), a Texas limited liability company.</p>
+
+      <h2>2. About the Site</h2>
+      <p>The Site is informational and marketing-focused. It describes AECLogix and its services, including our flagship product, COI Autopilot. The content on the Site is provided for general information. It is not legal, insurance, financial, or risk-management advice. The Site does not by itself sell or deliver any service.</p>
+
+      <h2>3. Permitted use</h2>
+      <p>You may:</p>
+      <ul>
+        <li>Read the pages on the Site.</li>
+        <li>Download lead magnets we make publicly available, such as the 27-point COI checklist, for your own internal business use.</li>
+        <li>Submit your contact information through forms we provide so we can send you the materials you request.</li>
+        <li>Book a scoping call through the booking link we publish.</li>
+        <li>Contact us by email or phone at the addresses we publish.</li>
+      </ul>
+
+      <h2>4. Prohibited use</h2>
+      <p>You agree not to:</p>
+      <ul>
+        <li>Scrape, harvest, or systematically copy content from the Site for republication or to build a competing offering.</li>
+        <li>Submit forms with false information, automated submissions, spam, or anything intended to abuse or overload the Site.</li>
+        <li>Reverse engineer, decompile, or attempt to derive the source of any software served by the Site.</li>
+        <li>Harvest email addresses or other contact information from the Site for unsolicited commercial messaging.</li>
+        <li>Probe, scan, or test the vulnerability of the Site without our prior written permission.</li>
+        <li>Interfere with the Site's operation, bypass its security or access controls, or impersonate AECLogix or another person.</li>
+        <li>Use the Site or its content in any way that violates applicable law.</li>
+      </ul>
+
+      <h2>5. Intellectual property</h2>
+      <p>AECLogix owns or licenses the content on the Site, including the page copy, the AECLogix name, the AECLogix logo, the specific wording and structure of the 27-point COI checklist, the COI Autopilot brand, and the layout and design of the Site. These are protected by U.S. and international intellectual property laws.</p>
+      <p>Subject to these Terms, we grant you a limited, revocable, non-exclusive, non-transferable license to view the Site and to download lead magnets we make publicly available for your own internal business use. You may not copy, redistribute, repackage, sublicense, or sell any of our content without our prior written permission. Quoting brief excerpts with attribution and a link back to the Site is fine.</p>
+      <p>You keep ownership of any information you submit to us. By submitting it, you give us permission to use it for the purposes described in our <a href="/privacy">Privacy Policy</a>.</p>
+
+      <h2>6. Third-party links and tools</h2>
+      <p>The Site may link to or embed third-party tools, including Google Calendar (for booking) and MailerLite (for email signup). Those services have their own terms and privacy practices, which apply when you use them. AECLogix is not responsible for the content, terms, or practices of any third-party site or service.</p>
+
+      <h2>7. No warranty</h2>
+      <p>The Site and its content are provided "as is" and "as available," without warranties of any kind, whether express or implied. To the fullest extent permitted by law, AECLogix disclaims all implied warranties, including merchantability, fitness for a particular purpose, non-infringement, and any warranty arising from course of dealing or usage of trade. We do not warrant that the Site will be uninterrupted, error-free, secure, or free of viruses or other harmful components, or that any information on the Site is current, complete, or accurate at any given moment.</p>
+
+      <h2>8. Limitation of liability</h2>
+      <p>To the fullest extent permitted by law, AECLogix and its members, managers, employees, contractors, and affiliates will not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages, or for any loss of profits, revenue, data, goodwill, or business opportunity, arising out of or in connection with your use of the Site, even if we have been advised of the possibility of those damages.</p>
+      <p>For any claim arising out of or relating to your use of the Site, our aggregate liability is capped at one hundred U.S. dollars (US$100). This cap does not apply to liabilities that cannot be limited under applicable law.</p>
+      <p>If you are a paying client of AECLogix, the liability terms in your signed Master Service Agreement govern claims arising from our services. Those service terms are separate from, and not modified by, this section.</p>
+
+      <h2>9. Indemnification</h2>
+      <p>You agree to indemnify and hold harmless AECLogix and its members, managers, employees, contractors, and affiliates from and against any claims, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) that arise out of (a) your misuse of the Site, (b) your violation of these Terms, or (c) your violation of any law or third-party right in connection with your use of the Site.</p>
+
+      <h2>10. Termination</h2>
+      <p>We may suspend or terminate your access to the Site at any time, with or without notice, for any reason, including suspected violation of these Terms. Sections that by their nature should survive termination (including intellectual property, no warranty, limitation of liability, indemnification, and governing law) will survive.</p>
+
+      <h2>11. Relationship to the MSA</h2>
+      <p>These Terms apply only to your use of the Site. If you become a paying AECLogix client, your service relationship is governed exclusively by the signed Master Service Agreement and any associated order forms or exhibits. Where these Terms and your MSA address the same subject, the MSA controls for service-related matters. Nothing on this Site, and no submission you make through it, creates an offer or acceptance of any service contract.</p>
+
+      <h2>12. Governing law and venue</h2>
+      <p>These Terms are governed by the laws of the State of Texas, without regard to its conflict-of-laws principles. Any dispute arising out of or relating to these Terms or your use of the Site will be brought exclusively in the state or federal courts located in Tarrant County, Texas, and you consent to the personal jurisdiction of those courts. To the fullest extent permitted by law, you and AECLogix each waive any right to a jury trial.</p>
+
+      <h2>13. Changes to these Terms</h2>
+      <p>We may update these Terms as our business evolves or as the legal review concludes. When we make a material change, we will update the "Last updated" date at the top of this page. Your continued use of the Site after a change takes effect means you accept the updated Terms. If you do not agree to a change, please stop using the Site.</p>
+
+      <h2>14. Severability and entire agreement</h2>
+      <p>If any provision of these Terms is held unenforceable, the remaining provisions stay in effect. These Terms, together with our <a href="/privacy">Privacy Policy</a>, are the entire agreement between you and AECLogix concerning your use of the Site, and supersede any prior or contemporaneous understandings about the same subject.</p>
+
+      <h2>15. Contact</h2>
+      <p>Questions about these Terms? Email <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a>.</p>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">© 2026 AECLogix, LLC. All rights reserved.</div>
+    <div class="footer-right">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a>
+      <a href="https://www.linkedin.com/in/randykopplin/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/">Home</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+          observer.unobserve(el.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AECLOGIX | CPG Weekly Reporter Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            charcoal: '#111111',
+            ink: '#0a0a0a',
+            surface: '#161616',
+            line: '#1c1c1c',
+            cream: '#faf8f4',
+            accent: '#f79546',
+          },
+          fontFamily: {
+            display: ['Barlow', 'sans-serif'],
+            sans: ['DM Sans', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html, body { font-family: 'DM Sans', sans-serif; }
+    .font-display { font-family: 'Barlow', sans-serif; }
+    .progress-fill { transition: width 8s linear; }
+    .progress-fill.reset { transition: none; width: 0%; }
+    .pane { display: none; }
+    .pane.active { display: block; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .field-highlight { position: relative; }
+    .field-highlight::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 2px solid #f79546;
+      border-radius: 8px;
+      pointer-events: none;
+      animation: pulseRing 2s ease-in-out infinite;
+    }
+    @keyframes pulseRing {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 0.25; }
+    }
+  </style>
+</head>
+<body class="bg-cream min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-charcoal text-white">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="font-display font-extrabold text-xl tracking-tight">AEC<span class="text-accent">LOGIX</span></span>
+        <span class="hidden sm:inline text-xs text-white/50 uppercase tracking-widest ml-4">CPG Weekly Reporter · Live Demo</span>
+      </div>
+      <a href="/" class="text-xs uppercase tracking-widest text-white/60 hover:text-white transition">Back to Site</a>
+    </div>
+  </header>
+
+  <!-- Progress Bar -->
+  <div class="bg-charcoal/90">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="h-1 bg-white/10 overflow-hidden">
+        <div id="progress" class="progress-fill h-full bg-accent" style="width: 0%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-6 py-10 md:py-16">
+    <div class="grid md:grid-cols-12 gap-10 items-start">
+
+      <!-- LEFT: Caption -->
+      <aside class="md:col-span-4 md:sticky md:top-10">
+        <div id="step-indicator" class="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-4">Step 1 of 6</div>
+        <h2 id="step-title" class="font-display font-extrabold text-3xl md:text-4xl text-charcoal leading-tight mb-5">Log Activity</h2>
+        <p id="step-caption" class="text-base text-charcoal/70 leading-relaxed">Log daily project activity in seconds. One entry per project per day.</p>
+      </aside>
+
+      <!-- RIGHT: App Mockup -->
+      <section class="md:col-span-8">
+        <div class="bg-white rounded-xl border border-charcoal/10 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.15)] overflow-hidden">
+
+          <!-- Mock app chrome -->
+          <div class="bg-cream border-b border-charcoal/10 px-5 py-3 flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-charcoal/15"></span>
+            <span class="w-3 h-3 rounded-full bg-charcoal/15"></span>
+            <span class="w-3 h-3 rounded-full bg-charcoal/15"></span>
+            <span class="ml-4 text-xs text-charcoal/50 font-mono">app.aeclogix.com / reporter</span>
+          </div>
+
+          <!-- Mock nav tabs -->
+          <div class="border-b border-charcoal/10 px-5 flex gap-1 text-sm font-medium">
+            <div data-tab="log" class="nav-tab px-4 py-3 border-b-2 border-transparent text-charcoal/60">Log Activity</div>
+            <div data-tab="projects" class="nav-tab px-4 py-3 border-b-2 border-transparent text-charcoal/60">Projects</div>
+            <div data-tab="hours" class="nav-tab px-4 py-3 border-b-2 border-transparent text-charcoal/60">Hours</div>
+            <div data-tab="report" class="nav-tab px-4 py-3 border-b-2 border-transparent text-charcoal/60">Owner Report</div>
+            <div data-tab="history" class="nav-tab px-4 py-3 border-b-2 border-transparent text-charcoal/60">History</div>
+          </div>
+
+          <!-- Panes -->
+          <div class="p-6 md:p-8 min-h-[520px]">
+
+            <!-- STEP 1: Log Activity -->
+            <div class="pane" data-pane="1">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="font-display font-bold text-xl text-charcoal">New Activity Entry</h3>
+                <span class="text-xs text-charcoal/50 uppercase tracking-widest">Today · Apr 18, 2026</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-5">
+                <div class="field-highlight">
+                  <label class="block text-xs font-semibold uppercase tracking-widest text-charcoal/60 mb-2">Date</label>
+                  <div class="px-4 py-3 border border-charcoal/15 rounded-md bg-white text-charcoal">04/18/2026</div>
+                </div>
+                <div class="field-highlight">
+                  <label class="block text-xs font-semibold uppercase tracking-widest text-charcoal/60 mb-2">Project</label>
+                  <div class="px-4 py-3 border border-charcoal/15 rounded-md bg-white text-charcoal flex items-center justify-between">
+                    <span>Jordan Creek Office Park</span>
+                    <span class="text-charcoal/40">▾</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-5 field-highlight">
+                <label class="block text-xs font-semibold uppercase tracking-widest text-charcoal/60 mb-2">Completed Items</label>
+                <div class="px-4 py-3 border border-charcoal/15 rounded-md bg-white text-charcoal leading-relaxed whitespace-pre-line">- Completed door &amp; hardware schedule coordination with interior designer
+- Issued RFI 142 response re: steel beam sizing at atrium
+- Updated sheet A-301 wall sections for fire-rated assemblies at stair cores</div>
+              </div>
+
+              <div class="mt-5 grid grid-cols-3 gap-5">
+                <div class="field-highlight">
+                  <label class="block text-xs font-semibold uppercase tracking-widest text-charcoal/60 mb-2">Hours</label>
+                  <div class="px-4 py-3 border border-charcoal/15 rounded-md bg-white text-charcoal">6.5</div>
+                </div>
+                <div class="col-span-2 flex items-end justify-end">
+                  <button class="bg-charcoal text-white px-6 py-3 rounded-md font-medium text-sm uppercase tracking-widest">Save Entry</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2: Projects -->
+            <div class="pane" data-pane="2">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="font-display font-bold text-xl text-charcoal">Active Projects</h3>
+                <button class="text-xs font-semibold uppercase tracking-widest text-accent">+ New Project</button>
+              </div>
+
+              <div class="space-y-3">
+                <div class="border border-charcoal/10 rounded-lg p-5 flex items-center justify-between hover:border-accent/40 transition">
+                  <div>
+                    <div class="font-display font-bold text-lg text-charcoal">Jordan Creek Office Park</div>
+                    <div class="text-sm text-charcoal/60 mt-1">Commercial · Des Moines, IA</div>
+                  </div>
+                  <div class="text-right">
+                    <div class="inline-block text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full bg-accent/15 text-accent">Construction Docs</div>
+                    <div class="text-xs text-charcoal/50 mt-2">Target: 04/30/2026</div>
+                  </div>
+                </div>
+
+                <div class="border border-charcoal/10 rounded-lg p-5 flex items-center justify-between hover:border-accent/40 transition">
+                  <div>
+                    <div class="font-display font-bold text-lg text-charcoal">State Farm Caddo Mills</div>
+                    <div class="text-sm text-charcoal/60 mt-1">Corporate · Caddo Mills, TX</div>
+                  </div>
+                  <div class="text-right">
+                    <div class="inline-block text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full bg-charcoal/10 text-charcoal/70">Design Development</div>
+                    <div class="text-xs text-charcoal/50 mt-2">Target: 03/15/2026</div>
+                  </div>
+                </div>
+
+                <div class="border border-charcoal/10 rounded-lg p-5 flex items-center justify-between hover:border-accent/40 transition">
+                  <div>
+                    <div class="font-display font-bold text-lg text-charcoal">Psychiatric Office Plano</div>
+                    <div class="text-sm text-charcoal/60 mt-1">Healthcare · Plano, TX</div>
+                  </div>
+                  <div class="text-right">
+                    <div class="inline-block text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full bg-charcoal/10 text-charcoal/70">Schematic Design</div>
+                    <div class="text-xs text-charcoal/50 mt-2">Target: 05/01/2026</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3: Hours -->
+            <div class="pane" data-pane="3">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="font-display font-bold text-xl text-charcoal">Hours Report</h3>
+                <span class="text-xs text-charcoal/50 uppercase tracking-widest">This Month · April 2026</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="border border-charcoal/10 rounded-lg p-5">
+                  <div class="text-xs font-semibold uppercase tracking-widest text-charcoal/50 mb-2">Total Hours</div>
+                  <div class="font-display font-extrabold text-3xl text-charcoal">84.5</div>
+                </div>
+                <div class="border border-charcoal/10 rounded-lg p-5">
+                  <div class="text-xs font-semibold uppercase tracking-widest text-charcoal/50 mb-2">Days Logged</div>
+                  <div class="font-display font-extrabold text-3xl text-charcoal">14</div>
+                </div>
+                <div class="border border-charcoal/10 rounded-lg p-5">
+                  <div class="text-xs font-semibold uppercase tracking-widest text-charcoal/50 mb-2">Avg / Day</div>
+                  <div class="font-display font-extrabold text-3xl text-charcoal">6.0</div>
+                </div>
+              </div>
+
+              <table class="w-full text-sm">
+                <thead class="border-b border-charcoal/15">
+                  <tr class="text-left text-xs font-semibold uppercase tracking-widest text-charcoal/50">
+                    <th class="py-3">Project</th>
+                    <th class="py-3 text-right">Entries</th>
+                    <th class="py-3 text-right">Hours</th>
+                    <th class="py-3 text-right">% of Total</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-charcoal/10">
+                  <tr>
+                    <td class="py-3 font-medium text-charcoal">Jordan Creek Office Park</td>
+                    <td class="py-3 text-right text-charcoal/70">6</td>
+                    <td class="py-3 text-right text-charcoal font-semibold">38.5</td>
+                    <td class="py-3 text-right text-charcoal/70">45.6%</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 font-medium text-charcoal">State Farm Caddo Mills</td>
+                    <td class="py-3 text-right text-charcoal/70">5</td>
+                    <td class="py-3 text-right text-charcoal font-semibold">28.0</td>
+                    <td class="py-3 text-right text-charcoal/70">33.1%</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 font-medium text-charcoal">Psychiatric Office Plano</td>
+                    <td class="py-3 text-right text-charcoal/70">3</td>
+                    <td class="py-3 text-right text-charcoal font-semibold">18.0</td>
+                    <td class="py-3 text-right text-charcoal/70">21.3%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- STEP 4: Owner Report -->
+            <div class="pane" data-pane="4">
+              <div class="flex items-center justify-between mb-5">
+                <h3 class="font-display font-bold text-xl text-charcoal">Owner Report Preview</h3>
+                <button class="bg-accent text-white px-4 py-2 rounded-md text-xs font-semibold uppercase tracking-widest">Copy Report</button>
+              </div>
+
+              <div class="border border-charcoal/15 rounded-lg p-7 bg-cream/40 text-sm leading-relaxed font-mono text-charcoal">
+                <div class="grid grid-cols-2 gap-3 pb-4 mb-4 border-b border-charcoal/15">
+                  <div><span class="text-charcoal/50">Date:</span> 04/18/2026</div>
+                  <div><span class="text-charcoal/50">Consultant:</span> Randy Kopplin, AIA</div>
+                  <div class="col-span-2"><span class="text-charcoal/50">Project:</span> Jordan Creek Office Park</div>
+                  <div><span class="text-charcoal/50">Phase:</span> Construction Documents</div>
+                  <div><span class="text-charcoal/50">Target:</span> 04/30/2026</div>
+                </div>
+
+                <div class="space-y-4 text-[13px]">
+                  <div>
+                    <div class="font-sans font-bold text-charcoal mb-1">1. Activities Completed This Week</div>
+                    <div class="pl-4 text-charcoal/80 whitespace-pre-line">- Completed door &amp; hardware schedule coordination with interior designer
+- Issued RFI 142 response re: steel beam sizing at atrium
+- Updated sheet A-301 wall sections for fire-rated assemblies at stair cores
+- Coordinated ceiling grid layouts with MEP on levels 2–4</div>
+                  </div>
+                  <div>
+                    <div class="font-sans font-bold text-charcoal mb-1">2. Activities Planned Next Week</div>
+                    <div class="pl-4 text-charcoal/80 whitespace-pre-line">- Finalize curtain wall details at main lobby
+- Issue 90% CD set for owner pricing review
+- Coordinate fire alarm riser with electrical engineer</div>
+                  </div>
+                  <div>
+                    <div class="font-sans font-bold text-charcoal mb-1">3. Outstanding Items &amp; Owner Action</div>
+                    <div class="pl-4 text-charcoal/80 whitespace-pre-line">- Owner sign-off on revised signage package (pending since 04/10)
+- Confirm final flooring selection for executive suite</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 5: History -->
+            <div class="pane" data-pane="5">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="font-display font-bold text-xl text-charcoal">Entry History</h3>
+                <div class="flex items-center gap-2 text-xs text-charcoal/50">
+                  <span>🔍</span>
+                  <span>Search entries...</span>
+                </div>
+              </div>
+
+              <div class="divide-y divide-charcoal/10 border-t border-b border-charcoal/10">
+                <div class="py-4 flex items-start gap-5">
+                  <div class="text-xs font-mono text-charcoal/50 w-20 shrink-0 pt-1">04/18/2026</div>
+                  <div class="flex-1">
+                    <div class="font-semibold text-charcoal">Jordan Creek Office Park</div>
+                    <div class="text-sm text-charcoal/70 mt-0.5">Door schedule coordination + RFI 142 response + A-301 wall sections</div>
+                  </div>
+                  <div class="text-sm font-mono text-charcoal/60 pt-1">6.5 hrs</div>
+                </div>
+                <div class="py-4 flex items-start gap-5">
+                  <div class="text-xs font-mono text-charcoal/50 w-20 shrink-0 pt-1">04/17/2026</div>
+                  <div class="flex-1">
+                    <div class="font-semibold text-charcoal">State Farm Caddo Mills</div>
+                    <div class="text-sm text-charcoal/70 mt-0.5">Finalized HVAC zoning with MEP engineer, reviewed revised site survey</div>
+                  </div>
+                  <div class="text-sm font-mono text-charcoal/60 pt-1">5.0 hrs</div>
+                </div>
+                <div class="py-4 flex items-start gap-5">
+                  <div class="text-xs font-mono text-charcoal/50 w-20 shrink-0 pt-1">04/16/2026</div>
+                  <div class="flex-1">
+                    <div class="font-semibold text-charcoal">Psychiatric Office Plano</div>
+                    <div class="text-sm text-charcoal/70 mt-0.5">Developed floor plan option B with revised intake layout; owner review prep</div>
+                  </div>
+                  <div class="text-sm font-mono text-charcoal/60 pt-1">6.0 hrs</div>
+                </div>
+                <div class="py-4 flex items-start gap-5">
+                  <div class="text-xs font-mono text-charcoal/50 w-20 shrink-0 pt-1">04/15/2026</div>
+                  <div class="flex-1">
+                    <div class="font-semibold text-charcoal">Jordan Creek Office Park</div>
+                    <div class="text-sm text-charcoal/70 mt-0.5">Ceiling grid coordination with MEP on levels 2–4; updated reflected ceiling plans</div>
+                  </div>
+                  <div class="text-sm font-mono text-charcoal/60 pt-1">7.0 hrs</div>
+                </div>
+                <div class="py-4 flex items-start gap-5">
+                  <div class="text-xs font-mono text-charcoal/50 w-20 shrink-0 pt-1">04/14/2026</div>
+                  <div class="flex-1">
+                    <div class="font-semibold text-charcoal">State Farm Caddo Mills</div>
+                    <div class="text-sm text-charcoal/70 mt-0.5">Structural column grid coordination with tenant layout; issued RFI 028</div>
+                  </div>
+                  <div class="text-sm font-mono text-charcoal/60 pt-1">5.5 hrs</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 6: End Screen -->
+            <div class="pane" data-pane="6">
+              <div class="flex flex-col items-center justify-center text-center py-12">
+                <div class="font-display font-extrabold text-4xl md:text-5xl text-charcoal mb-4">
+                  AEC<span class="text-accent">LOGIX</span>
+                </div>
+                <h3 class="font-display font-bold text-2xl md:text-3xl text-charcoal mb-3 max-w-xl">Project reporting built for architects.</h3>
+                <p class="text-charcoal/60 max-w-md mb-8">CPG Weekly Reporter is one module of the AECLOGIX platform.</p>
+                <div class="flex flex-col sm:flex-row gap-3">
+                  <a href="/schedule" class="bg-accent text-white px-7 py-3 rounded-md font-semibold text-sm uppercase tracking-widest hover:bg-accent/90 transition">Schedule a Demo</a>
+                  <a href="/" class="border border-charcoal/20 text-charcoal px-7 py-3 rounded-md font-semibold text-sm uppercase tracking-widest hover:border-charcoal transition">Learn More</a>
+                </div>
+                <button id="restart-btn" class="mt-10 text-xs text-charcoal/50 uppercase tracking-widest hover:text-charcoal transition">↻ Restart Demo</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Bottom caption line (mobile echo of left pane) -->
+        <p class="md:hidden mt-6 text-sm text-charcoal/60 italic" id="step-caption-mobile"></p>
+      </section>
+    </div>
+
+    <!-- Nav dots -->
+    <div class="flex items-center justify-center gap-3 mt-12">
+      <template id="dot-template"></template>
+      <button data-step="1" class="nav-dot w-8 h-2 rounded-full bg-charcoal/20 transition"></button>
+      <button data-step="2" class="nav-dot w-8 h-2 rounded-full bg-charcoal/20 transition"></button>
+      <button data-step="3" class="nav-dot w-8 h-2 rounded-full bg-charcoal/20 transition"></button>
+      <button data-step="4" class="nav-dot w-8 h-2 rounded-full bg-charcoal/20 transition"></button>
+      <button data-step="5" class="nav-dot w-8 h-2 rounded-full bg-charcoal/20 transition"></button>
+      <button data-step="6" class="nav-dot w-8 h-2 rounded-full bg-charcoal/20 transition"></button>
+    </div>
+  </main>
+
+  <footer class="max-w-7xl mx-auto px-6 py-8 text-xs text-charcoal/40 text-center">
+    © AECLOGIX · aeclogix.com · Demo uses fictional sample data
+  </footer>
+
+  <script>
+    const STEPS = [
+      { n: 1, title: 'Log Activity',      tab: 'log',      caption: 'Log daily project activity in seconds. One entry per project per day.' },
+      { n: 2, title: 'Project Setup',     tab: 'projects', caption: 'Track every project phase and target date in one place.' },
+      { n: 3, title: 'Hours Tracking',    tab: 'hours',    caption: 'See where your time is going across all active projects.' },
+      { n: 4, title: 'Owner Report',      tab: 'report',   caption: 'Generate a formatted owner report in one click. Ready to copy and send.' },
+      { n: 5, title: 'History',           tab: 'history',  caption: 'Every entry is logged and searchable. Nothing gets lost.' },
+      { n: 6, title: 'The AECLOGIX Platform', tab: null,   caption: 'Built for AEC firms that bill by the hour and report to owners weekly.' },
+    ];
+    const STEP_MS = 8000;
+    let current = 1;
+    let timer = null;
+
+    const progress = document.getElementById('progress');
+    const stepIndicator = document.getElementById('step-indicator');
+    const stepTitle = document.getElementById('step-title');
+    const stepCaption = document.getElementById('step-caption');
+    const stepCaptionMobile = document.getElementById('step-caption-mobile');
+    const panes = document.querySelectorAll('.pane');
+    const tabs = document.querySelectorAll('.nav-tab');
+    const dots = document.querySelectorAll('.nav-dot');
+
+    function render(step) {
+      const s = STEPS[step - 1];
+      stepIndicator.textContent = `Step ${step} of 6`;
+      stepTitle.textContent = s.title;
+      stepCaption.textContent = s.caption;
+      if (stepCaptionMobile) stepCaptionMobile.textContent = s.caption;
+
+      panes.forEach(p => p.classList.toggle('active', Number(p.dataset.pane) === step));
+      tabs.forEach(t => {
+        const active = t.dataset.tab === s.tab;
+        t.classList.toggle('border-accent', active);
+        t.classList.toggle('text-charcoal', active);
+        t.classList.toggle('border-transparent', !active);
+        t.classList.toggle('text-charcoal/60', !active);
+      });
+      dots.forEach(d => {
+        const isActive = Number(d.dataset.step) === step;
+        const isPast = Number(d.dataset.step) < step;
+        d.classList.toggle('bg-accent', isActive);
+        d.classList.toggle('w-12', isActive);
+        d.classList.toggle('w-8', !isActive);
+        d.classList.toggle('bg-charcoal/40', isPast);
+        d.classList.toggle('bg-charcoal/20', !isActive && !isPast);
+      });
+
+      progress.classList.add('reset');
+      void progress.offsetWidth;
+      progress.classList.remove('reset');
+
+      if (step < 6) {
+        progress.style.width = '100%';
+      } else {
+        progress.style.width = '100%';
+      }
+    }
+
+    function advance() {
+      if (current >= 6) {
+        stop();
+        return;
+      }
+      go(current + 1);
+    }
+
+    function go(step) {
+      current = step;
+      render(current);
+      clearTimeout(timer);
+      if (current < 6) {
+        timer = setTimeout(advance, STEP_MS);
+      }
+    }
+
+    function stop() {
+      clearTimeout(timer);
+      timer = null;
+    }
+
+    function restart() {
+      go(1);
+    }
+
+    dots.forEach(d => d.addEventListener('click', () => go(Number(d.dataset.step))));
+    document.getElementById('restart-btn').addEventListener('click', restart);
+
+    render(1);
+    timer = setTimeout(advance, STEP_MS);
+  </script>
+</body>
+</html>

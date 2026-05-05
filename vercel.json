@@ -1,0 +1,16 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "functions": {
+    "api/extract.js": {
+      "maxDuration": 300
+    },
+    "api/subscribe.js": {
+      "maxDuration": 10
+    }
+  },
+  "redirects": [
+    { "source": "/rfp-extractor", "destination": "/rfp-radar", "permanent": true },
+    { "source": "/rfp-extractor/app", "destination": "/rfp-radar/app", "permanent": true }
+  ]
+}

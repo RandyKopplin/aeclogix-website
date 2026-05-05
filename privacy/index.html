@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | AECLogix</title>
+  <meta name="description" content="AECLogix privacy policy. What we collect on aeclogix.com, how we use it, and your rights.">
+  <meta name="robots" content="noindex, follow">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #f79546;
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #161616;
+      --card-raised: #1c1c1c;
+      --border: rgba(255,255,255,0.07);
+      --border-warm: rgba(247,149,70,0.3);
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.45);
+      --text: rgba(255,255,255,0.82);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(247,149,70,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(247,149,70,0.035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5vw;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .nav-logo svg { width: 36px; height: 36px; }
+    .nav-brand {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+    .nav-brand span { color: var(--orange); }
+    .nav-cta {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--black);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 3px;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    section { position: relative; z-index: 1; }
+    .container { max-width: 760px; margin: 0 auto; padding: 0 5vw; }
+
+    /* HEADER */
+    #page-header { padding: 8rem 0 2rem; }
+    .page-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    h1 em, h2 em, h3 em { font-style: normal; color: var(--orange); }
+    .page-meta {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    /* REVIEW BANNER */
+    .review-banner {
+      margin: 2rem 0 3rem;
+      padding: 1.2rem 1.4rem;
+      background: rgba(247,149,70,0.08);
+      border: 1px solid var(--border-warm);
+      border-left: 3px solid var(--orange);
+      border-radius: 4px;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+    }
+    .review-banner svg { width: 20px; height: 20px; color: var(--orange); flex-shrink: 0; margin-top: 2px; }
+    .review-banner-text {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .review-banner-text strong { color: var(--white); font-weight: 600; }
+
+    /* BODY */
+    #content { padding: 0 0 6rem; }
+    #content h2 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin: 3rem 0 1rem;
+    }
+    #content h2:first-of-type { margin-top: 0; }
+    #content h3 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--white);
+      margin: 1.6rem 0 0.6rem;
+    }
+    #content p { margin-bottom: 1.1rem; line-height: 1.75; }
+    #content ul { margin: 0.4rem 0 1.2rem 1.4rem; }
+    #content li { margin-bottom: 0.55rem; line-height: 1.7; }
+    #content a { color: var(--orange); text-decoration: none; border-bottom: 1px solid rgba(247,149,70,0.35); }
+    #content a:hover { border-bottom-color: var(--orange); }
+    #content strong { color: var(--white); font-weight: 600; }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-left { font-size: 0.78rem; color: var(--muted); }
+    .footer-right { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-right a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--orange); }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 560px) {
+      h1 { font-size: 2rem; }
+      #content h2 { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="/images/aeclogix-logo.png" alt="AECLogix" width="36" height="36">
+      <span class="nav-brand">AEC<span>Logix</span></span>
+    </a>
+    <a href="/#contact" class="nav-cta">Book Scoping Call</a>
+  </nav>
+
+  <!-- HEADER -->
+  <section id="page-header">
+    <div class="container">
+      <p class="page-eyebrow">Legal</p>
+      <h1>Privacy <em>Policy</em></h1>
+      <p class="page-meta">Effective date: 2026-04-25 &middot; Last updated: 2026-04-25</p>
+
+      <div class="review-banner" role="note" aria-label="Legal review notice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p class="review-banner-text"><strong>This privacy policy is currently under legal review.</strong> A v1 draft is published here for transparency while a Texas-licensed attorney finalizes the language. Last updated: 2026-04-25.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section id="content">
+    <div class="container">
+
+      <h2>Who we are</h2>
+      <p>AECLogix, LLC ("AECLogix," "we," "us," or "our") is a Texas limited liability company. We operate the website at <a href="https://www.aeclogix.com">aeclogix.com</a> (the "Site"). This policy explains what information we collect through the Site, how we use it, and the choices you have.</p>
+      <p>Questions about this policy can go to <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a>.</p>
+
+      <h2>What this policy covers</h2>
+      <p>This policy applies to information collected through the public Site. It does not govern the data practices that apply when you become a paying client of AECLogix. Those practices are governed by the Master Service Agreement and any associated data-handling exhibits we sign with you.</p>
+
+      <h2>Information we collect</h2>
+
+      <h3>Information you give us</h3>
+      <ul>
+        <li><strong>Email address and first name</strong> when you opt in to download our 27-point COI checklist or other lead magnets through the form on the Site.</li>
+        <li><strong>Name, email address, and any details you type into the booking form</strong> when you schedule a call through the Google Calendar booking link on the Site.</li>
+        <li><strong>Anything you send us by email</strong> if you contact us directly at the address above.</li>
+      </ul>
+
+      <h3>Information collected automatically</h3>
+      <ul>
+        <li><strong>Server request logs</strong> captured by our hosting provider, including IP address, user agent string, referring URL, requested page, and timestamp. These are standard request logs used to operate and secure the Site.</li>
+      </ul>
+      <p>We do not run any third-party analytics tracker (Google Analytics, Plausible, or similar) on the Site at this time. We do not run advertising pixels or cross-site tracking on the Site.</p>
+
+      <h2>How we use information</h2>
+      <ul>
+        <li>To send you the lead magnet you requested (for example, the COI checklist) and, if you opted in, follow-up emails about AECLogix services.</li>
+        <li>To schedule and prepare for calls you book with us.</li>
+        <li>To respond to messages you send us.</li>
+        <li>To operate, secure, and improve the Site &mdash; for example, identifying broken pages, blocking abuse, and understanding general traffic patterns.</li>
+        <li>To comply with legal obligations.</li>
+      </ul>
+      <p>We do not sell your personal information. We do not share it with third parties for their own marketing.</p>
+
+      <h2>Third-party processors</h2>
+      <p>We use a small number of vendors to run the Site. These vendors process information on our behalf, under their own privacy and security terms:</p>
+      <ul>
+        <li><strong>MailerLite</strong> &mdash; email list management and delivery for the lead magnet and any follow-up sequences.</li>
+        <li><strong>Google</strong> (Google Calendar appointment booking) &mdash; collects the name, email, and any notes you provide when you book a scoping call. Google's own privacy terms apply to their handling of that data.</li>
+        <li><strong>Vercel</strong> &mdash; hosting provider for the Site. Captures the request logs described above.</li>
+      </ul>
+      <p>If you become a paying client, we may use additional processors as part of service delivery; those are described in your Master Service Agreement, not here.</p>
+
+      <h2>Cookies and similar technologies</h2>
+      <p>The Site does not set tracking cookies or use cross-site tracking technologies. Standard server logs (described above) record basic technical information about each request. Your browser may store ordinary session data needed for pages to function. You can clear or block cookies in your browser settings; the Site is designed to work without them.</p>
+
+      <h2>Your choices and rights</h2>
+      <p>You can:</p>
+      <ul>
+        <li><strong>Unsubscribe from emails</strong> at any time using the unsubscribe link in any email we send, or by replying and asking to be removed.</li>
+        <li><strong>Request a copy</strong> of the personal information we hold about you.</li>
+        <li><strong>Request correction or deletion</strong> of your personal information.</li>
+        <li><strong>Ask us to stop processing</strong> your information for any of the purposes described above.</li>
+      </ul>
+      <p>To make a request, email <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a> from the address you used with us, or include enough information for us to identify your records. We respond in a reasonable time. We may need to keep some information to comply with legal or contractual obligations even after you ask us to delete it.</p>
+      <p>Depending on where you live, you may have additional rights under your local privacy law. We're happy to honor those rights even if your jurisdiction's law does not technically apply to a Texas-based business of our size.</p>
+
+      <h2>Children's privacy</h2>
+      <p>The Site is not directed to children, and we do not knowingly collect information from anyone under 13. If you believe a child has submitted information to us, please contact us and we will delete it.</p>
+
+      <h2>Security</h2>
+      <p>We use reasonable technical and organizational measures to protect information collected through the Site. No website or internet transmission is fully secure, and we cannot guarantee absolute security. If you have a security concern about the Site, please email us.</p>
+
+      <h2>Data retention</h2>
+      <p>We keep email subscriber records for as long as you remain subscribed and for a reasonable period afterward to handle re-subscribe requests and comply with anti-spam recordkeeping requirements. We keep server logs for the rolling window our hosting provider retains them by default. We delete or anonymize information when we no longer have a business or legal reason to keep it.</p>
+
+      <h2>International users</h2>
+      <p>AECLogix operates from Texas, United States. If you access the Site from outside the United States, you understand that your information will be processed in the United States, which may have different data protection rules than your home country.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>We may update this policy as our practices evolve or as the legal review concludes. When we make a material change, we will update the "Last updated" date at the top of this page. For significant changes, we will also note the change in the review banner above for a reasonable period.</p>
+
+      <h2>Contact</h2>
+      <p>For privacy questions, requests, or complaints, email <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a>. Mail can be sent to AECLogix, LLC at the address we will publish here once it is on file with the Texas Secretary of State.</p>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">© 2026 AECLogix, LLC. All rights reserved.</div>
+    <div class="footer-right">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="mailto:randy@aeclogix.com">randy@aeclogix.com</a>
+      <a href="https://www.linkedin.com/in/randykopplin/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/">Home</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+          observer.unobserve(el.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

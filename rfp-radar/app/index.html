@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RFP Radar - Extract Your Checklist | AECLOGIX</title>
+<meta name="description" content="Paste an RFP. Get a priority-ranked checklist in 60 seconds.">
+<meta name="robots" content="noindex">
+
+<script>
+  // Early email gate - runs before any content renders.
+  // Subscribers arrive with ?email=... from the landing page form.
+  // Direct visitors get bounced to the landing page.
+  // Testing bypass: append ?email=test@aeclogix.com to the URL.
+  (function () {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var emailFromUrl = params.get('email');
+      var emailFromStorage = null;
+      try { emailFromStorage = sessionStorage.getItem('rfp_radar_email'); } catch (e) {}
+      if (!emailFromUrl && !emailFromStorage) {
+        window.location.replace('/rfp-radar');
+      }
+    } catch (e) {
+      window.location.replace('/rfp-radar');
+    }
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- pdf.js for client-side PDF text extraction -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.mjs" type="module"></script>
+<!-- mammoth for client-side Word text extraction -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+
+<style>
+  :root {
+    --orange: #f79546;
+    --black: #0e0e0e;
+    --white: #ffffff;
+    --gray: #6b6b6b;
+    --light: #f4f4f2;
+    --navy: #2a3550;
+    --dark-gray: #1a1a1a;
+    --font-display: 'Rajdhani', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--light);
+    color: var(--black);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
+  }
+  .wordmark .aec { color: var(--orange); }
+  .wordmark .logix-white { color: var(--white); }
+
+  .nav {
+    background: var(--black);
+    height: 64px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(247,149,70,0.15);
+  }
+  .nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(247,149,70,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(247,149,70,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .nav-left, .nav-right {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav-context {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .nav-email {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 40px 96px;
+  }
+
+  .page-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .page-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--orange);
+    opacity: 0.2;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(32px, 4.5vw, 44px);
+    line-height: 1.0;
+    letter-spacing: 0.02em;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .page-sub {
+    font-size: 16px;
+    color: var(--gray);
+    font-weight: 300;
+    max-width: 640px;
+    margin-bottom: 40px;
+    line-height: 1.65;
+  }
+
+  /* VIEW SWITCHING */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* UPLOAD VIEW */
+  .upload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: rgba(14,14,14,0.08);
+    margin-bottom: 32px;
+  }
+  .upload-card {
+    background: var(--white);
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+  }
+  .upload-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 14px;
+  }
+  .upload-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 18px;
+  }
+  .dropzone {
+    border: 2px dashed rgba(14,14,14,0.2);
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--gray);
+    font-size: 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .dropzone:hover, .dropzone.drag-over {
+    border-color: var(--orange);
+    background: rgba(247,149,70,0.04);
+  }
+  .dropzone strong {
+    color: var(--black);
+    font-weight: 500;
+  }
+  .dropzone-hint {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .file-selected {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: rgba(247,149,70,0.08);
+    border-left: 3px solid var(--orange);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--black);
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .file-selected.visible { display: flex; }
+  .file-remove {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--orange);
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  textarea {
+    width: 100%;
+    min-height: 240px;
+    background: var(--light);
+    border: 1px solid rgba(14,14,14,0.12);
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--black);
+    resize: vertical;
+    outline: none;
+    flex: 1;
+  }
+  textarea:focus { border-color: var(--orange); }
+
+  .controls {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: var(--black);
+    padding: 16px 36px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 2px solid var(--orange);
+    transition: background 0.15s;
+  }
+  .btn-primary:hover:not(:disabled) { background: #ffb26b; border-color: #ffb26b; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-outline {
+    background: transparent;
+    color: var(--black);
+    padding: 12px 24px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 2px solid var(--black);
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-outline:hover { background: var(--black); color: var(--white); }
+  .btn-dark {
+    background: var(--black);
+    color: var(--white);
+    padding: 12px 24px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 2px solid var(--black);
+  }
+
+  .char-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .alert {
+    padding: 14px 18px;
+    border-left: 3px solid var(--orange);
+    background: rgba(247,149,70,0.08);
+    color: var(--orange);
+    font-size: 14px;
+    margin-top: 16px;
+    display: none;
+  }
+  .alert.visible { display: block; }
+  .alert.error { border-color: #dc2626; background: rgba(220,38,38,0.08); color: #dc2626; }
+
+  /* PROCESSING VIEW */
+  .processing-card {
+    background: var(--black);
+    color: var(--white);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+  }
+  .processing-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(247,149,70,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(247,149,70,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .processing-inner { position: relative; z-index: 1; }
+  .processing-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 14px;
+  }
+  .processing-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 32px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .progress-bar {
+    height: 3px;
+    background: rgba(247,149,70,0.2);
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-bar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 30%;
+    background: var(--orange);
+    animation: progress-slide 1.6s ease-in-out infinite;
+  }
+  @keyframes progress-slide {
+    0% { left: -30%; }
+    100% { left: 100%; }
+  }
+  .status-line {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: #9a9a9a;
+    margin-bottom: 8px;
+  }
+  .status-line .check { color: var(--orange); margin-right: 8px; }
+  .status-line.active { color: var(--white); }
+  .status-line.active .dot { color: var(--orange); animation: pulse 1s infinite; margin-right: 8px; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* RESULTS VIEW */
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(14,14,14,0.1);
+  }
+  .export-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .email-status {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gray);
+    min-height: 16px;
+  }
+  .email-status.pending { color: var(--gray); }
+  .email-status.pending::before { content: '[...] '; color: var(--orange); }
+  .email-status.sent { color: var(--black); }
+  .email-status.sent::before { content: '[+] '; color: var(--orange); }
+  .email-status.error { color: #c56a20; }
+  .email-status.error::before { content: '[!] '; color: #c56a20; }
+
+  .project-info {
+    background: var(--black);
+    color: var(--white);
+    padding: 32px 36px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-info::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(247,149,70,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(247,149,70,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .project-info-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .info-cell .info-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .info-cell .info-value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--white);
+    line-height: 1.4;
+  }
+  .info-cell .info-value.empty {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray);
+    font-weight: 400;
+    letter-spacing: 0.14em;
+  }
+
+  .checklist-section {
+    margin-bottom: 40px;
+  }
+  .checklist-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .checklist-heading .count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray);
+    font-weight: 400;
+    letter-spacing: 0.18em;
+  }
+  .checklist-item {
+    background: var(--white);
+    border: 1px solid rgba(14,14,14,0.08);
+    border-left: 4px solid var(--gray);
+    padding: 18px 22px;
+    margin-bottom: 6px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: start;
+  }
+  .checklist-item.high { border-left-color: var(--orange); }
+  .checklist-item.medium { border-left-color: var(--navy); }
+  .checklist-item.low { border-left-color: var(--gray); }
+  .checklist-item.checked .item-text { opacity: 0.4; text-decoration: line-through; }
+  .item-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--black);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 2px;
+    position: relative;
+  }
+  .item-box.checked {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+  .item-box.checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0;
+    width: 6px;
+    height: 12px;
+    border: solid var(--black);
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+  }
+  .item-content { min-width: 0; }
+  .item-text {
+    font-size: 14px;
+    color: var(--black);
+    line-height: 1.55;
+    margin-bottom: 4px;
+  }
+  .item-reason {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    margin-top: 6px;
+  }
+  .priority-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid;
+    flex-shrink: 0;
+  }
+  .tag-high { color: var(--orange); border-color: var(--orange); background: rgba(247,149,70,0.08); }
+  .tag-medium { color: var(--navy); border-color: var(--navy); background: rgba(42,53,80,0.06); }
+  .tag-low { color: var(--gray); border-color: rgba(107,107,107,0.35); }
+
+  .empty-section {
+    padding: 24px;
+    background: var(--white);
+    border: 1px dashed rgba(14,14,14,0.15);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--black);
+    padding: 36px 40px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 80px;
+  }
+  .footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(247,149,70,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(247,149,70,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .footer-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+  .footer-inner a:hover { color: var(--orange); }
+
+  @media (max-width: 768px) {
+    main { padding: 32px 24px 64px; }
+    .nav { padding: 0 20px; }
+    .nav-context { display: none; }
+    .upload-grid { grid-template-columns: 1fr; }
+    .project-info-inner { grid-template-columns: 1fr 1fr; }
+    .results-header { flex-direction: column; align-items: flex-start; }
+  }
+
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 2px;
+  }
+
+  @media print {
+    .nav, .footer, .controls, .export-row, .item-box { display: none !important; }
+    body { background: white; }
+    .project-info { background: white; color: black; border: 1px solid #ccc; }
+    .project-info .info-label { color: black; }
+    .project-info .info-value { color: black; }
+    .checklist-item { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-left">
+    <a href="https://aeclogix.com">
+      <span class="wordmark" style="font-size: 22px;">
+        <span class="aec">AEC</span><span class="logix-white">LOGIX</span>
+      </span>
+    </a>
+    <span class="nav-context">/ RFP RADAR</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-email" id="navEmail"></span>
+  </div>
+</nav>
+
+<main>
+
+  <!-- UPLOAD VIEW -->
+  <section class="view active" id="view-upload">
+    <div class="page-label">Step 01 / Upload or Paste</div>
+    <h1 class="page-title">Extract Your RFP Checklist</h1>
+    <p class="page-sub">Upload a PDF or Word doc. Or paste the text directly. Parsing happens in your browser. Your RFP content never touches our servers until you click Extract.</p>
+
+    <div class="upload-grid">
+      <div class="upload-card">
+        <div class="upload-label">Option A / Upload File</div>
+        <h2 class="upload-title">PDF or Word</h2>
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload RFP file">
+          <strong>Drop file here or click to browse</strong>
+          <div class="dropzone-hint">PDF / DOCX / TXT / Max 50MB</div>
+          <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt" style="display: none;">
+        </div>
+        <div class="file-selected" id="fileSelected">
+          <span id="fileName"></span>
+          <span class="file-remove" id="fileRemove">Remove</span>
+        </div>
+      </div>
+
+      <div class="upload-card">
+        <div class="upload-label">Option B / Paste Text</div>
+        <h2 class="upload-title">Paste RFP Text</h2>
+        <textarea id="rfpTextArea" placeholder="Paste the full RFP text here. Minimum 500 characters for a useful extraction."></textarea>
+        <div class="char-count" id="charCount" style="margin-top: 8px;">0 chars</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn-primary" id="extractBtn" disabled>Extract Checklist</button>
+      <button class="btn-outline" id="clearBtn">Clear</button>
+    </div>
+    <div class="alert" id="uploadAlert" role="alert"></div>
+  </section>
+
+  <!-- PROCESSING VIEW -->
+  <section class="view" id="view-processing">
+    <div class="processing-card">
+      <div class="processing-inner">
+        <div class="processing-label">Step 02 / Processing</div>
+        <h2 class="processing-title">Reading your RFP</h2>
+        <div class="progress-bar" aria-hidden="true"></div>
+        <div class="status-line" id="status-parse"><span class="check">[+]</span> File parsed</div>
+        <div class="status-line active" id="status-extract"><span class="dot">[*]</span> Claude extracting requirements</div>
+        <div class="status-line" id="status-structure" style="color: #555;"><span>[ ]</span> Structuring checklist</div>
+        <div class="status-line" id="status-done" style="color: #555;"><span>[ ]</span> Ready for review</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS VIEW -->
+  <section class="view" id="view-results">
+    <div class="results-header">
+      <div>
+        <div class="page-label">Step 03 / Results</div>
+        <h1 class="page-title">Your RFP Checklist</h1>
+        <div id="emailStatus" class="email-status" role="status" aria-live="polite"></div>
+      </div>
+      <div class="export-row">
+        <button class="btn-outline" id="exportMd">Export Markdown</button>
+        <button class="btn-outline" id="exportPdf">Export PDF</button>
+        <button class="btn-dark" id="extractAnother">New RFP</button>
+      </div>
+    </div>
+
+    <div class="project-info" id="projectInfo">
+      <div class="project-info-inner">
+        <div class="info-cell">
+          <div class="info-label">Project</div>
+          <div class="info-value" id="info-name">-</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-label">Location</div>
+          <div class="info-value" id="info-location">-</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-label">Budget</div>
+          <div class="info-value" id="info-budget">-</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-label">Deadline</div>
+          <div class="info-value" id="info-deadline">-</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist-section">
+      <h2 class="checklist-heading">Submission Requirements <span class="count" id="count-submission">0 items</span></h2>
+      <div id="list-submission"></div>
+    </div>
+
+    <div class="checklist-section">
+      <h2 class="checklist-heading">Scope Requirements <span class="count" id="count-scope">0 items</span></h2>
+      <div id="list-scope"></div>
+    </div>
+
+    <div class="checklist-section">
+      <h2 class="checklist-heading">Hidden Requirements <span class="count" id="count-hidden">0 items</span></h2>
+      <div id="list-hidden"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>AECLOGIX / RFP RADAR / &copy; 2026</div>
+    <div>
+      <a href="https://aeclogix.com">AECLOGIX.COM</a> &nbsp;/&nbsp;
+      <a href="https://aeclogix.com/privacy">Privacy</a> &nbsp;/&nbsp;
+      <a href="https://aeclogix.com/contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  // pdf.js setup (ES module)
+  import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.mjs';
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.worker.min.mjs';
+  window.__pdfjsLib = pdfjsLib;
+</script>
+
+<script>
+  // Email display - gate already ran in <head>, so we have an email somewhere.
+  const urlParams = new URLSearchParams(window.location.search);
+  const email = urlParams.get('email');
+  const navEmail = document.getElementById('navEmail');
+  if (email) {
+    navEmail.textContent = email;
+    try { sessionStorage.setItem('rfp_radar_email', email); } catch (e) {}
+  } else {
+    const stored = sessionStorage.getItem('rfp_radar_email');
+    if (stored) navEmail.textContent = stored;
+  }
+
+  // View switching
+  function showView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // State
+  let rfpText = '';
+  let extractedData = null;
+
+  // Elements
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const fileSelected = document.getElementById('fileSelected');
+  const fileName = document.getElementById('fileName');
+  const fileRemove = document.getElementById('fileRemove');
+  const rfpTextArea = document.getElementById('rfpTextArea');
+  const charCount = document.getElementById('charCount');
+  const extractBtn = document.getElementById('extractBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const uploadAlert = document.getElementById('uploadAlert');
+
+  function showAlert(msg, isError) {
+    uploadAlert.textContent = msg;
+    uploadAlert.classList.add('visible');
+    if (isError) uploadAlert.classList.add('error');
+    else uploadAlert.classList.remove('error');
+  }
+  function clearAlert() {
+    uploadAlert.classList.remove('visible', 'error');
+    uploadAlert.textContent = '';
+  }
+
+  function updateExtractButton() {
+    const hasText = rfpText.length >= 500 || rfpTextArea.value.trim().length >= 500;
+    extractBtn.disabled = !hasText;
+  }
+
+  rfpTextArea.addEventListener('input', () => {
+    const len = rfpTextArea.value.length;
+    charCount.textContent = len.toLocaleString() + ' chars';
+    if (len > 0) {
+      rfpText = rfpTextArea.value;
+      fileSelected.classList.remove('visible');
+      fileInput.value = '';
+    }
+    updateExtractButton();
+  });
+
+  // Drag and drop
+  ['dragenter', 'dragover'].forEach(ev => {
+    dropzone.addEventListener(ev, e => {
+      e.preventDefault();
+      dropzone.classList.add('drag-over');
+    });
+  });
+  ['dragleave', 'drop'].forEach(ev => {
+    dropzone.addEventListener(ev, e => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-over');
+    });
+  });
+  dropzone.addEventListener('drop', e => {
+    const files = e.dataTransfer.files;
+    if (files && files[0]) handleFile(files[0]);
+  });
+  dropzone.addEventListener('click', () => fileInput.click());
+  dropzone.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+  });
+  fileInput.addEventListener('change', e => {
+    if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
+  });
+  fileRemove.addEventListener('click', () => {
+    fileSelected.classList.remove('visible');
+    fileInput.value = '';
+    rfpText = '';
+    updateExtractButton();
+  });
+
+  async function handleFile(file) {
+    clearAlert();
+    if (file.size > 50 * 1024 * 1024) {
+      showAlert('File is over 50MB. Please split or paste the text directly.', true);
+      return;
+    }
+
+    fileName.textContent = file.name + ' / ' + Math.round(file.size / 1024) + 'KB / parsing...';
+    fileSelected.classList.add('visible');
+
+    try {
+      let text = '';
+      const ext = file.name.toLowerCase().split('.').pop();
+
+      if (ext === 'pdf') {
+        text = await parsePdf(file);
+      } else if (ext === 'docx' || ext === 'doc') {
+        text = await parseDocx(file);
+      } else if (ext === 'txt') {
+        text = await file.text();
+      } else {
+        showAlert('File type not supported. Use PDF, DOCX, or TXT.', true);
+        fileSelected.classList.remove('visible');
+        return;
+      }
+
+      if (!text || text.trim().length < 100) {
+        showAlert('Could not extract useful text. The file may be image-based or empty. Try OCR first or paste the text.', true);
+        fileSelected.classList.remove('visible');
+        return;
+      }
+
+      rfpText = text;
+      rfpTextArea.value = '';
+      charCount.textContent = '0 chars';
+      fileName.textContent = file.name + ' / ' + text.length.toLocaleString() + ' chars extracted';
+      updateExtractButton();
+    } catch (err) {
+      console.error(err);
+      showAlert('File parsing failed: ' + (err.message || 'unknown error') + '. Try pasting the text.', true);
+      fileSelected.classList.remove('visible');
+    }
+  }
+
+  async function parsePdf(file) {
+    const pdfjsLib = window.__pdfjsLib;
+    if (!pdfjsLib) throw new Error('PDF parser not loaded. Reload the page.');
+    const buffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+    const pageTexts = [];
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      pageTexts.push(content.items.map(it => it.str).join(' '));
+    }
+    return pageTexts.join('\n\n');
+  }
+
+  async function parseDocx(file) {
+    if (!window.mammoth) throw new Error('Word parser not loaded. Reload the page.');
+    const buffer = await file.arrayBuffer();
+    const result = await window.mammoth.extractRawText({ arrayBuffer: buffer });
+    return result.value;
+  }
+
+  clearBtn.addEventListener('click', () => {
+    rfpText = '';
+    rfpTextArea.value = '';
+    charCount.textContent = '0 chars';
+    fileInput.value = '';
+    fileSelected.classList.remove('visible');
+    clearAlert();
+    updateExtractButton();
+  });
+
+  extractBtn.addEventListener('click', async () => {
+    const textToSend = rfpText || rfpTextArea.value.trim();
+    if (textToSend.length < 500) {
+      showAlert('Need at least 500 characters for a useful extraction.', true);
+      return;
+    }
+    clearAlert();
+    showView('processing');
+    try {
+      const data = await extractFromServer(textToSend);
+      extractedData = data;
+      renderResults(data);
+      showView('results');
+      emailChecklistToSubscriber(data); // fire-and-forget
+    } catch (err) {
+      console.error(err);
+      showView('upload');
+      showAlert('Extraction failed: ' + (err.message || 'unknown') + '. Please try again.', true);
+    }
+  });
+
+  function emailChecklistToSubscriber(data) {
+    const email = sessionStorage.getItem('rfp_radar_email') ||
+      new URLSearchParams(window.location.search).get('email') || '';
+    if (!email) return;
+
+    const statusEl = document.getElementById('emailStatus');
+    if (statusEl) {
+      statusEl.textContent = 'Sending copy to ' + email + '...';
+      statusEl.className = 'email-status pending';
+    }
+
+    fetch('/api/email-checklist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, checklistData: data })
+    })
+    .then(function (res) { return res.json().then(function (json) { return { ok: res.ok, json: json }; }); })
+    .then(function (result) {
+      if (!statusEl) return;
+      if (result.ok && result.json && result.json.success) {
+        statusEl.textContent = 'Copy emailed to ' + email;
+        statusEl.className = 'email-status sent';
+      } else {
+        statusEl.textContent = 'Email delivery failed. Your checklist is above.';
+        statusEl.className = 'email-status error';
+      }
+    })
+    .catch(function () {
+      if (!statusEl) return;
+      statusEl.textContent = 'Email delivery failed. Your checklist is above.';
+      statusEl.className = 'email-status error';
+    });
+  }
+
+  async function extractFromServer(text) {
+    // Advance the status indicators for user feedback
+    document.getElementById('status-parse').classList.add('active');
+    document.getElementById('status-extract').classList.add('active');
+
+    const response = await fetch('/api/extract', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rfpText: text, email: sessionStorage.getItem('rfp_radar_email') || '' })
+    });
+
+    let json = null;
+    try { json = await response.json(); } catch (e) {}
+
+    if (!response.ok || !json) {
+      const msg = (json && json.error) || ('Server returned ' + response.status);
+      throw new Error(msg);
+    }
+
+    if (!json.success || !json.data) {
+      throw new Error(json.error || 'Extraction returned no data.');
+    }
+
+    if (json.warning) {
+      showAlert(json.warning, false);
+    }
+
+    // Update status indicators
+    document.getElementById('status-structure').style.color = 'var(--white)';
+    document.getElementById('status-structure').innerHTML = '<span class="check">[+]</span> Structuring checklist';
+    document.getElementById('status-done').style.color = 'var(--white)';
+    document.getElementById('status-done').innerHTML = '<span class="check">[+]</span> Ready for review';
+
+    return json.data;
+  }
+
+  function renderResults(data) {
+    // Project info
+    const setInfo = (id, val) => {
+      const el = document.getElementById(id);
+      if (val && val !== 'null' && val !== null) {
+        el.textContent = val;
+        el.classList.remove('empty');
+      } else {
+        el.textContent = 'Not specified';
+        el.classList.add('empty');
+      }
+    };
+    const pi = data.projectInfo || {};
+    setInfo('info-name', pi.name);
+    setInfo('info-location', pi.location);
+    setInfo('info-budget', pi.budget);
+    setInfo('info-deadline', pi.deadline);
+
+    renderList('list-submission', 'count-submission', data.submissionRequirements || []);
+    renderList('list-scope', 'count-scope', data.scopeRequirements || []);
+    renderList('list-hidden', 'count-hidden', data.hiddenRequirements || [], true);
+  }
+
+  function renderList(containerId, countId, items, showReason) {
+    const container = document.getElementById(containerId);
+    const counter = document.getElementById(countId);
+    counter.textContent = items.length + ' items';
+    container.innerHTML = '';
+    if (items.length === 0) {
+      container.innerHTML = '<div class="empty-section">No requirements detected in this category.</div>';
+      return;
+    }
+    items.forEach((item, idx) => {
+      const priority = (item.priority || 'medium').toLowerCase();
+      const div = document.createElement('div');
+      div.className = 'checklist-item ' + priority;
+      div.innerHTML = `
+        <div class="item-box" data-idx="${idx}" role="checkbox" aria-checked="false" tabindex="0"></div>
+        <div class="item-content">
+          <div class="item-text">${escapeHtml(item.text || '')}</div>
+          ${showReason && item.reason ? `<div class="item-reason">// ${escapeHtml(item.reason)}</div>` : ''}
+        </div>
+        <span class="priority-tag tag-${priority}">${priority}</span>
+      `;
+      div.querySelector('.item-box').addEventListener('click', () => toggleCheck(div));
+      div.querySelector('.item-box').addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCheck(div); }
+      });
+      container.appendChild(div);
+    });
+  }
+
+  function toggleCheck(itemEl) {
+    const box = itemEl.querySelector('.item-box');
+    const isChecked = box.classList.toggle('checked');
+    itemEl.classList.toggle('checked', isChecked);
+    box.setAttribute('aria-checked', isChecked ? 'true' : 'false');
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // Export handlers
+  document.getElementById('extractAnother').addEventListener('click', () => {
+    extractedData = null;
+    showView('upload');
+  });
+
+  document.getElementById('exportMd').addEventListener('click', () => {
+    if (!extractedData) return;
+    const md = buildMarkdown(extractedData);
+    downloadBlob(md, 'rfp-checklist.md', 'text/markdown');
+  });
+
+  document.getElementById('exportPdf').addEventListener('click', () => {
+    window.print();
+  });
+
+  function buildMarkdown(data) {
+    const pi = data.projectInfo || {};
+    let out = '# RFP Checklist\n\n';
+    out += '_Extracted by AECLOGIX RFP Radar / ' + new Date().toLocaleDateString() + '_\n\n';
+    out += '## Project\n\n';
+    out += '- Name: ' + (pi.name || 'Not specified') + '\n';
+    out += '- Location: ' + (pi.location || 'Not specified') + '\n';
+    out += '- Budget: ' + (pi.budget || 'Not specified') + '\n';
+    out += '- Deadline: ' + (pi.deadline || 'Not specified') + '\n\n';
+
+    const section = (title, items, showReason) => {
+      out += '## ' + title + '\n\n';
+      if (!items || items.length === 0) { out += '_None detected._\n\n'; return; }
+      items.forEach(it => {
+        const p = (it.priority || 'medium').toUpperCase();
+        out += '- [ ] [' + p + '] ' + (it.text || '');
+        if (showReason && it.reason) out += '  _Why: ' + it.reason + '_';
+        out += '\n';
+      });
+      out += '\n';
+    };
+    section('Submission Requirements', data.submissionRequirements);
+    section('Scope Requirements', data.scopeRequirements);
+    section('Hidden Requirements', data.hiddenRequirements, true);
+    return out;
+  }
+
+  function downloadBlob(content, filename, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+</body>
+</html>
