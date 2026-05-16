@@ -1,0 +1,33 @@
+name: asset-check
+
+# Runs on every push and pull request. Verifies that every local asset reference
+# (href, src, CSS url(...)) inside any HTML file in the repo resolves to a file
+# that actually exists in the commit. Fails fast — runs before deploy-guard, so
+# a missing-asset bug never reaches production.
+#
+# Limitation: only catches references that exist in HTML inside this repo.
+# URLs shared externally (email, social, lead-magnet sequences) that point to
+# files which were never committed cannot be caught here — for that class of
+# bug, the prevention is the workflow policy (edit/commit in this repo;
+# drafts in @secondbrain/AECLogix/website/_drafts/).
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify HTML asset references
+        run: python scripts/check-asset-references.py
