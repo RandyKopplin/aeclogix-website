@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>AECLogix Proof — Keynote–Spec Coordination Audit for Revit | AECLogix</title>
+  <meta name="description" content="AECLogix Proof is a Revit add-in that audits the relationship between your model's keynote tags and your project spec manual. Deterministic. No AI guessing. Catches orphaned keynotes, sub-section gaps, and missing spec sections before your set ships.">
+  <meta property="og:title" content="AECLogix Proof — Audit Your Keynote–Spec Coordination Before Your Set Ships">
+  <meta property="og:description" content="Revit add-in. Verifies every keynote tag in your model against your project manual. Deterministic, evidenced, fast.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aeclogix.com/proof/">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #f79546;
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #161616;
+      --card-raised: #1c1c1c;
+      --border: rgba(255,255,255,0.07);
+      --border-warm: rgba(247,149,70,0.3);
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.45);
+      --text: rgba(255,255,255,0.82);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(247,149,70,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(247,149,70,0.035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5vw;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .nav-logo svg, .nav-logo img { width: 36px; height: 36px; }
+    .nav-brand {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+    .nav-brand span { color: var(--orange); }
+    .nav-cta {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--black);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 3px;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 5vw;
+      position: relative;
+      z-index: 2;
+    }
+
+    section { position: relative; padding: 5rem 0; }
+
+    /* HERO */
+    #hero {
+      display: flex;
+      align-items: center;
+      padding: 7rem 0 4rem;
+    }
+    .hero-glow {
+      position: absolute;
+      top: -10%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(247,149,70,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      column-gap: 3rem;
+      align-items: center;
+    }
+    .hero-tag, .hero-inner > h1, .hero-sub { grid-column: 1; }
+    .hero-form-wrap { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+    @media (max-width: 880px) {
+      .hero-inner { display: block; max-width: 820px; }
+      .hero-form-wrap { max-width: 100%; margin-top: 1.5rem; }
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(247,149,70,0.1);
+      border: 1px solid rgba(247,149,70,0.25);
+      border-radius: 2px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.1s;
+    }
+    .hero-tag-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 3rem;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+    h1 em {
+      color: var(--orange);
+      font-style: normal;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      max-width: 580px;
+      color: var(--text);
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.3s;
+    }
+
+    .hero-form-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.75rem;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.4s;
+    }
+    .hero-form-label {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--white);
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+    .form-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.85rem;
+      text-align: center;
+    }
+    .direct-link {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      text-align: center;
+    }
+    .direct-link a { color: var(--orange); text-decoration: none; }
+    .direct-link a:hover { text-decoration: underline; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* STAT BAR */
+    .stat-bar {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 0;
+    }
+    .stat-bar .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat:not(:last-child) { border-right: 1px solid var(--border); }
+    .stat-num {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 2.4rem;
+      color: var(--orange);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    h2 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 2.2rem;
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 2rem;
+      letter-spacing: -0.02em;
+    }
+    h2 em { color: var(--orange); font-style: normal; }
+
+    h3 {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    p { margin-bottom: 1rem; }
+    p.lead { font-size: 1.05rem; color: var(--text); max-width: 720px; }
+
+    /* PROBLEM SECTION */
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .problem-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+    .problem-card:hover { border-color: var(--border-warm); }
+    .problem-num {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      color: var(--orange);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.75rem;
+      position: relative;
+    }
+    .step-num {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      font-size: 2.2rem;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    /* GUIDE PREVIEW */
+    .guide-preview {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2.5rem;
+      margin-top: 2rem;
+    }
+    .guide-toc {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem 2.5rem;
+      margin-top: 1.5rem;
+    }
+    .toc-item {
+      display: flex;
+      gap: 0.75rem;
+      align-items: baseline;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .toc-num {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 800;
+      color: var(--orange);
+      font-size: 0.85rem;
+      min-width: 1.5rem;
+    }
+    .toc-text {
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    /* HONEST POSITIONING */
+    .honest-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .honest-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.75rem;
+    }
+    .honest-card.for { border-left: 3px solid var(--orange); }
+    .honest-card.notfor { border-left: 3px solid #555; }
+    .honest-card h3 { color: var(--white); }
+    .honest-card.for h3 { color: var(--orange); }
+    .honest-card ul { list-style: none; margin-top: 1rem; }
+    .honest-card li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    .honest-card.for li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--orange);
+      font-weight: 700;
+    }
+    .honest-card.notfor li::before {
+      content: '×';
+      position: absolute;
+      left: 0;
+      color: #777;
+      font-weight: 700;
+    }
+
+    /* FINAL CTA */
+    #final-cta {
+      background: linear-gradient(180deg, var(--black) 0%, var(--dark) 100%);
+      text-align: center;
+      padding: 6rem 0;
+    }
+    #final-cta h2 { margin-bottom: 1rem; }
+    #final-cta .lead {
+      margin: 0 auto 2.5rem;
+      font-size: 1.1rem;
+      max-width: 620px;
+    }
+    .final-form-wrap {
+      max-width: 520px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+    }
+
+    /* PITCH CARD */
+    .pitch-card {
+      background: var(--card-raised);
+      border: 1px solid var(--border-warm);
+      border-radius: 6px;
+      padding: 2.5rem;
+      margin-top: 2rem;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    .pitch-cta {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--black);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 1.8rem;
+      border-radius: 3px;
+      margin-top: 1.5rem;
+      transition: opacity 0.2s;
+    }
+    .pitch-cta:hover { opacity: 0.85; }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; margin: 0 0.75rem; }
+    footer a:hover { color: var(--orange); }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px) {
+      .problems-grid, .honest-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .guide-toc { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .stat-bar .container { grid-template-columns: 1fr; gap: 1.5rem; }
+      .stat:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.8rem; }
+      .pitch-card { padding: 2rem; }
+      .pitch-cta { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="/images/aeclogix-logo.png" alt="AECLogix" width="36" height="36">
+      <span class="nav-brand">AEC<span>Logix</span></span>
+    </a>
+    <a href="https://www.aeclogix.com/schedule/" class="nav-cta">Book a Call</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-tag">
+          <div class="hero-tag-dot"></div>
+          New | Revit Add-in | Coming Soon
+        </div>
+        <h1>Audit Your<br>Keynote–Spec Coordination<br>Before Your Set <em>Ships</em></h1>
+        <p class="hero-sub">AECLogix Proof reads every keynote tag in your Revit model and verifies it against your project spec manual. Deterministic. Evidenced. No AI guessing. Catches orphaned keynotes, sub-section gaps, and missing spec sections in seconds — before they become RFIs.</p>
+
+        <div class="hero-form-wrap">
+          <p class="hero-form-label">Get the Project Standards Guide</p>
+
+          <!--
+            MailerLite Embedded Form
+            ===========================
+            Account ID: 2274882
+            Form ID: 187534315999987374  (the embed widget — appears in form action URL)
+            Bound to Group ID: 187487886549976866  (the subscriber list this form feeds)
+            Container ID: 41342592  (CSS-only scoping; unique to this page)
+          -->
+          <style type="text/css">@import url("https://assets.mlcdn.com/fonts.css?version=1776073");</style>
+          <style type="text/css">
+            .ml-form-embedSubmitLoad { display: inline-block; width: 20px; height: 20px; }
+            .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+            .ml-form-embedSubmitLoad:after { content: " "; display: block; width: 11px; height: 11px; margin: 1px; border-radius: 50%; border: 4px solid #fff; border-color: #ffffff #ffffff #ffffff transparent; animation: ml-form-embedSubmitLoad 1.2s linear infinite; }
+            @keyframes ml-form-embedSubmitLoad { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+            #mlb2-41342592.ml-form-embedContainer { box-sizing: border-box; display: table; margin: 0 auto; position: static; width: 100% !important; }
+            #mlb2-41342592.ml-form-embedContainer h4, #mlb2-41342592.ml-form-embedContainer p, #mlb2-41342592.ml-form-embedContainer span, #mlb2-41342592.ml-form-embedContainer button { text-transform: none !important; letter-spacing: normal !important; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper { background-color: #161616; border-width: 0px; border-color: transparent; border-radius: 4px; border-style: solid; box-sizing: border-box; display: inline-block !important; margin: 0; padding: 0; position: relative; width: 100%; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper.embedForm { max-width: 100%; width: 100%; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-align-center { text-align: center; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody, #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody { padding: 0; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody form { margin: 0; width: 100%; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-formContent { margin: 0 0 12px 0; width: 100%; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow { margin: 0 0 10px 0; width: 100%; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow.ml-last-item { margin: 0 0 12px 0; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input { background-color: rgba(255,255,255,0.05) !important; color: #ffffff !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px !important; border-style: solid !important; border-width: 1px !important; font-family: 'DM Sans', Arial, Helvetica, sans-serif !important; font-size: 0.95rem !important; line-height: 21px !important; padding: 0.9rem 1.1rem !important; width: 100% !important; box-sizing: border-box !important; outline: none !important; transition: border-color 0.2s; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input:focus { border-color: rgba(247,149,70,0.5) !important; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input::-webkit-input-placeholder { color: rgba(255,255,255,0.25) !important; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit { margin: 0; float: left; width: 100%; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button { background-color: #f79546 !important; border: none !important; border-radius: 4px !important; box-shadow: none !important; color: #0a0a0a !important; cursor: pointer; font-family: 'DM Sans', Arial, Helvetica, sans-serif !important; font-size: 0.88rem !important; font-weight: 600 !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; line-height: 21px !important; padding: 1rem !important; width: 100% !important; box-sizing: border-box !important; transition: opacity 0.2s; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button:hover { opacity: 0.85; background-color: #f79546 !important; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.loading { display: none; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody .ml-form-successContent h4 { color: #ffffff !important; font-family: 'Barlow', sans-serif !important; font-size: 1.4rem !important; font-weight: 800 !important; margin: 0 0 10px 0 !important; text-align: center !important; }
+            #mlb2-41342592.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody .ml-form-successContent p { color: rgba(255,255,255,0.82) !important; font-family: 'DM Sans', sans-serif !important; font-size: 0.95rem !important; line-height: 1.6 !important; text-align: center !important; }
+            .ml-error input { border-color: #ff5252 !important; }
+          </style>
+
+          <div id="mlb2-41342592" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-41342592">
+            <div class="ml-form-align-center">
+              <div class="ml-form-embedWrapper embedForm">
+                <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
+                  <!-- REPLACE the form action URL below with the one from your new MailerLite form -->
+                  <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2274882/forms/187534315999987374/subscribe" data-code="" method="post" target="_blank">
+                    <div class="ml-form-formContent">
+                      <div class="ml-form-fieldRow">
+                        <div class="ml-field-group ml-field-name">
+                          <input aria-label="name" type="text" class="form-control" name="fields[name]" placeholder="Your First Name" autocomplete="given-name">
+                        </div>
+                      </div>
+                      <div class="ml-form-fieldRow ml-last-item">
+                        <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                          <input aria-label="email" aria-required="true" type="email" class="form-control" name="fields[email]" placeholder="Your Email Address" autocomplete="email">
+                        </div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="ml-submit" value="1">
+                    <div class="ml-form-embedSubmit">
+                      <button type="submit" class="primary">Send Me the Guide</button>
+                      <button disabled="disabled" style="display: none;" type="button" class="loading">
+                        <div class="ml-form-embedSubmitLoad"></div>
+                        <span class="sr-only">Loading...</span>
+                      </button>
+                    </div>
+                    <input type="hidden" name="anticsrf" value="true">
+                  </form>
+                </div>
+                <div class="ml-form-successBody row-success" style="display: none">
+                  <div class="ml-form-successContent">
+                    <h4>Check your email</h4>
+                    <p>The Project Standards Guide is on its way.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /MailerLite Embedded Form -->
+
+          <p class="form-note">Free download. No spam.<br>You can unsubscribe any time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAT BAR -->
+  <div class="stat-bar">
+    <div class="container">
+      <div class="stat">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Failure modes audited</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">15</div>
+        <div class="stat-label">Standards in the guide</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">&lt;60s</div>
+        <div class="stat-label">Audit run on a typical project</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div class="container">
+      <h2 class="fade-in">Five things that <em>break</em> between your model and your spec book</h2>
+      <p class="lead fade-in">Your set goes out the door with the assumption that every keynote on every sheet maps to a paragraph in the project manual. That assumption is wrong on most projects. The breaks are usually small — until one of them shows up as a change order.</p>
+
+      <div class="problems-grid">
+        <div class="problem-card fade-in">
+          <div class="problem-num">01</div>
+          <h3>Orphaned keynotes</h3>
+          <p>A keynote tag references a spec section that doesn't exist in the project manual. Most common cause: the spec was authored from a template that didn't include the relevant section, and nobody updated it.</p>
+        </div>
+        <div class="problem-card fade-in">
+          <div class="problem-num">02</div>
+          <h3>Sub-section truncation</h3>
+          <p>A keynote points to <code>08 11 13.16</code> — a specific door type — but only the parent section <code>08 11 13</code> was written. The match looks clean at the division level. The actual sub-section isn't resolved.</p>
+        </div>
+        <div class="problem-card fade-in">
+          <div class="problem-num">03</div>
+          <h3>Spec sections in scope but never called out</h3>
+          <p>The reverse of orphaned. The spec book has a section the project will need but no keynote in the model references it. Either the section is dead scope or the drawings missed an annotation.</p>
+        </div>
+        <div class="problem-card fade-in">
+          <div class="problem-num">04</div>
+          <h3>Mismatched scope</h3>
+          <p>The keynote on the drawing reads "Steel Door" and the spec section's first paragraph reads "Aluminum-Framed Storefront." Both legitimate. Neither matches the other. This is the kind of thing that becomes deposition material when there's a claim.</p>
+        </div>
+        <div class="problem-card fade-in">
+          <div class="problem-num">05</div>
+          <h3>Custom-scheme entries with no spec mapping</h3>
+          <p>Your firm uses custom alphanumeric keynotes — <code>D08</code>, <code>ARCH-12</code>. Some of them carry a CSI section reference in the description; others don't. The ones that don't are silent coordination orphans.</p>
+        </div>
+        <div class="problem-card fade-in">
+          <div class="problem-num">+</div>
+          <h3>And the way you're checking today</h3>
+          <p>Most firms run this audit by hand. Project architect or junior staff opens the spec book, opens the model, walks through tag by tag. On a 1,000-keynote project this takes hours. Humans miss things — that's not a character flaw, it's a fact about repetitive cross-referencing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <h2 class="fade-in">What Proof <em>actually does</em></h2>
+      <p class="lead fade-in">No AI guessing. No semantic interpretation. No "trust us." Three deterministic steps, every flag in the report answers <em>why</em> with specific evidence.</p>
+
+      <div class="steps">
+        <div class="step fade-in">
+          <div class="step-num">01</div>
+          <h3>Reads your model</h3>
+          <p>Scans every keynote tag in the view you have open — or every sheet in the project at once. Catches all three Revit keynote sources: Element, Material, and User-typed. Also reads your firm's custom alphanumeric schemes — not just CSI MasterFormat.</p>
+        </div>
+        <div class="step fade-in">
+          <div class="step-num">02</div>
+          <h3>Parses your spec manual</h3>
+          <p>Single PDF or folder of one-PDF-per-section spec files (the format SpecLink, BSD, and Deltek produce). Filename-as-truth heuristic for folder mode. Skips and counts scanned pages without crashing the run.</p>
+        </div>
+        <div class="step fade-in">
+          <div class="step-num">03</div>
+          <h3>Produces a verifiable report</h3>
+          <p>Every keynote tag matched, orphaned, or division-flagged. Sortable, filterable, click-to-locate-element-in-Revit, mark-as-resolved with persistent state. Export to CSV for your QA records.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUIDE PREVIEW -->
+  <section id="guide">
+    <div class="container">
+      <h2 class="fade-in">Inside <em>The Project Standards Guide</em></h2>
+      <p class="lead fade-in">A working document for architects, BIM coordinators, and project managers. What good keynote–spec coordination actually looks like — independent of any tool. Adopt it as your firm's standards. Adapt it to your practice.</p>
+
+      <div class="guide-preview fade-in">
+        <h3 style="margin-bottom: 1rem;">Chapter list</h3>
+        <div class="guide-toc">
+          <div class="toc-item"><span class="toc-num">01</span><span class="toc-text">Why this guide exists — the coordination gap between drawings and specs</span></div>
+          <div class="toc-item"><span class="toc-num">02</span><span class="toc-text">The three jobs a keynote does (and why text annotations don't)</span></div>
+          <div class="toc-item"><span class="toc-num">03</span><span class="toc-text">CSI MasterFormat in 90 seconds — and when not to use it</span></div>
+          <div class="toc-item"><span class="toc-num">04</span><span class="toc-text">Three keynote workflows in Revit — Element, Material, User</span></div>
+          <div class="toc-item"><span class="toc-num">05</span><span class="toc-text">Why text annotations with leaders are not keynotes</span></div>
+          <div class="toc-item"><span class="toc-num">06</span><span class="toc-text">Authoring keynotes well — text, naming, scheme stability</span></div>
+          <div class="toc-item"><span class="toc-num">07</span><span class="toc-text">Pre-issuance QA — five checks that catch real errors</span></div>
+          <div class="toc-item"><span class="toc-num">08</span><span class="toc-text">15 standards your firm should adopt — start with the page</span></div>
+          <div class="toc-item"><span class="toc-num">09</span><span class="toc-text">Where automated audit fits (and where it doesn't)</span></div>
+          <div class="toc-item"><span class="toc-num">10</span><span class="toc-text">Where to take this next — three concrete steps</span></div>
+        </div>
+        <p style="margin-top: 2rem; color: var(--muted); font-size: 0.9rem;">Free download. PDF. Use it on your next set.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HONEST POSITIONING -->
+  <section id="honest">
+    <div class="container">
+      <h2 class="fade-in">Who Proof is <em>for</em> — and who it isn't</h2>
+      <p class="lead fade-in">Honest positioning saves everyone time. If your firm doesn't fit the column on the left, Proof won't help you on this set — and a demo isn't going to change that. We'd rather you know now than in week three of an evaluation.</p>
+
+      <div class="honest-grid">
+        <div class="honest-card for fade-in">
+          <h3>Built for</h3>
+          <ul>
+            <li>Architects, BIM coordinators, and project managers using Revit 2026</li>
+            <li>Firms that use Revit's keynote system — Element, Material, or User-source on Keynote Tag elements</li>
+            <li>Projects with a written spec manual (CSI MasterFormat or a consistent custom scheme)</li>
+            <li>Firms that want to verify coordination at the milestone gates — SD, DD, CD — not after issuance</li>
+            <li>Practices that maintain firm-level keynote standards (or want to start)</li>
+          </ul>
+        </div>
+        <div class="honest-card notfor fade-in">
+          <h3>Not built for</h3>
+          <ul>
+            <li>Drawing sets that don't reference a spec manual</li>
+            <li>Firms that use only TextNote-with-leader annotations and never adopted Revit's keynote system</li>
+            <li>Pre-Revit-2026 versions (Revit 2025 / 2024 support possible later — not today)</li>
+            <li>AutoCAD-only or Vectorworks-only practices (Revit add-in)</li>
+            <li>Anyone wanting AI-generated spec interpretation — Proof is deterministic by design, not generative</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section id="final-cta">
+    <div class="container">
+      <h2 class="fade-in">Get the guide. <em>Use it on your next set.</em></h2>
+      <p class="lead fade-in">Free PDF. No sales call required to download. The standards in the guide stand on their own — Proof is the tool that makes them auditable at scale, but you can adopt the practices today regardless.</p>
+
+      <!--
+        Scroll-to-top button. Replaces an earlier duplicate <form class="ml-block-form">
+        which caused MailerLite's webforms.min.js to error out (no surrounding embed container),
+        breaking submission on the hero form too. Single form is now the only source of truth.
+      -->
+      <div class="final-form-wrap fade-in" style="text-align: center;">
+        <p class="hero-form-label" style="text-align: center;">The Project Standards Guide</p>
+        <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 1.4rem;">Drop your email at the top of the page. PDF arrives in your inbox.</p>
+        <a href="#hero" style="display: inline-block; background: var(--orange); color: var(--black); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 1rem 2.4rem; border-radius: 4px; text-decoration: none; transition: opacity 0.2s;">Get the Guide ↑</a>
+        <p class="form-note" style="margin-top: 1rem;">Free. No spam. Unsubscribe any time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOFT PITCH -->
+  <section id="proof-pitch">
+    <div class="container">
+      <div class="pitch-card fade-in">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">When the audit needs to be automatic</h3>
+        <p>The standards in the guide work without any tool. But on a 1,000-keynote project, manual cross-referencing is a half-day job, every issuance gate, every set. <strong>AECLogix Proof</strong> runs the audit deterministically in seconds — same checks, same evidence, no human in the cross-reference loop.</p>
+        <p style="margin-top: 1rem;">Currently in private testing. Pricing and availability TBD.</p>
+        <a href="https://www.aeclogix.com/schedule/" class="pitch-cta">Book a Conversation</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="/">Home</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/about/">About</a>
+        <a href="/coi-checklist/">COI Checklist</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+      </p>
+      <p style="margin-top: 1rem;">© 2026 AECLogix. Built for AEC firms.</p>
+    </div>
+  </footer>
+
+  <!-- MailerLite scripts -->
+  <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v95037e5bac78f29ed026832ca21a7c7b" type="text/javascript"></script>
+  <!-- Warms up the MailerLite embed. Form ID 187534315999987374 (Group 187487886549976866). -->
+  <script>fetch("https://assets.mailerlite.com/jsonp/2274882/forms/187534315999987374/takel")</script>
+
+  <!--
+    Fallback success handler. MailerLite's webforms.min.js does not reliably register
+    the per-form success callback (ml_webform_success_41342592) for newly-created forms,
+    so the JSONP response was being dropped and the success message never showed.
+    Defining mlWebformSubmitted globally catches the JSONP response directly and swaps
+    embedBody for successBody. Diagnosed in-browser 2026-05-15.
+  -->
+  <script>
+    window.mlWebformSubmitted = function(response) {
+      var embedBody = document.querySelector('.ml-form-embedBody');
+      var successBody = document.querySelector('.ml-form-successBody');
+      // If MailerLite returned an explicit failure, surface it instead of fake success
+      var ok = !response || response.success === undefined || response.success === true;
+      if (ok && embedBody && successBody) {
+        embedBody.style.display = 'none';
+        successBody.style.display = 'block';
+        // scroll the success message into view in case the user submitted below the fold
+        successBody.scrollIntoView({behavior: 'smooth', block: 'center'});
+      } else if (!ok) {
+        // Soft-error display — keep form visible, surface what MailerLite said
+        var note = document.createElement('p');
+        note.style.cssText = 'color:#ff6b6b;font-size:0.85rem;margin-top:0.6rem;text-align:center;';
+        note.textContent = (response && response.message) || 'Submission could not be completed. Try again or email randy@aeclogix.com.';
+        embedBody.appendChild(note);
+      }
+    };
+  </script>
+
+  <!-- Fade-in observer -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
